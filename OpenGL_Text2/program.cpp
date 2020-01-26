@@ -36,7 +36,7 @@ int main()
 
 	//glfw:create window
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window==NULL)
+	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -149,7 +149,7 @@ int main()
 
 void ProcessInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window,GLFW_KEY_ESCAPE)==GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
