@@ -13,4 +13,6 @@ Text_5:Draw two triangle,use different VAO and VBO for their data
 
 Text_6:Draw a yellow triangle and an orange triangle, use two shader programs, the second using a different fragment shader
 
-text_7:Draw a red triangle that can change color
+Text_7:Draw a red triangle that can change color
+
+Text_8:Draw a triangle has three colors
