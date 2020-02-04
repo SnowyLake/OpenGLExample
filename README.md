@@ -1,7 +1,7 @@
 # OpenGL_Learn
 My OpenGL programs by LearnOpenGL-CN.
 
-Text_1:Create  a window
+Text_1:Create  a window\n
 Text_2:Draw a triangle
 Text_3:Draw a rectangle
 text_4:Draw two triangle
