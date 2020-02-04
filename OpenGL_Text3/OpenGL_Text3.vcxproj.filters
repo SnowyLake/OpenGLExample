@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\glad\src\glad.c">
+    <ClCompile Include="program.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="program.cpp">
+    <ClCompile Include="..\..\..\OpenGL\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
