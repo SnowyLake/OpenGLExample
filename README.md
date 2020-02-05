@@ -16,3 +16,5 @@ Text_6:Draw a yellow triangle and an orange triangle, use two shader programs, t
 Text_7:Draw a red triangle that can change color
 
 Text_8:Draw a triangle has three colors
+
+Text_9:Draw a three colors triangle use shader class
