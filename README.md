@@ -19,4 +19,4 @@ Text_8:Draw a triangle has three colors
 
 Text_9:Draw a three colors triangle use shader class
 
-Draw a wooden box with texture
+Text_10:Draw a wooden box with texture
