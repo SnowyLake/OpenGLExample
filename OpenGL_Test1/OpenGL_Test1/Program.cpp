@@ -1,5 +1,5 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+﻿#include<glad/glad.h>
+#include<GLFW/glfw3.h>
 
 #include <iostream>
 
@@ -16,7 +16,7 @@ int main()
 	glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
+
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
@@ -53,7 +53,7 @@ void framebuffSizeCallback(GLFWwindow* window, int width, int heigth)
 
 void proscessInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window,GLFW_KEY_ESCAPE)==GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
