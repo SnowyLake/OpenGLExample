@@ -18,7 +18,7 @@
     <ClCompile Include="program.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="..\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
