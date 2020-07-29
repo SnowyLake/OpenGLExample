@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\OpenGL\OpenGLEnvironment\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\OpenGL\OpenGLEnvironment\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\OpenGLEnvironment\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\OpenGLEnvironment\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -144,7 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\OpenGL\glad\src\glad.c" />
+    <ClCompile Include="..\OpenGLEnvironment\glad.c" />
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
