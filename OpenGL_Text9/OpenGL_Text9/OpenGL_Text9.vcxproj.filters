@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="program.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="program.cpp">
+    <ClCompile Include="..\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,7 +31,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OpenGL_Shader.h">
+    <ClInclude Include="..\OpenGLEnvironment\OpenGL_Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
