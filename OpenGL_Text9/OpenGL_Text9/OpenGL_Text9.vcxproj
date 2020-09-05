@@ -150,7 +150,7 @@
     <None Include="vertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\OpenGLEnvironment\OpenGL_Shader.h" />
+    <ClInclude Include="..\OpenGLEnvironment\include\OpenGL_Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
