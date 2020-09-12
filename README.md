@@ -24,3 +24,5 @@ Text_10:Draw a wooden box with texture
 Text_11:Draw a wooden box with two textures
 
 Text_12:Draw a wooden box with two textures, and can use the up and down keys to change the textures visibility
+
+Text_13:Draw two wooden boxes with two textures, the first one rotates along X, Y and Z axes at the same time and can be moved by direction keys；The second one scales regularly in the upper right corner

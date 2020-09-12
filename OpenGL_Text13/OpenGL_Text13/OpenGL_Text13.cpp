@@ -170,12 +170,12 @@ int main()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		//second box
-		/*transform = glm::mat4(1.0f);
+		transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
 		float scaleAmount = sin(glfwGetTime());
 		transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
 		shader.SetMat4("transform", transform);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -216,5 +216,3 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
-
-
