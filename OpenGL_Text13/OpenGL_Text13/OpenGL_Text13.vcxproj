@@ -149,6 +149,14 @@
     <ClInclude Include="..\OpenGLEnvironment\include\OpenGL_Shader.h" />
     <ClInclude Include="..\OpenGLEnvironment\include\stb_image.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmentShader.frag" />
+    <None Include="vertexShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="container.jpg" />
+    <Image Include="lwh&amp;ljz.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
