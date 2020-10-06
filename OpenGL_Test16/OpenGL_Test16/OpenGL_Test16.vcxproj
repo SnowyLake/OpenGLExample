@@ -149,6 +149,12 @@
     <ClInclude Include="..\OpenGLEnvironment\include\GLCamera.h" />
     <ClInclude Include="..\OpenGLEnvironment\include\GLShader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cubeFragShader.frag" />
+    <None Include="cubeVertShader.vert" />
+    <None Include="lightFragShader.frag" />
+    <None Include="lightVertShader.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

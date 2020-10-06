@@ -30,4 +30,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cubeFragShader.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="cubeVertShader.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lightFragShader.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lightVertShader.vert">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
 </Project>

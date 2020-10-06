@@ -20,7 +20,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 //Camera
-GLCamera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+GLCamera camera(glm::vec3(0.0f, 0.0f, 6.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -161,34 +161,34 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// be sure to activate shader when setting uniforms/drawing objects
-		lightShader.use();
-		lightShader.SetVec3("objectColor", 1.0f, 0.5f, 0.31f);
-		lightShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+		cubeShader.use();
+		cubeShader.SetVec3("cubeColor", 0.5f, 0.0f, 0.5f);
+		cubeShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		lightShader.SetMat4("projection", projection);
-		lightShader.SetMat4("view", view);
+		cubeShader.SetMat4("projection", projection);
+		cubeShader.SetMat4("view", view);
 
 		// world transformation
 		glm::mat4 model = glm::mat4(1.0f);
-		lightShader.SetMat4("model", model);
+		cubeShader.SetMat4("model", model);
 
 		//render the cube
-		glBindVertexArray(lightVAO);
+		glBindVertexArray(cubeVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// also draw the lamp object
-		cubeShader.use();
-		cubeShader.SetMat4("projection", projection);
-		cubeShader.SetMat4("view", view);
+		lightShader.use();
+		lightShader.SetMat4("projection", projection);
+		lightShader.SetMat4("view", view);
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-		cubeShader.SetMat4("model", model);
+		lightShader.SetMat4("model", model);
 
-		glBindVertexArray(cubeVAO);
+		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
