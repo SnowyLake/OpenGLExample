@@ -33,3 +33,8 @@ Text_14:
     test2:Draw a rotating 3D wooden box
     test3:Draw twenty rotating 3D wooden boxes
     test4:Draw twenty 3D wooden boxes, and only the multiple of three wooden boxes rotation
+
+Text_15:
+
+    text1:Create a camera that moves around the scene over time
+    text2:Create a camera that can move freely
