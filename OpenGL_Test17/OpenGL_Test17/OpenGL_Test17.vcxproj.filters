@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{23edf0d2-41d2-41f0-90c7-dc7bf09dfe3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\impl">
+      <UniqueIdentifier>{460bf51a-5d40-4ec8-95a2-a6a047c1d043}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -20,6 +26,24 @@
     </ClCompile>
     <ClCompile Include="..\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\impl\imgui_impl_glfw.cpp">
+      <Filter>ImGui\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\impl\imgui_impl_opengl3.cpp">
+      <Filter>ImGui\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +66,30 @@
     </ClInclude>
     <ClInclude Include="..\OpenGLEnvironment\include\GLShader.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\impl\imgui_impl_glfw.h">
+      <Filter>ImGui\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\impl\imgui_impl_opengl3.h">
+      <Filter>ImGui\impl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

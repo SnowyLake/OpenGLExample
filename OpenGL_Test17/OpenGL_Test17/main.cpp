@@ -1,9 +1,14 @@
-﻿#include<glad/glad.h>
+﻿#define IMGUI_IMPL_OPENGL_LOADER_GLAD
+#include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
+
+#include"ImGui/imgui.h"
+#include"ImGui/impl/imgui_impl_glfw.h"
+#include"ImGui/impl/imgui_impl_opengl3.h"
 
 #include<GLShader.h>
 #include<GLCamera.h>
@@ -30,7 +35,7 @@ float deltaTime = 0.0f;		// time between current frame and last frame
 float lastTime = 0.0f;
 
 //lighting
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(0.0f, -0.7f, 0.9f);
 
 int main()
 {
@@ -71,6 +76,21 @@ int main()
 	GLShader cubeShader("shader/cubeVertShader.vert", "shader/cubeFragShader.frag");
 	GLShader lightShader("shader/lightVertShader.vert", "shader/lightFragShader.frag");
 
+	//--------------------------------
+	//set ImGui
+	//set ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//setup ImGui style
+	ImGui::StyleColorsLight();	//LightStyle
+	//setup font
+	io.Fonts->AddFontFromFileTTF("ImGui/fonts/msyh.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+	//setup platform/renderer bindings
+	const char* glsl_version = "#version 330";	//OpenGL3.3
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
+	//--------------------------------
 
 	//set vertex data and configure vertex attributes
 	float vertices[] = { 
@@ -159,16 +179,58 @@ int main()
 		// -----
 		ProcessInput(window);
 
+		//start the ImGui frame
+		//---------------------
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		//SnowyArkMini
+		{
+			const float DISTANCE = 0.0f;
+			static int corner = 0;
+			ImGuiIO& io = ImGui::GetIO();
+			ImGuiWindowFlags SnowyArkMiniWindowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+			if (corner != -1)
+			{
+				SnowyArkMiniWindowFlags |= ImGuiWindowFlags_NoMove;
+				ImVec2 SnowyArkMiniPos = ImVec2((corner & 1) ? io.DisplaySize.x - DISTANCE : DISTANCE, (corner & 2) ? io.DisplaySize.y - DISTANCE : DISTANCE);
+				ImVec2 SnowyArkMiniPosPivot = ImVec2((corner & 1) ? 1.0f : 0.0f, (corner & 2) ? 1.0f : 0.0f);
+				ImGui::SetNextWindowPos(SnowyArkMiniPos, ImGuiCond_Always, SnowyArkMiniPosPivot);
+			}
+			ImGui::SetNextWindowBgAlpha(0.35f);// Transparent background
+			ImGui::SetNextWindowSize(ImVec2(215, 80), ImGuiCond_FirstUseEver);
+			if (ImGui::Begin("SnowyArkMini", NULL, SnowyArkMiniWindowFlags))
+			{
+				ImGui::Text("SnowyArk Mini");
+				ImGui::Separator();
+				if (ImGui::IsMousePosValid())
+				{
+					ImGui::Text("Mouse Position:(%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
+				}
+				else
+				{
+					ImGui::Text("Mouse Position:<invalid>");
+				}
+				ImGui::Text("Camera Position:(%.1f,%.1f,%.1f)", camera.Position.x, camera.Position.y, camera.Position.z);
+				ImGui::Text("FPS:%.1f", ImGui::GetIO().Framerate);
+			}
+			ImGui::End();
+		}
+
 		// render
 		// ------
+		ImGui::Render();
 		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		cubeShader.use();
-		cubeShader.SetVec3("cubeColor", 1.0f, 0.7f, 0.31f);
+		cubeShader.SetVec3("cubeColor", 1.0f, 0.5f, 0.31f);
 		cubeShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetVec3("lightPos", lightPos);
+		cubeShader.SetVec3("viewPos", camera.Position);
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -201,6 +263,10 @@ int main()
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	glDeleteVertexArrays(1, &cubeVAO);
 	glDeleteVertexArrays(1, &lightVAO);
 	glDeleteBuffers(1, &VBO);
