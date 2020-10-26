@@ -13,7 +13,7 @@
 #include<GLShader.h>
 #include<GLCamera.h>
 
-#include <iostream>
+#include<iostream>
 
 void ProcessInput(GLFWwindow* window);
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -26,7 +26,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 //Camera
 GLCamera camera(glm::vec3(0.0f, 0.0f, 6.0f));
-float lastX = SCR_WIDTH / 2.0f;
+float lastX = SCR_WIDTH	/ 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
@@ -35,7 +35,7 @@ float deltaTime = 0.0f;		// time between current frame and last frame
 float lastTime = 0.0f;
 
 //lighting
-glm::vec3 lightPos(0.0f, -0.7f, 0.9f);
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 int main()
 {
@@ -77,7 +77,7 @@ int main()
 	GLShader lightShader("shader/lightVertShader.vert", "shader/lightFragShader.frag");
 
 	//--------------------------------
-	//set ImGui
+	//Set ImGui
 	//set ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -225,12 +225,15 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+		lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+		lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+
 		// be sure to activate shader when setting uniforms/drawing objects
 		cubeShader.use();
 		cubeShader.SetVec3("cubeColor", 1.0f, 0.5f, 0.31f);
 		cubeShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetVec3("lightPos", lightPos);
-		cubeShader.SetVec3("viewPos", camera.Position);
+		//cubeShader.SetVec3("viewPos", camera.Position);
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
