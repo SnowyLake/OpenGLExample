@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef GLSHADER_H
+#define GLSHADER_H
 
 #include<glad/glad.h>
 #include<glm/glm.hpp>
@@ -9,11 +9,11 @@
 #include<sstream>
 #include<iostream>
 
-class Shader
+class GLShader
 {
 public:
 	unsigned int shaderProgram;
-	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
+	GLShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
 	{
 		//1.retrieve the vertex/fragment source code from filePath
 		std::string vertexCode;
@@ -181,4 +181,4 @@ private:
 		}
 	}
 };
-#endif // !SHADER_H
+#endif // !GLSHADER_H
