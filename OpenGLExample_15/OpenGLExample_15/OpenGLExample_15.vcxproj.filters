@@ -15,14 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OpenGL_Test16.cpp">
+    <ClCompile Include="..\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\OpenGLEnvironment\glad.c">
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OpenGLEnvironment\include\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="..\OpenGLEnvironment\include\GLCamera.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -31,16 +34,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cubeFragShader.frag">
+    <Image Include="awesomeface.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="container.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmentShader.frag">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="cubeVertShader.vert">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="lightFragShader.frag">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="lightVertShader.vert">
+    <None Include="vertexShader.vert">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
