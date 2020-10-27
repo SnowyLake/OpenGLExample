@@ -1,0 +1,2 @@
+glfw3.lib
+opengl32.lib
