@@ -1,4 +1,4 @@
-# OpenGL_Learn
+# My OpenGLExample
 My OpenGL programs by LearnOpenGL-CN.
 
 Text_1:Create  a window
