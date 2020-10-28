@@ -19,13 +19,13 @@ Example_8:Draw a triangle has three colors
 
 Example_9:Draw a three colors triangle use shader class
 
-Example_10:Draw a wooden box with Exampleure
+Example_10:Draw a wooden box with texture
 
-Example_11:Draw a wooden box with two Exampleures
+Example_11:Draw a wooden box with two textures
 
-Example_12:Draw a wooden box with two Exampleures, and can use the up and down keys to change the Exampleures visibility
+Example_12:Draw a wooden box with two textures, and can use the up and down keys to change the textures visibility
 
-Example_13:Draw two wooden boxes with two Exampleures, the first one rotates along X, Y and Z axes at the same time and can be moved by direction keys；The second one scales regularly in the upper right corner
+Example_13:Draw two wooden boxes with two textures, the first one rotates along X, Y and Z axes at the same time and can be moved by direction keys；The second one scales regularly in the upper right corner
 
 Example_14:
 
