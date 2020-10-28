@@ -35,7 +35,7 @@ float deltaTime = 0.0f;		// time between current frame and last frame
 float lastTime = 0.0f;
 
 //lighting
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos = glm::vec3(0.7f, -0.7f, 1.4f);
 
 int main()
 {
@@ -225,30 +225,31 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+		//lightPos
 		lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
 		lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		cubeShader.use();
 		cubeShader.SetVec3("light.position", lightPos);
+		cubeShader.SetVec3("viewPos", camera.Position);
 
 		//light properties
-		glm::vec3 lightColor;
+		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
 		lightColor.x = sin(glfwGetTime() * 2.0f);
 		lightColor.y = sin(glfwGetTime() * 0.7f);
 		lightColor.z = sin(glfwGetTime() * 1.3f);
 		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);		// decrease the influence
 		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);	// low influence
-		cubeShader.SetVec3("light.ambient", ambientColor);
-		cubeShader.SetVec3("light.diffuse", diffuseColor);
-		cubeShader.SetVec3("light.specular", 1.0f, 1.0f, 1.0f);
-
+		cubeShader.SetVec3("light.ambient", lightColor);
+		cubeShader.SetVec3("light.diffuse", lightColor);
+		cubeShader.SetVec3("light.specular", lightColor);
 
 		//material properties
-		cubeShader.SetVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-		cubeShader.SetVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-		cubeShader.SetVec3("material.specular", 0.5f, 0.5f, 0.5f); // specular lighting doesn't have full effect on this object's material
-		cubeShader.SetFloat("material.shininess", 32.0f);
+		cubeShader.SetVec3("material.ambient", 0.25f, 0.20725f, 0.20725f);
+		cubeShader.SetVec3("material.diffuse", 1.0f, 0.829f, 0.829f);
+		cubeShader.SetVec3("material.specular", 0.296648f, 0.296648f, 0.296648f); // specular lighting doesn't have full effect on this object's material
+		cubeShader.SetFloat("material.shininess", 0.088f * 128.0f);
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -273,7 +274,7 @@ int main()
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 		lightShader.SetMat4("model", model);
-
+		
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
