@@ -162,6 +162,17 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\cubeFragShader.frag" />
+    <None Include="shader\cubeVertShader.vert" />
+    <None Include="shader\lightFragShader.frag" />
+    <None Include="shader\lightVertShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="map\diffuseMap.png" />
+    <Image Include="map\specularMap.png" />
+    <Image Include="map\specularMap_color.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

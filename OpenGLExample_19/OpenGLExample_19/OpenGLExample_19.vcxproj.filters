@@ -81,4 +81,29 @@
       <Filter>ImGui\impl</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\cubeFragShader.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\cubeVertShader.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\lightFragShader.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\lightVertShader.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="map\diffuseMap.png">
+      <Filter>资源文件\map</Filter>
+    </Image>
+    <Image Include="map\specularMap.png">
+      <Filter>资源文件\map</Filter>
+    </Image>
+    <Image Include="map\specularMap_color.png">
+      <Filter>资源文件\map</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

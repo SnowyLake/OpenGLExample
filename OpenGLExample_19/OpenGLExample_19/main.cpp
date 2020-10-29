@@ -174,8 +174,8 @@ int main()
 
 	//load textures
 	unsigned int diffuseMap = LoadTexture("map/diffuseMap.png");
-	//unsigned int specularMap = LoadTexture("map/specularMap.png");
-	unsigned int specularMap = LoadTexture("map/specularMap_color.png");
+	unsigned int specularMap = LoadTexture("map/specularMap.png");
+	//unsigned int specularMap = LoadTexture("map/specularMap_color.png");
 
 	cubeShader.use();
 	cubeShader.SetInt("material.difffuse", 0);
@@ -215,7 +215,7 @@ int main()
 				ImGui::SetNextWindowPos(SnowyArkMiniPos, ImGuiCond_Always, SnowyArkMiniPosPivot);
 			}
 			ImGui::SetNextWindowBgAlpha(0.35f);// Transparent background
-			ImGui::SetNextWindowSize(ImVec2(215, 80), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(ImVec2(215, 100), ImGuiCond_FirstUseEver);
 			if (ImGui::Begin("SnowyArkMini", NULL, SnowyArkMiniWindowFlags))
 			{
 				ImGui::Text("SnowyArk Mini");
@@ -228,6 +228,7 @@ int main()
 				{
 					ImGui::Text("Mouse Position:<invalid>");
 				}
+				
 				ImGui::Text("Camera Position:(%.1f,%.1f,%.1f)", camera.Position.x, camera.Position.y, camera.Position.z);
 				ImGui::Text("FPS:%.1f", ImGui::GetIO().Framerate);
 			}
