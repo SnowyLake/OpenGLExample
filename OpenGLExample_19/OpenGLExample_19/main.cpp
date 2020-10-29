@@ -174,7 +174,8 @@ int main()
 
 	//load textures
 	unsigned int diffuseMap = LoadTexture("map/diffuseMap.png");
-	unsigned int specularMap = LoadTexture("map/specularMap.png");
+	//unsigned int specularMap = LoadTexture("map/specularMap.png");
+	unsigned int specularMap = LoadTexture("map/specularMap_color.png");
 
 	cubeShader.use();
 	cubeShader.SetInt("material.difffuse", 0);
@@ -375,6 +376,7 @@ unsigned int LoadTexture(const char* path)
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
+	//stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 	if (data)
 	{
