@@ -29,7 +29,7 @@ GLFWwindow* CreateWindow(unsigned int width, unsigned int height, const char* Ti
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		/*return -1;*/
+		return nullptr;
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
@@ -42,7 +42,7 @@ GLFWwindow* CreateWindow(unsigned int width, unsigned int height, const char* Ti
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		/*return -1;*/
+		return nullptr;
 	}
 	return window;
 }

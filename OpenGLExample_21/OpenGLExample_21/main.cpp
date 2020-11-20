@@ -91,9 +91,7 @@ int main()
 	unsigned int cubeVAO, VBO;
 	glGenVertexArrays(1, &cubeVAO);
 	glGenBuffers(1, &VBO);
-
 	glBindVertexArray(cubeVAO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -110,9 +108,7 @@ int main()
 	//configure light's VAO
 	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
-
 	glBindVertexArray(lightVAO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -122,7 +118,6 @@ int main()
 	unsigned int diffuseMap = LoadTexture("Map/diffuseMap.png");
 	unsigned int specularMap = LoadTexture("Map/specularMap.png");
 	//unsigned int specularMap = LoadTexture("Map/specularMap_color.png");
-
 	cubeShader.use();
 	cubeShader.SetInt("material.difffuse", 0);
 	cubeShader.SetInt("material.specular", 1);
@@ -177,7 +172,6 @@ int main()
 		glm::mat4 view = camera.GetViewMatrix();
 		cubeShader.SetMat4("projection", projection);
 		cubeShader.SetMat4("view", view);
-
 		//world transformation
 		glm::mat4 model = glm::mat4(1.0f);
 		cubeShader.SetMat4("model", model);
@@ -205,8 +199,6 @@ int main()
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-
-
 		//draw the lamp object
 		//lightShader.use();
 		//lightShader.SetVec3("lightColor", lightColor);
@@ -216,9 +208,8 @@ int main()
 		//model = glm::translate(model, lightPos);
 		//model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 		//lightShader.SetMat4("model", model);
-
-		glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		/*glBindVertexArray(lightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
