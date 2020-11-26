@@ -86,6 +86,13 @@ int main()
 		glm::vec3(1.5f,  0.2f, -1.5f),
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
+	// positions of the point lights
+	glm::vec3 pointLightPositions[] = {
+		glm::vec3(0.7f,  0.2f,  2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f,  2.0f, -12.0f),
+		glm::vec3(0.0f,  0.0f, -3.0f)
+	};
 
 	//configure the cube's VAO and VBO
 	unsigned int cubeVAO, VBO;
@@ -138,34 +145,62 @@ int main()
 
 		// render
 		// ------
-		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//lightPos
-		/*lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-		lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;*/
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		cubeShader.use();
-		cubeShader.SetVec3("light.position", camera.Position);
-		cubeShader.SetVec3("light.direction", camera.Front);
-		cubeShader.SetFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-		cubeShader.SetFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 		cubeShader.SetVec3("viewPos", camera.Position);
+		cubeShader.SetFloat("material.shininess", 32.0f);
 
-		//light properties
-		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);		// decrease the influence
-		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.4f);	// low influence
-		cubeShader.SetVec3("light.ambient", ambientColor);
-		cubeShader.SetVec3("light.diffuse", diffuseColor);
-		cubeShader.SetVec3("light.specular", lightColor);
-		cubeShader.SetFloat("light.constant", 1.0f);
-		cubeShader.SetFloat("light.linear", 0.045f);
-		cubeShader.SetFloat("light.quadratic", 0.0075f);
-
-		//material properties
-		cubeShader.SetFloat("material.shininess", 64.0f);
+		// directional light
+		cubeShader.SetVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+		cubeShader.SetVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+		cubeShader.SetVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+		cubeShader.SetVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+		// point light 1
+		cubeShader.SetVec3("pointLights[0].position", pointLightPositions[0]);
+		cubeShader.SetVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+		cubeShader.SetVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+		cubeShader.SetVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetFloat("pointLights[0].constant", 1.0f);
+		cubeShader.SetFloat("pointLights[0].linear", 0.09);
+		cubeShader.SetFloat("pointLights[0].quadratic", 0.032);
+		// point light 2
+		cubeShader.SetVec3("pointLights[1].position", pointLightPositions[1]);
+		cubeShader.SetVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+		cubeShader.SetVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+		cubeShader.SetVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetFloat("pointLights[1].constant", 1.0f);
+		cubeShader.SetFloat("pointLights[1].linear", 0.09);
+		cubeShader.SetFloat("pointLights[1].quadratic", 0.032);
+		// point light 3
+		cubeShader.SetVec3("pointLights[2].position", pointLightPositions[2]);
+		cubeShader.SetVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+		cubeShader.SetVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+		cubeShader.SetVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetFloat("pointLights[2].constant", 1.0f);
+		cubeShader.SetFloat("pointLights[2].linear", 0.09);
+		cubeShader.SetFloat("pointLights[2].quadratic", 0.032);
+		// point light 4
+		cubeShader.SetVec3("pointLights[3].position", pointLightPositions[3]);
+		cubeShader.SetVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+		cubeShader.SetVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+		cubeShader.SetVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetFloat("pointLights[3].constant", 1.0f);
+		cubeShader.SetFloat("pointLights[3].linear", 0.09);
+		cubeShader.SetFloat("pointLights[3].quadratic", 0.032);
+		// spotLight
+		cubeShader.SetVec3("spotLight.position", camera.Position);
+		cubeShader.SetVec3("spotLight.direction", camera.Front);
+		cubeShader.SetVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+		cubeShader.SetVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+		cubeShader.SetFloat("spotLight.constant", 1.0f);
+		cubeShader.SetFloat("spotLight.linear", 0.09);
+		cubeShader.SetFloat("spotLight.quadratic", 0.032);
+		cubeShader.SetFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+		cubeShader.SetFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -183,10 +218,6 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap);
 
-		//render the cube
-		/*glBindVertexArray(cubeVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);*/
-
 		// render containers
 		glBindVertexArray(cubeVAO);
 		for (size_t i = 0; i < 10; i++)
@@ -200,16 +231,20 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 		//draw the lamp object
-		//lightShader.use();
+		lightShader.use();
+		lightShader.SetMat4("view", view);
+		lightShader.SetMat4("projection", projection);
 		//lightShader.SetVec3("lightColor", lightColor);
-		//lightShader.SetMat4("projection", projection);
-		//lightShader.SetMat4("view", view);
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, lightPos);
-		//model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-		//lightShader.SetMat4("model", model);
-		/*glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+
+		glBindVertexArray(lightVAO);
+		for (size_t i = 0; i < 4; i++)
+		{
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, pointLightPositions[i]);
+			model = glm::scale(model, glm::vec3(0.2));
+			lightShader.SetMat4("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
