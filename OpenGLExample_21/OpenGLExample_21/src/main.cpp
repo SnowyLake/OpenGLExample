@@ -25,8 +25,8 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	//build shader
-	GLShader cubeShader("Shader/cubeVertShader.vert", "Shader/cubeFragShader.frag");
-	GLShader lightShader("Shader/lightVertShader.vert", "Shader/lightFragShader.frag");
+	GLShader cubeShader("shader/cubeVertShader.vert", "shader/cubeFragShader.frag");
+	GLShader lightShader("shader/lightVertShader.vert", "shader/lightFragShader.frag");
 
 	//set vertex data and configure vertex attributes
 	float vertices[] = {
@@ -122,8 +122,8 @@ int main()
 	glEnableVertexAttribArray(0);
 
 	//load textures
-	unsigned int diffuseMap = LoadTexture("Map/diffuseMap.png");
-	unsigned int specularMap = LoadTexture("Map/specularMap.png");
+	unsigned int diffuseMap = LoadTexture("map/diffuseMap.png");
+	unsigned int specularMap = LoadTexture("map/specularMap.png");
 	//unsigned int specularMap = LoadTexture("Map/specularMap_color.png");
 	cubeShader.use();
 	cubeShader.SetInt("material.difffuse", 0);

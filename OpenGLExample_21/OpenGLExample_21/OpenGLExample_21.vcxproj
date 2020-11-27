@@ -143,20 +143,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\OpenGLEnvironment\glad.c" />
-    <ClCompile Include="CreateWindow.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ImGui\impl\imgui_impl_glfw.cpp" />
     <ClCompile Include="ImGui\impl\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="ResLoad.cpp" />
+    <ClCompile Include="src\CreateWindow.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ResLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLEnvironment\include\GLCamera.h" />
     <ClInclude Include="..\OpenGLEnvironment\include\GLShader.h" />
-    <ClInclude Include="CreateWindow.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
@@ -165,7 +164,8 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="ResLoad.h" />
+    <ClInclude Include="src\CreateWindow.h" />
+    <ClInclude Include="src\ResLoad.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\cubeFragShader.frag" />

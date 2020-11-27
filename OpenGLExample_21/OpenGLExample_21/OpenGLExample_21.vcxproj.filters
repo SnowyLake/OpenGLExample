@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -45,10 +42,13 @@
     <ClCompile Include="..\OpenGLEnvironment\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CreateWindow.cpp">
+    <ClCompile Include="src\CreateWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ResLoad.cpp">
+    <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResLoad.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +83,10 @@
     <ClInclude Include="..\OpenGLEnvironment\include\GLShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CreateWindow.h">
+    <ClInclude Include="src\CreateWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ResLoad.h">
+    <ClInclude Include="src\ResLoad.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
