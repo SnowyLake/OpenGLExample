@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
@@ -15,7 +17,7 @@
 #include<sstream>
 #include<iostream>
 #include<vector>
-#include<map>
+//#include<map>
 
 unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma = false);
 
