@@ -18,11 +18,12 @@
 #include<map>
 
 unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma = false);
+
 class Model
 {
 public:
 	//model data
-	std::vector<Vertex> texturesLoaded;
+	std::vector<Texture> texturesLoaded;
 	std::vector<Mesh> meshes;
 	std::string directory;
 	bool gammaCorrection;
