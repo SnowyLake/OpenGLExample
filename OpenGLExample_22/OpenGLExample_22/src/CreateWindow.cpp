@@ -29,7 +29,10 @@ CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string 
 
 	//std::cout << "init" << std::endl;
 }
-CreateWindow::~CreateWindow() {}
+CreateWindow::~CreateWindow() 
+{
+	std::cout << "Delete Object." << std::endl;
+}
 
 //create window
 GLFWwindow* CreateWindow::CreateMainWindow(GLFWmonitor* monitor, GLFWwindow* share, bool captureMouse)
