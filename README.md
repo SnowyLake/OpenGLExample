@@ -52,3 +52,5 @@ test2: Create a camera that can move freely
 **Example_20:** Create a spotlight
 
 **Example_21:** Create a scene who has a directional light, four point lights and a spotlight 
+
+**Example_22:** Load a model with Assimp, and refactor the codes to be Object-Oriented
