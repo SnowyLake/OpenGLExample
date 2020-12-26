@@ -2,15 +2,12 @@
 
 //camera
 GLCamera camera(glm::vec3(0.0f, -15.0f, 20.0f));
-
-//-----------------------public-------------------------
 //static
-unsigned int CreateWindow::scrWidth;
-unsigned int CreateWindow::scrHeight;
 float CreateWindow::lastX;
 float CreateWindow::lastY;
-bool CreateWindow::firstMouse = true;
+bool CreateWindow::firstMouse;
 
+//-----------------------public-------------------------
 //init
 CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string title, GLFWmonitor* monitor, GLFWwindow* share, bool captureMouse)
 {
@@ -18,9 +15,9 @@ CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string 
 	this->scrHeight = height;
 	this->windowTitle = title;
 	//camera
-	float lastX = scrWidth / 2.0f;
-	float lastY = scrHeight / 2.0f;
-	bool firstMouse = true;
+	this->lastX = width / 2.0f;
+	this->lastY = height / 2.0f;
+	this->firstMouse = true;
 	//timing
 	this->deltaTime = 0.0f;		// time between current frame and last frame
 	this->lastTime = 0.0f;
@@ -31,7 +28,7 @@ CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string 
 }
 CreateWindow::~CreateWindow() 
 {
-	std::cout << "Delete Object." << std::endl;
+	std::cout << "Class:CreateWindow Destructor Called." << std::endl;
 }
 
 //create window
@@ -63,17 +60,15 @@ GLFWwindow* CreateWindow::CreateMainWindow(GLFWmonitor* monitor, GLFWwindow* sha
 
 void CreateWindow::SetCallback()
 {
-	glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
-	glfwSetCursorPosCallback(window, MouseCallback);
-	glfwSetScrollCallback(window, ScrollCallback);
-	//std::cout << "set callback" << std::endl;
+	glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallbackFunc);
+	glfwSetCursorPosCallback(window, MouseCallbackFunc);
+	glfwSetScrollCallback(window, ScrollCallbackFunc);
 }
 void CreateWindow::SetPerFrameTimeLogic()
 {
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastTime;
 	lastTime = currentFrame;
-	//std::cout << "set per" << std::endl;
 }
 void CreateWindow::ProcessInput()
 {
@@ -112,13 +107,22 @@ void CreateWindow::GLFWInit()
 #endif // _APPLE_
 }
 
+//framebuffer size callback function
+CreateWindow* CreateWindow::FBSCb = nullptr;
 void CreateWindow::FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
+void CreateWindow::FrameBufferSizeCallbackFunc(GLFWwindow* window, int width, int height)
+{
+	FBSCb->FrameBufferSizeCallback(window, width, height);
+}
 
+//mouse callback function
+CreateWindow* CreateWindow::MCb = nullptr;
 void CreateWindow::MouseCallback(GLFWwindow* window, double xPos, double yPos)
 {
+
 	if (firstMouse)
 	{
 		lastX = xPos;
@@ -132,8 +136,19 @@ void CreateWindow::MouseCallback(GLFWwindow* window, double xPos, double yPos)
 
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
+void CreateWindow::MouseCallbackFunc(GLFWwindow* window, double xPos, double yPos)
+{
+	MCb->MouseCallback(window, xPos, yPos);
+}
 
+
+//scroll callback function
+CreateWindow* CreateWindow::SCb = nullptr;
 void CreateWindow::ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 {
 	camera.ProcessMouseScroll(yOffset);
+}
+void CreateWindow::ScrollCallbackFunc(GLFWwindow* window, double xOffset, double yOffset)
+{
+	SCb->ScrollCallback(window, xOffset, yOffset);
 }

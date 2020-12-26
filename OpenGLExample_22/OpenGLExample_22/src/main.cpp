@@ -33,7 +33,6 @@ int main()
 	{
 		MainWindow.SetPerFrameTimeLogic();
 		MainWindow.ProcessInput();
-		//std::cout << "proc OK" << std::endl;
 
 		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,15 +44,14 @@ int main()
 		shader.SetMat4("view", view);
 
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		shader.SetMat4("model", model);
 		loadedModel.Draw(shader);
 
 		glfwSwapBuffers(MainWindow.window);
 		glfwPollEvents();
-		//std::cout << "poll" << std::endl;
 	}
 	glfwTerminate();
 	return 0;

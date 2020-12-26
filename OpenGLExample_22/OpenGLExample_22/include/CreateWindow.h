@@ -23,13 +23,13 @@ public:
 	void SetPerFrameTimeLogic();
 	void ProcessInput();
 
-	static unsigned int GetScrWidth();
-	static unsigned int GetScrHeight();
+	unsigned int GetScrWidth();
+	unsigned int GetScrHeight();
 	std::string GetWindowTitle();
 
 private:
-	static unsigned int scrWidth;
-	static unsigned int scrHeight;
+	unsigned int scrWidth;
+	unsigned int scrHeight;
 	std::string windowTitle;
 
 	//camera
@@ -42,8 +42,19 @@ private:
 
 	void GLFWInit();
 
-	static void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
-	static void MouseCallback(GLFWwindow* window, double xPos, double yPos);
-	static void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+	//framebuffer size callback function
+	static CreateWindow* FBSCb;
+	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
+	static void FrameBufferSizeCallbackFunc(GLFWwindow* window, int width, int height);
+
+	//mouse callback function
+	static CreateWindow* MCb;
+	void MouseCallback(GLFWwindow* window, double xPos, double yPos);
+	static void MouseCallbackFunc(GLFWwindow* window, double xPos, double yPos);
+
+	//scroll callback function
+	static CreateWindow* SCb;
+	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+	static void ScrollCallbackFunc(GLFWwindow* window, double xOffset, double yOffset);
 };
 

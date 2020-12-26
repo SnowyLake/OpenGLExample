@@ -2,7 +2,9 @@
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
+
 #include<GLShader.h>
+
 #include<string>
 #include<vector>
 
@@ -16,7 +18,7 @@ struct Vertex
 };
 struct Texture
 {
-	unsigned int id;
+	unsigned int id = NULL;
 	std::string type;
 	std::string path;
 };
