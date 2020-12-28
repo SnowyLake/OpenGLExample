@@ -1,7 +1,7 @@
 #include "..\include\CreateWindow.h"
 
 //camera
-GLCamera camera(glm::vec3(0.0f, -15.0f, 20.0f));
+GLCamera camera(glm::vec3(0.0f, -8.0f, 20.0f));
 //static
 float CreateWindow::lastX;
 float CreateWindow::lastY;
@@ -102,6 +102,7 @@ void CreateWindow::GLFWInit()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 #ifdef _APPLE_
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif // _APPLE_

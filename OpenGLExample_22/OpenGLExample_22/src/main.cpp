@@ -1,4 +1,6 @@
-﻿#define STB_IMAGE_IMPLEMENTATION
+﻿#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -19,15 +21,33 @@ const unsigned int SCR_HEIGHT = 800;
 
 int main()
 {
-	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Model Loading Test", NULL, NULL, true);
+	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Model Loading Test", nullptr, nullptr, true);
 	MainWindow.SetCallback();
 
 	stbi_set_flip_vertically_on_load(false);
 
 	glEnable(GL_DEPTH_TEST);
 
+	std::cout << "Start load resources." << std::endl;
+
+	std::cout << "Loading shader..." << std::endl;
 	GLShader shader("shader/model.vert", "shader/model.frag");
+	std::cout << "Loaded shader." << std::endl;
+
+	std::cout << "Loading Model..." << std::endl;
+	std::cout << "Loading Model Textures..." << std::endl;
 	Model loadedModel("res/nanosuit/nanosuit.obj");
+	std::cout << "Loaded Model Textures, Textures Number: " << loadedModel.texturesLoaded.size() << std::endl;
+
+	std::cout << "Loaded Model." << std::endl;
+	std::cout << "\tVertices Number: " << loadedModel.numVertices << std::endl;
+	std::cout << "\tFaces Number: " << loadedModel.numFaces << std::endl;
+	std::cout << "\tMeshes Number: " << loadedModel.meshes.size() << std::endl;
+
+	std::cout << "Resources loaded." << std::endl;
+	
+	glfwSetWindowPos(MainWindow.window, 600, 100);
+	glfwShowWindow(MainWindow.window);
 
 	while (!glfwWindowShouldClose(MainWindow.window))
 	{
@@ -56,3 +76,4 @@ int main()
 	glfwTerminate();
 	return 0;
 }
+#endif // !STB_IMAGE_IMPLEMENTATION

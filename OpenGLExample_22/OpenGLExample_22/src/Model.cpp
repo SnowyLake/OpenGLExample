@@ -2,6 +2,7 @@
 
 unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma)
 {
+    std::cout << path << std::endl;
     std::string fileName = std::string(path);
     fileName = directory + '/' + fileName;
 
@@ -40,7 +41,7 @@ unsigned int TextureFromFile(const char* path, const std::string& directory, boo
 
 //-----------------------------------------------------public---------------------------------------------------
 
-Model::Model(std::string const& path, bool gamma) :gammaCorrection(gamma)
+Model::Model(const std::string& path, bool gamma) :gammaCorrection(gamma)
 {
     LoadModel(path);
 }
@@ -69,6 +70,8 @@ void Model::LoadModel(const std::string& path)
     //retrieve the directory path of the filepath
     directory = path.substr(0, path.find_last_of('/'));
 
+    numVertices = (*(scene->mMeshes))->mNumVertices;
+    numFaces = (*(scene->mMeshes))->mNumFaces;
     //process Assimp's root node recursively
     ProcessNode(scene->mRootNode, scene);
 }
@@ -190,6 +193,7 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
         if (!skip)
         {
             Texture texture;
+            std::cout << "\t" << texturesLoaded.size() + 1 << ". ";
             texture.id = TextureFromFile(str.C_Str(), this->directory);
             texture.type = typeName;
             texture.path = str.C_Str();
