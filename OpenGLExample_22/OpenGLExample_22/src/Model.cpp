@@ -70,8 +70,6 @@ void Model::LoadModel(const std::string& path)
     //retrieve the directory path of the filepath
     directory = path.substr(0, path.find_last_of('/'));
 
-    numVertices = (*(scene->mMeshes))->mNumVertices;
-    numFaces = (*(scene->mMeshes))->mNumFaces;
     //process Assimp's root node recursively
     ProcessNode(scene->mRootNode, scene);
 }
@@ -83,6 +81,10 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         meshes.push_back(ProcessMesh(mesh, scene));
+
+        //get vertices number and faces number of model
+        numVertices += mesh->mNumVertices;
+        numFaces += mesh->mNumFaces;
     }
     //recursively process each of the children nodes
     for (size_t i = 0; i < node->mNumChildren; i++)
