@@ -30,10 +30,6 @@ int main()
 
 	std::cout << "Start load resources." << std::endl;
 
-	std::cout << "Loading shader..." << std::endl;
-	GLShader shader("shader/model.vert", "shader/model.frag");
-	std::cout << "Loaded shader." << std::endl;
-
 	std::cout << "Loading Model..." << std::endl;
 	std::cout << "Loading Model Textures..." << std::endl;
 	Model loadedModel("res/nanosuit/nanosuit.obj");
@@ -43,6 +39,10 @@ int main()
 	std::cout << "\tVertices Number: " << loadedModel.numVertices << std::endl;
 	std::cout << "\tFaces Number: " << loadedModel.numFaces << std::endl;
 	std::cout << "\tMeshes Number: " << loadedModel.meshes.size() << std::endl;
+
+	std::cout << "Loading shader..." << std::endl;
+	GLShader shader("shader/model.vert", "shader/model.frag");
+	std::cout << "Loaded shader." << std::endl;
 
 	std::cout << "Resources loaded." << std::endl;
 	

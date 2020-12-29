@@ -27,6 +27,7 @@ public:
 	std::vector<Mesh> meshes;
 	std::string directory;
 	bool gammaCorrection;
+
 	int numVertices;
 	int numFaces;
 
