@@ -36,13 +36,13 @@ public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
 	//render the mesh
-	void Draw(GLShader& shader);
+	void Render(GLShader& shader);
 
 private:
 	//render data
 	unsigned int VBO, EBO;
 
 	//initializes all the buffer objects/arrays
-	void setupMesh();
+	void SetupMesh();
 };
 

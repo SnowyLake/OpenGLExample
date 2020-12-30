@@ -35,13 +35,15 @@ public:
 	Model(const std::string& path, bool gamma = false);
 
 	//darws the model
-	void Draw(GLShader& shader);
+	void Render(GLShader& shader);
 
 private:
-	//loads a model with supported Assimp extensions from file and stores the resulting meshes in the meshes vector.
+	/*loads a model with supported Assimp extensions from file
+	  and stores the resulting meshes in the meshes vector.*/
 	void LoadModel(const std::string& path);
 
-	//processes a node in a recursive fashion. processes each individual mesh located at the node and repeats this process on its children nodes(if any).
+	/*processes a node in a recursive fashion. processes each individual mesh located
+	  at the node and repeats this process on its children nodes(if any).*/
 	void ProcessNode(aiNode* node, const aiScene* scene);
 
 	//processes a mesh 

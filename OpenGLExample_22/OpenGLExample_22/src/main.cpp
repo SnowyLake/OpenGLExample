@@ -24,9 +24,13 @@ int main()
 	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Model Loading Test", nullptr, nullptr, true);
 	MainWindow.SetCallback();
 
-	stbi_set_flip_vertically_on_load(false);
+	glfwSetWindowPos(MainWindow.window, 600, 100);
+	glfwShowWindow(MainWindow.window);
 
 	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	stbi_set_flip_vertically_on_load(false);
 
 	std::cout << "Start load resources." << std::endl;
 
@@ -46,17 +50,16 @@ int main()
 
 	std::cout << "Resources loaded." << std::endl;
 	
-	glfwSetWindowPos(MainWindow.window, 600, 100);
-	glfwShowWindow(MainWindow.window);
+
 
 	while (!glfwWindowShouldClose(MainWindow.window))
 	{
 		MainWindow.SetPerFrameTimeLogic();
 		MainWindow.ProcessInput();
 
-		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		
 		shader.use();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)MainWindow.GetScrWidth() / (float)MainWindow.GetScrHeight(), 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -68,7 +71,7 @@ int main()
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		shader.SetMat4("model", model);
-		loadedModel.Draw(shader);
+		loadedModel.Render(shader);
 
 		glfwSwapBuffers(MainWindow.window);
 		glfwPollEvents();

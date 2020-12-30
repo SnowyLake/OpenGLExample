@@ -8,10 +8,11 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 	this->indices = indices;
 	this->textures = textures;
 
-	setupMesh();
+	SetupMesh();
 }
+
 //render the mesh
-void Mesh::Draw(GLShader& shader)
+void Mesh::Render(GLShader& shader)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
@@ -33,7 +34,7 @@ void Mesh::Draw(GLShader& shader)
 			number = std::to_string(heightNr++);
 
 		//set and bind texture
-		shader.SetInt((name + number), i);
+		shader.SetInt(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 
@@ -48,7 +49,7 @@ void Mesh::Draw(GLShader& shader)
 
 //-------------------------private-----------------------------
 //initializes all the buffer objects/arrays
-void Mesh::setupMesh()
+void Mesh::SetupMesh()
 {
 	//create buffers/arrays
 	glGenVertexArrays(1, &VAO);

@@ -48,4 +48,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\model.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\model.vert">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
 </Project>

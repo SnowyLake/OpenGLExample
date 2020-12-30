@@ -155,6 +155,10 @@
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Model.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\model.frag" />
+    <None Include="shader\model.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

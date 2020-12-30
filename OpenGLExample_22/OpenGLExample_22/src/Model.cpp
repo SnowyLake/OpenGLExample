@@ -46,11 +46,11 @@ Model::Model(const std::string& path, bool gamma) :gammaCorrection(gamma)
     LoadModel(path);
 }
 
-void Model::Draw(GLShader& shader)
+void Model::Render(GLShader& shader)
 {
     for (size_t i = 0; i < meshes.size(); i++)
     {
-        meshes[i].Draw(shader);
+        meshes[i].Render(shader);
     }
 }
 
