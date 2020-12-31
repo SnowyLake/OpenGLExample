@@ -30,6 +30,9 @@
     <ClCompile Include="src\CreateWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\LightRenderConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLEnvironment\include\GLCamera.h">
@@ -45,6 +48,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\CreateWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LightRenderConfig.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
