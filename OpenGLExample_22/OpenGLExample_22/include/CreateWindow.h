@@ -21,7 +21,7 @@ public:
 
 	void SetCallback();
 	void SetPerFrameTimeLogic();
-	void ProcessInput();
+	void ProcessInput();  
 
 	unsigned int GetScrWidth();
 	unsigned int GetScrHeight();

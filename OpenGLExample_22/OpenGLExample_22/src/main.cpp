@@ -25,6 +25,8 @@ int main()
 	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Model Loading Test", nullptr, nullptr, true);
 	MainWindow.SetCallback();
 
+	SetLampsVAO();
+
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -44,7 +46,9 @@ int main()
 	std::cout << "\tMeshes Number: " << loadedModel.meshes.size() << std::endl;
 
 	std::cout << "Loading shader..." << std::endl;
-	GLShader shader("shader/model.vert", "shader/model.frag");
+	GLShader modelShader("shader/model.vert", "shader/model.frag");
+	GLShader lampShader("shader/lamp.vert", "shader/lamp.frag");
+	
 	std::cout << "Loaded shader." << std::endl;
 
 	std::cout << "Resources loaded." << std::endl;
@@ -60,48 +64,28 @@ int main()
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		shader.use();
+		modelShader.use();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)MainWindow.GetScrWidth() / (float)MainWindow.GetScrHeight(), 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		shader.SetMat4("projection", projection);
-		shader.SetMat4("view", view);
+		modelShader.SetMat4("projection", projection);
+		modelShader.SetMat4("view", view);
 
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		shader.SetMat4("model", model);
+		modelShader.SetMat4("model", model);
 
-		shader.SetFloat("material.shininess", 32.0f);
-		
-		//shader.SetVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-		//shader.SetVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-		//shader.SetVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-		//shader.SetVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-		//shader.SetVec3("pointLights[0].position", pointLightPositions[0]);
-		//shader.SetVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-		//shader.SetVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-		//shader.SetVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
-		//shader.SetFloat("pointLights[0].constant", 1.0f);
-		//shader.SetFloat("pointLights[0].linear", 0.09);
-		//shader.SetFloat("pointLights[0].quadratic", 0.032);
-		//shader.SetVec3("spotLight.position", camera.Position);
-		//shader.SetVec3("spotLight.direction", camera.Front);
-		//shader.SetVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-		//shader.SetVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-		//shader.SetVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-		//shader.SetFloat("spotLight.constant", 1.0f);
-		//shader.SetFloat("spotLight.linear", 0.09);
-		//shader.SetFloat("spotLight.quadratic", 0.032);
-		//shader.SetFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-		//shader.SetFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+		modelShader.SetFloat("material.shininess", 32.0f);
 
-		LightRenderConfigInit(shader, camera);
-		DirLightRenderConfig(shader);
-		PointLightRenderConfig(shader, pointLightPositions);
-		SpotLightRenderConfig(shader, camera);
+		LightRenderConfigInit(modelShader, camera);
+		DirLightRenderConfig(modelShader);
+		PointLightRenderConfig(modelShader, pointLightPositions);
+		SpotLightRenderConfig(modelShader, camera);
 
-		loadedModel.Render(shader);
+		RenderPointLights(lampShader, view, projection);
+		loadedModel.Render(modelShader);
+
 
 		glfwSwapBuffers(MainWindow.window);
 		glfwPollEvents();

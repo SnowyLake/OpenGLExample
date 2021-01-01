@@ -34,6 +34,7 @@ void Mesh::Render(GLShader& shader)
 			number = std::to_string(heightNr++);
 
 		//set and bind texture
+		shader.use();
 		shader.SetInt(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
