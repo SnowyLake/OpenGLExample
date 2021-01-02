@@ -164,32 +164,32 @@ int main()
 		cubeShader.SetVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
 		cubeShader.SetVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetFloat("pointLights[0].constant", 1.0f);
-		cubeShader.SetFloat("pointLights[0].linear", 0.09);
-		cubeShader.SetFloat("pointLights[0].quadratic", 0.032);
+		cubeShader.SetFloat("pointLights[0].linear", 0.09f);
+		cubeShader.SetFloat("pointLights[0].quadratic", 0.032f);
 		// point light 2
 		cubeShader.SetVec3("pointLights[1].position", pointLightPositions[1]);
 		cubeShader.SetVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
 		cubeShader.SetVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
 		cubeShader.SetVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetFloat("pointLights[1].constant", 1.0f);
-		cubeShader.SetFloat("pointLights[1].linear", 0.09);
-		cubeShader.SetFloat("pointLights[1].quadratic", 0.032);
+		cubeShader.SetFloat("pointLights[1].linear", 0.09f);
+		cubeShader.SetFloat("pointLights[1].quadratic", 0.032f);
 		// point light 3
 		cubeShader.SetVec3("pointLights[2].position", pointLightPositions[2]);
 		cubeShader.SetVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
 		cubeShader.SetVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
 		cubeShader.SetVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetFloat("pointLights[2].constant", 1.0f);
-		cubeShader.SetFloat("pointLights[2].linear", 0.09);
-		cubeShader.SetFloat("pointLights[2].quadratic", 0.032);
+		cubeShader.SetFloat("pointLights[2].linear", 0.09f);
+		cubeShader.SetFloat("pointLights[2].quadratic", 0.032f);
 		// point light 4
 		cubeShader.SetVec3("pointLights[3].position", pointLightPositions[3]);
 		cubeShader.SetVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
 		cubeShader.SetVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
 		cubeShader.SetVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetFloat("pointLights[3].constant", 1.0f);
-		cubeShader.SetFloat("pointLights[3].linear", 0.09);
-		cubeShader.SetFloat("pointLights[3].quadratic", 0.032);
+		cubeShader.SetFloat("pointLights[3].linear", 0.09f);
+		cubeShader.SetFloat("pointLights[3].quadratic", 0.032f);
 		// spotLight
 		cubeShader.SetVec3("spotLight.position", camera.Position);
 		cubeShader.SetVec3("spotLight.direction", camera.Front);
@@ -197,8 +197,8 @@ int main()
 		cubeShader.SetVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
 		cubeShader.SetFloat("spotLight.constant", 1.0f);
-		cubeShader.SetFloat("spotLight.linear", 0.09);
-		cubeShader.SetFloat("spotLight.quadratic", 0.032);
+		cubeShader.SetFloat("spotLight.linear", 0.09f);
+		cubeShader.SetFloat("spotLight.quadratic", 0.032f);
 		cubeShader.SetFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 		cubeShader.SetFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
