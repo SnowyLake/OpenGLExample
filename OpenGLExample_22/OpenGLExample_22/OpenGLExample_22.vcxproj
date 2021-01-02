@@ -144,7 +144,7 @@
   <ItemGroup>
     <ClCompile Include="..\OpenGLEnvironment\glad.c" />
     <ClCompile Include="src\CreateWindow.cpp" />
-    <ClCompile Include="src\LightRenderConfig.cpp" />
+    <ClCompile Include="src\Lamp.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
@@ -153,7 +153,7 @@
     <ClInclude Include="..\OpenGLEnvironment\include\GLCamera.h" />
     <ClInclude Include="..\OpenGLEnvironment\include\GLShader.h" />
     <ClInclude Include="include\CreateWindow.h" />
-    <ClInclude Include="include\LightRenderConfig.h" />
+    <ClInclude Include="include\Lamp.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Model.h" />
   </ItemGroup>

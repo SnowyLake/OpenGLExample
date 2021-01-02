@@ -12,7 +12,7 @@
 #include <GLShader.h>
 #include "../include/CreateWindow.h"
 #include "../include/Model.h"
-#include "../include/LightRenderConfig.h"
+#include "../include/Lamp.h"
 
 #include<iostream>
 
@@ -20,12 +20,61 @@
 const unsigned int SCR_WIDTH = 1200;
 const unsigned int SCR_HEIGHT = 800;
 
+std::vector<float> pointLightVertices = {
+	// positions          // normals           // texture coords
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+};
+std::vector<glm::vec3> pointLightPositions = {
+	glm::vec3(4.0f,  -15.0f,  1.5f),
+	glm::vec3(-3.0f, -6.0f, 2.0f),
+	glm::vec3(-4.0f, -13.0f, -2.0f),
+	glm::vec3(7.0f,  -8.0f, -6.0f)
+};//RIGHT HAND
+
 int main()
 {
 	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Model Loading Test", nullptr, nullptr, true);
 	MainWindow.SetCallback();
-
-	SetLampsVAO();
 
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -44,6 +93,10 @@ int main()
 	std::cout << "\tVertices Number: " << loadedModel.numVertices << std::endl;
 	std::cout << "\tFaces Number: " << loadedModel.numFaces << std::endl;
 	std::cout << "\tMeshes Number: " << loadedModel.meshes.size() << std::endl;
+
+	std::cout << "Loading Lamps..." << std::endl;
+	Lamp builtInLamps(pointLightVertices, pointLightPositions);
+	std::cout << "Loaded Lamps." << std::endl;
 
 	std::cout << "Loading shader..." << std::endl;
 	GLShader modelShader("shader/model.vert", "shader/model.frag");
@@ -77,15 +130,13 @@ int main()
 		modelShader.SetMat4("model", model);
 
 		modelShader.SetFloat("material.shininess", 32.0f);
-
-		LightRenderConfigInit(modelShader, camera);
-		DirLightRenderConfig(modelShader);
-		PointLightRenderConfig(modelShader, pointLightPositions);
-		SpotLightRenderConfig(modelShader, camera);
-
-		RenderPointLights(lampShader, view, projection);
 		loadedModel.Render(modelShader);
 
+		builtInLamps.LightRenderConfigInit(modelShader, camera);
+		builtInLamps.DirLightRenderConfig(modelShader);
+		builtInLamps.PointLightRenderConfig(modelShader);
+		builtInLamps.SpotLightRenderConfig(modelShader, camera);
+		builtInLamps.RenderPointLights(lampShader, view, projection);
 
 		glfwSwapBuffers(MainWindow.window);
 		glfwPollEvents();
