@@ -1,6 +1,4 @@
-#ifndef GLSHADER_H
-#define GLSHADER_H
-
+#pragma once
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 
@@ -181,4 +179,3 @@ private:
 		}
 	}
 };
-#endif // !GLSHADER_H
