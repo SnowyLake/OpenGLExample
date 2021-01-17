@@ -1,11 +1,16 @@
 #version 330 core
-out vec4 FragColor;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoords;
 
-in vec2 TexCoords;
+out vec2 TexCoords;
 
-uniform sampler2D texture1;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    FragColor = texture(texture1, TexCoords);
+    TexCoords = aTexCoords;
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
+

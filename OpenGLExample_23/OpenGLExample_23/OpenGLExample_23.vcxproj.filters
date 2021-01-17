@@ -24,6 +24,9 @@
     <ClCompile Include="src\create_window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\builtin_obj.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLEnvironment\include\gl_camera.h">
@@ -35,5 +38,19 @@
     <ClInclude Include="include\create_window.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\builtin_obj.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\builtin_obj_data.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\DepthTesting.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\DepthTesting.vert">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
