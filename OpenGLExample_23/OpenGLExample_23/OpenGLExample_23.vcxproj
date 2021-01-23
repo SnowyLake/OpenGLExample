@@ -32,8 +32,8 @@
     <ClInclude Include="include\create_window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\DepthTesting.frag" />
-    <None Include="shader\DepthTesting.vert" />
+    <None Include="shader\depth_testing.frag" />
+    <None Include="shader\depth_testing.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

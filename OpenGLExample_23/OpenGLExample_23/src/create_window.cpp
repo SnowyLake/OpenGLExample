@@ -26,10 +26,7 @@ CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string 
 
 	//std::cout << "init" << std::endl;
 }
-CreateWindow::~CreateWindow() 
-{
-	std::cout << "Class:CreateWindow Destructor Called." << std::endl;
-}
+CreateWindow::~CreateWindow() { }
 
 //create window
 GLFWwindow* CreateWindow::CreateMainWindow(GLFWmonitor* monitor, GLFWwindow* share, bool captureMouse)
@@ -54,7 +51,6 @@ GLFWwindow* CreateWindow::CreateMainWindow(GLFWmonitor* monitor, GLFWwindow* sha
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return nullptr;
 	}
-	//std::cout << "create window" << std::endl;
 	return window;
 }
 
@@ -87,7 +83,6 @@ void CreateWindow::ProcessInput()
 	if (glfwGetKey(window, GLFW_KEY_CAPS_LOCK) == GLFW_PRESS)
 		camera.ProcessKeyboard(FALL, deltaTime);
 
-	//std::cout << "proc input" << std::endl;
 }
 
 unsigned int CreateWindow::GetScrWidth() { return scrWidth; }
@@ -112,6 +107,7 @@ void CreateWindow::GLFWInit()
 CreateWindow* CreateWindow::FBSCb = nullptr;
 void CreateWindow::FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
+	
 	glViewport(0, 0, width, height);
 }
 void CreateWindow::FrameBufferSizeCallbackFunc(GLFWwindow* window, int width, int height)

@@ -46,10 +46,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\DepthTesting.frag">
+    <None Include="shader\depth_testing.frag">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="shader\DepthTesting.vert">
+    <None Include="shader\depth_testing.vert">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

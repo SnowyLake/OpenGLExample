@@ -33,7 +33,11 @@ public:
 	BuiltInObject(BuiltInObjectType objType);
 	~BuiltInObject() {}
 
-	void BuiltInObjRender(GLShader& shader, const glm::mat4 view, const glm::mat4 projection, const glm::mat4 model);
+	unsigned int texture;
+
+	void BuiltInObjRender(GLShader& shader, const glm::mat4 model, const glm::mat4 view, const glm::mat4 projection);
+	void DeleteVAO();
+	void DeleteBuffers();
 
 private:
 	unsigned int objVAO;
@@ -43,9 +47,8 @@ private:
 	std::vector<float> objVertices;
 	std::vector<float> objIndices;
 
-	void SetCubeVAO();
-	void SetPlaneVAO();
+	void SetVAO();
 
-	void LoadBuiltInObjectTexture(BuiltInObjectType objType);
+	unsigned int LoadBuiltInObjectTexture(BuiltInObjectType objType);
 };
 
