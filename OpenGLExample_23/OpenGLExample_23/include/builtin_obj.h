@@ -19,12 +19,7 @@
 
 #include <gl_camera.h>
 #include <gl_shader.h>
-
-enum class BuiltInObjectType
-{
-	OBJ_CUBE,
-	OBJ_PLANE,
-};
+#include "../include/builtin_obj_data.h"
 
 class BuiltInObject
 {

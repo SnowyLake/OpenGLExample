@@ -2,24 +2,56 @@
 #include<stb_image.h>
 
 #include "../include/builtin_obj.h"
-#include "../include/builtin_obj_data.h"
+std::vector<float> cubeVertices111 = {
+	//positions           //texture Coords
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
 //---------------------------------------------------------------
 //							public
 //---------------------------------------------------------------
 BuiltInObject::BuiltInObject(BuiltInObjectType objType)
 {
-	switch(objType)
-	{
-	case BuiltInObjectType::OBJ_CUBE:
-		objVertices = cubeVertices;
-		break;
-	case BuiltInObjectType::OBJ_PLANE:
-		objVertices = planeVertices;
-		break;
-	default:
-		break;
-	}
+	objVertices = BuiltInObjectData::objVectices.at(objType);
 	SetVAO();
 	this->texture = LoadBuiltInObjectTexture(objType);
 }
@@ -56,11 +88,11 @@ void BuiltInObject::SetVAO()
 	glGenBuffers(1, &objVBO);
 	glBindVertexArray(objVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, objVBO);
-	glBufferData(GL_ARRAY_BUFFER, objVertices.size() * sizeof(float), &objVertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, objVertices.size() * sizeof(typeid(objVertices.at(0)).name()), &objVertices.at(0), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(typeid(objVertices.at(0)).name()), (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(typeid(objVertices.at(0)).name()), (void*)(3 * sizeof(typeid(objVertices.at(0)).name())));
 	glBindVertexArray(0);
 	objEBO = 0;
 }
@@ -72,17 +104,8 @@ unsigned int BuiltInObject::LoadBuiltInObjectTexture(BuiltInObjectType objType)
 
 	int width, height, nrComponents;
 	const char* path = nullptr;
-	switch(objType)
-	{
-	case BuiltInObjectType::OBJ_CUBE:
-		path = cubeTexturePath.c_str();
-		break;
-	case BuiltInObjectType::OBJ_PLANE:
-		path = planeTexturePath.c_str();
-		break;
-	default:
-		break;
-	}
+	path = BuiltInObjectData::objTexturesPath.at(objType);
+
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 	if(data)

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\OpenGLEnvironment\glad.c" />
     <ClCompile Include="src\builtin_obj.cpp" />
+    <ClCompile Include="src\builtin_obj_data.cpp" />
     <ClCompile Include="src\create_window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
@@ -107,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
