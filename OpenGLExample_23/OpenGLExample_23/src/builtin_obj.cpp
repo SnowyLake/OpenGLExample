@@ -3,7 +3,7 @@
 #include "../include/builtin_obj.h"
 
 //---------------------------------------------------------------
-//							public
+//public
 //---------------------------------------------------------------
 BuiltInObject::BuiltInObject(BuiltInObjectType objType)
 {
@@ -36,7 +36,7 @@ void BuiltInObject::DeleteBuffers()
 }
 
 //---------------------------------------------------------------
-//							private
+//private
 //---------------------------------------------------------------
 void BuiltInObject::SetVAO()
 {

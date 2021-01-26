@@ -56,7 +56,7 @@ int main()
 
 		int width, height;
 		glfwGetFramebufferSize(MainWindow.window, &width, &height);		//When the window scale is changed, the render scale stays the same
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 
 		//first cube
 		model = glm::translate(model, glm::vec3(-1.0f, -1.0f, -1.0f));

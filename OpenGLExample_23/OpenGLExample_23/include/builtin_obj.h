@@ -1,9 +1,9 @@
 /*
-* Module Name: builtin_obj.h
-* Auther: SnowyLake
-* Version: 0.1
+* @Module Name: builtin_obj.h
+* @Auther: SnowyLake
+* @Version: 0.1
 * -------------------------------------------------------
-* Abstract: 
+* @Abstract: 
 *	This is the header file of my built-in objects.
 *	This is just one of my attempts to implement unified 
 *	management of built-in objects.
@@ -24,7 +24,7 @@
 class BuiltInObject
 {
 public:
-	//this's stupid£¡BuiltInObject constructor's parameter only need a enum!
+	//this's stupid! BuiltInObject constructor's parameter only need a enum!
 	BuiltInObject(BuiltInObjectType objType);
 	~BuiltInObject() {}
 
