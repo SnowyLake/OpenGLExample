@@ -59,12 +59,12 @@ int main()
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 
 		//first cube
-		model = glm::translate(model, glm::vec3(-1.0f, -1.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-1.0f, -1.001f, -1.0f));
 		cubes.at(0).BuiltInObjRender(shader, model, view, projection);
 
 		//secend cube
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(2.0f, -1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(2.0f, -1.0001f, 0.0f));
 		cubes.at(1).BuiltInObjRender(shader, model, view, projection);
 
 		//plane
