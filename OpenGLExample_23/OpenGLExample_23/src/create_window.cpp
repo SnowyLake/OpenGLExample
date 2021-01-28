@@ -23,7 +23,7 @@ CreateWindow::CreateWindow(unsigned int width, unsigned int height, std::string 
 	this->lastTime = 0.0f;
 
 	this->window = CreateMainWindow(monitor, share, captureMouse);
-
+	
 	//std::cout << "init" << std::endl;
 }
 CreateWindow::~CreateWindow() { }
