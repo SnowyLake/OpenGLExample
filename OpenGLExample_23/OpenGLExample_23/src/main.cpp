@@ -19,8 +19,8 @@ const unsigned int SCR_HEIGHT = 800;
 
 int main()
 {
-	CreateWindow MainWindow(SCR_WIDTH, SCR_HEIGHT, "Depth Testing", nullptr, nullptr, true);
-	MainWindow.SetCallback();
+	WindowManager windowMgr(SCR_WIDTH, SCR_HEIGHT, "Depth Testing", nullptr, nullptr, true);
+	windowMgr.SetCallback();
 
 	//configure global OpenGL state
 	//-----------------------------
@@ -29,23 +29,23 @@ int main()
 
 	std::vector<BuiltInObject> cubes = 
 	{
-		BuiltInObject(BuiltInObjectType::OBJ_CUBE),
-		BuiltInObject(BuiltInObjectType::OBJ_CUBE)
+		BuiltInObject(BIOType::OBJ_CUBE),
+		BuiltInObject(BIOType::OBJ_CUBE)
 	};
-	BuiltInObject plane(BuiltInObjectType::OBJ_PLANE);
+	BuiltInObject plane(BIOType::OBJ_PLANE);
 
 	GLShader shader("shader/depth_testing.vert", "shader/depth_testing.frag");
 
 	shader.use();
 	shader.SetInt("texture1", 0);
 
-	glfwSetWindowPos(MainWindow.window, 600, 100);
-	glfwShowWindow(MainWindow.window);
+	glfwSetWindowPos(windowMgr.window, 300, 100);
+	glfwShowWindow(windowMgr.window);
 
-	while(!glfwWindowShouldClose(MainWindow.window))
+	while(!glfwWindowShouldClose(windowMgr.window))
 	{
-		MainWindow.SetPerFrameTimeLogic();
-		MainWindow.ProcessInput();
+		windowMgr.SetPerFrameTimeLogic();
+		windowMgr.ProcessInput();
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,7 +55,7 @@ int main()
 		glm::mat4 view = camera.GetViewMatrix();
 
 		int width, height;
-		glfwGetFramebufferSize(MainWindow.window, &width, &height);		//When the window scale is changed, the render scale stays the same
+		glfwGetFramebufferSize(windowMgr.window, &width, &height);		//When the window scale is changed, the render scale stays the same
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 
 		//first cube
@@ -71,7 +71,7 @@ int main()
 		model = glm::mat4(1.0f);
 		plane.BuiltInObjRender(shader, model, view, projection);
 
-		glfwSwapBuffers(MainWindow.window);
+		glfwSwapBuffers(windowMgr.window);
 		glfwPollEvents();
 	}
 

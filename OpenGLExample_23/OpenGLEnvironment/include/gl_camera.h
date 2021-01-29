@@ -1,12 +1,13 @@
 #pragma once
-#include<glad/glad.h>
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include<vector>
+#include <vector>
+#include <map>
 
 //Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-enum CameraMovement
+using CM = enum class CameraMovement
 {
 	FORWARD,
 	BACKWARD,
@@ -67,25 +68,27 @@ public:
 		return glm::lookAt(Position, Position + Front, Up);
 	}
 
-	// processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-	void ProcessKeyboard(CameraMovement direction, float deltaTime)
+	/* Processes input received from any keyboard-like input system. 
+	   Accepts input parameter in the form of camera defined ENUM CLASS (to abstract it from windowing systems) */
+	void ProcessKeyboard(CM direction, float deltaTime)
 	{
 		float velocity = MovementSpeed * deltaTime;
-		if (direction == FORWARD)
+		if (direction == CM::FORWARD)
 			Position += Front * velocity;
-		if (direction == BACKWARD)
+		if (direction == CM::BACKWARD)
 			Position -= Front * velocity;
-		if (direction == RIGHT)
+		if (direction == CM::RIGHT)
 			Position -= Right * velocity;
-		if (direction == LEFT)
+		if (direction == CM::LEFT)
 			Position += Right * velocity;
-		if (direction == RISE)
+		if (direction == CM::RISE)
 			Position += Up * velocity;
-		if (direction == FALL)
+		if (direction == CM::FALL)
 			Position -= Up * velocity;
 	}
 
-	// processes input received from a mouse input system. Expects the offset value in both the x and y direction.
+	//Processes input received from a mouse input system. 
+	//Expects the offset value in both the x and y direction.
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
 	{
 		xoffset *= MouseSensitivity;
@@ -106,7 +109,8 @@ public:
 		updateCameraVectors();
 	}
 
-	//processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
+	//Processes input received from a mouse scroll-wheel event. 
+	//Only requires input on the vertical wheel-axis.
 	void ProcessMouseScroll(float yoffset)
 	{
 		Zoom -= (float)yoffset;
@@ -116,7 +120,7 @@ public:
 			Zoom = 90.0f;
 	}
 private:
-	// calculates the front vector from the Camera's (updated) Euler Angles
+	//calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors()
 	{
 		//calculates the new front vector

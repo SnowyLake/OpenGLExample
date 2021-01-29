@@ -5,9 +5,10 @@
 //---------------------------------------------------------------
 //public
 //---------------------------------------------------------------
-BuiltInObject::BuiltInObject(BuiltInObjectType objType)
+
+BuiltInObject::BuiltInObject(BIOType objType)
 {
-	objVertices = BuiltInObjectData::objVectices.at(objType);
+	objVertices = BIOData::objVectices.at(objType);
 	SetVAO();
 	this->texture = LoadBuiltInObjectTexture(objType);
 }
@@ -38,6 +39,7 @@ void BuiltInObject::DeleteBuffers()
 //---------------------------------------------------------------
 //private
 //---------------------------------------------------------------
+
 void BuiltInObject::SetVAO()
 {
 	glGenVertexArrays(1, &objVAO);
@@ -53,14 +55,14 @@ void BuiltInObject::SetVAO()
 	objEBO = 0;
 }
 
-unsigned int BuiltInObject::LoadBuiltInObjectTexture(BuiltInObjectType objType)
+unsigned int BuiltInObject::LoadBuiltInObjectTexture(BIOType objType)
 {
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
 	const char* path = nullptr;
-	path = BuiltInObjectData::objTexturesPath.at(objType);
+	path = BIOData::objTexturesPath.at(objType);
 
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 

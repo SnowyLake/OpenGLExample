@@ -1,7 +1,7 @@
 /*
 * @Module Name: builtin_obj_data.h
 * @Auther: SnowyLake
-* @Version: 0.2
+* @Version: 0.3
 * -------------------------------------------------------
 * @Abstract:
 *	This is the header file of my built-in objects' data.
@@ -16,17 +16,20 @@
 #include <vector>
 #include <string>
 
-enum class BuiltInObjectType
+using BIOType = enum class BuiltInObjectType
 {
     OBJ_CUBE,
     OBJ_PLANE,
 };
 
-class BuiltInObjectData
+using OTexPath_t = std::map<BIOType, const char*>;
+using OVec_t = std::map<BIOType, std::vector<float>>;
+
+using BIOData = class BuiltInObjectData
 {
 public:
-    static std::map<BuiltInObjectType, const char*> objTexturesPath;
-    static std::map<BuiltInObjectType, std::vector<float>> objVectices;
+    static OTexPath_t objTexturesPath;
+    static OVec_t objVectices;
 
 private:
     static std::string cubeTexPath;

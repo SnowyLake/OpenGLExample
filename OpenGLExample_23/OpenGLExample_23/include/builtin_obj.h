@@ -1,7 +1,7 @@
 /*
 * @Module Name: builtin_obj.h
 * @Auther: SnowyLake
-* @Version: 0.1
+* @Version: 0.2
 * -------------------------------------------------------
 * @Abstract: 
 *	This is the header file of my built-in objects.
@@ -25,7 +25,7 @@ class BuiltInObject
 {
 public:
 	//this's stupid! BuiltInObject constructor's parameter only need a enum!
-	BuiltInObject(BuiltInObjectType objType);
+	BuiltInObject(BIOType objType);
 	~BuiltInObject() {}
 
 	unsigned int texture;
@@ -44,6 +44,6 @@ private:
 
 	void SetVAO();
 
-	unsigned int LoadBuiltInObjectTexture(BuiltInObjectType objType);
+	unsigned int LoadBuiltInObjectTexture(BIOType objType);
 };
 

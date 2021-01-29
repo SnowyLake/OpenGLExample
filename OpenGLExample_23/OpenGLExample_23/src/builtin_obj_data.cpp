@@ -1,9 +1,16 @@
 #include "../include/builtin_obj_data.h"
 
-std::string BuiltInObjectData::cubeTexPath = "res/marble.jpg";
-std::string BuiltInObjectData::planeTexPath = "res/metal.png";
+std::string BIOData::cubeTexPath = "res/marble.jpg";
+std::string BIOData::planeTexPath = "res/metal.png";
 
-std::vector<float> BuiltInObjectData::cubeVertices = {
+OTexPath_t BIOData::objTexturesPath =
+{
+    {BIOType::OBJ_CUBE, cubeTexPath.c_str()},
+    {BIOType::OBJ_PLANE, planeTexPath.c_str()}
+};
+
+
+std::vector<float> BIOData::cubeVertices = {
     //positions           //texture Coords
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -47,7 +54,7 @@ std::vector<float> BuiltInObjectData::cubeVertices = {
     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
-std::vector<float> BuiltInObjectData::planeVertices = {
+std::vector<float> BIOData::planeVertices = {
     //positions           //texture Coords
      5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
     -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
@@ -58,15 +65,9 @@ std::vector<float> BuiltInObjectData::planeVertices = {
      5.0f, -0.5f, -5.0f,  2.0f, 2.0f
 };
 
-std::map<BuiltInObjectType, const char*> BuiltInObjectData::objTexturesPath =
+OVec_t BIOData::objVectices =
 {
-    {BuiltInObjectType::OBJ_CUBE, cubeTexPath.c_str()},
-    {BuiltInObjectType::OBJ_PLANE, planeTexPath.c_str()}
-};
-
-std::map<BuiltInObjectType, std::vector<float>> BuiltInObjectData::objVectices =
-{
-    {BuiltInObjectType::OBJ_CUBE, BuiltInObjectData::cubeVertices},
-    {BuiltInObjectType::OBJ_PLANE, BuiltInObjectData::planeVertices}
+    {BIOType::OBJ_CUBE, BIOData::cubeVertices},
+    {BIOType::OBJ_PLANE, BIOData::planeVertices}
 };
 
