@@ -46,11 +46,11 @@ void BuiltInObject::SetVAO()
 	glGenBuffers(1, &objVBO);
 	glBindVertexArray(objVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, objVBO);
-	glBufferData(GL_ARRAY_BUFFER, objVertices.size() * sizeof(typeid(objVertices.at(0)).name()), &objVertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, objVertices.size() * sizeof(decltype(objVertices.at(0))), &objVertices.at(0), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(typeid(objVertices.at(0)).name()), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(decltype(objVertices.at(0))), (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(typeid(objVertices.at(0)).name()), (void*)(3 * sizeof(typeid(objVertices.at(0)).name())));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(decltype(objVertices.at(0))), (void*)(3 * sizeof(decltype(objVertices.at(0)))));
 	glBindVertexArray(0);
 	objEBO = 0;
 }
