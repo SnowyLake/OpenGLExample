@@ -79,8 +79,7 @@ unsigned int BuiltInObject::LoadBuiltInObjectTexture(BIOType objType)
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
-	const char* path = nullptr;
-	path = BIOData::objTexturesPath.at(objType);
+	const char* path = BIOData::objTexturesPath.at(objType);
 
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 
@@ -107,7 +106,7 @@ unsigned int BuiltInObject::LoadBuiltInObjectTexture(BIOType objType)
 	}
 	else
 	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
+		std::cout << "Texture failed to load at path: " << path << "\n";
 		stbi_image_free(data);
 	}
 	return textureID;
