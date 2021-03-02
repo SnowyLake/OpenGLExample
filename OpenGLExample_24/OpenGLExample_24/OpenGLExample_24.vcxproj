@@ -95,8 +95,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\GitCode\OpenGLExample\OpenGLExample_24\OpenGLEnvironment\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\GitCode\OpenGLExample\OpenGLExample_24\OpenGLEnvironment\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\OpenGLEnvironment\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\OpenGLEnvironment\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
