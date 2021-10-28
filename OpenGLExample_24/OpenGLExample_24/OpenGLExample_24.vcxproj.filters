@@ -72,5 +72,8 @@
     <None Include="shader\object_outlining_shader.vert">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\object_outlining_shader.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

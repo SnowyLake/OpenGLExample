@@ -39,6 +39,7 @@
   <ItemGroup>
     <None Include="shader\default_shader.frag" />
     <None Include="shader\default_shader.vert" />
+    <None Include="shader\object_outlining_shader.frag" />
     <None Include="shader\object_outlining_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
