@@ -20,7 +20,8 @@ using BIOType = enum class BuiltInObjectType
 {
     OBJ_CUBE,
     OBJ_PLANE,
-    OBJ_VEGETATION
+    OBJ_VEGETATION,
+    OBJ_WINDOW
 };
 
 using OTexPath_t = std::map<BIOType, const char*>;
@@ -37,10 +38,12 @@ private:
     static std::string cubeTexPath;
     static std::string planeTexPath;
     static std::string vegetationTexPath;
+    static std::string windowTexPath;
 
     //vertices
     static std::vector<float> cubeVertices;
     static std::vector<float> planeVertices;
     static std::vector<float> vegetationVertices;
+    static std::vector<float> windowVertices;
 };
 

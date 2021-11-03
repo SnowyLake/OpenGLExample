@@ -16,8 +16,8 @@ WindowManager::WindowManager(const unsigned int& width, const unsigned int& heig
 	:scrWidth(width), scrHeight(height), windowTitle(title)
 {
 	//camera
-	this->lastX = width / 2.0f;
-	this->lastY = height / 2.0f;
+	this->lastX = static_cast<float>(width) / 2.0f;
+	this->lastY = static_cast<float>(height) / 2.0f;
 	this->firstMouse = true;
 	//timing
 	this->deltaTime = 0.0f;		// time between current frame and last frame

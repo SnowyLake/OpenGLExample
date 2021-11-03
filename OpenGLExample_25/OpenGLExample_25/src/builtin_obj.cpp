@@ -16,8 +16,8 @@ BuiltInObject::~BuiltInObject() {}
 
 void BuiltInObject::BuiltInObjRender(GLShader& shader, const glm::mat4 model, const glm::mat4 view, const glm::mat4 projection)
 {
-	glBindVertexArray(objVAO);
 	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(objVAO);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 	shader.Use();
 	shader.SetMat4("model", model);
@@ -29,8 +29,8 @@ void BuiltInObject::BuiltInObjRender(GLShader& shader, const glm::mat4 model, co
 
 void BuiltInObject::BuiltInObjRender(GLShader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue)
 { 
-	glBindVertexArray(objVAO);
 	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(objVAO);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 	shader.Use();
 	shader.SetMat4("model", model);
