@@ -22,7 +22,7 @@
 //setting
 const unsigned int SCR_WIDTH  = 1200;
 const unsigned int SCR_HEIGHT = 800;
-const std::string EXAMPLE_NAME = "Blending";
+const std::string EXAMPLE_NAME = "Blending and Face culling";
 
 //vegetation pos
 std::vector<glm::vec3> vegetationsPos = {
