@@ -47,13 +47,14 @@ int main()
 
     //configure global OpenGL state
     //-----------------------------
-    glEnable(GL_DEPTH_TEST);                        //开启深度测试
-    glDepthFunc(GL_LESS);                           //在片段深度值小于缓冲深度值时通过测试
-    //glEnable(GL_STENCIL_TEST);                      //开启模板测试
-    //glStencilFunc(GL_NOTEQUAL, 1, 0xFF);            //禁用模板缓冲写入，参考值为1，掩码为0xFF
-    //glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);      //当两项测试未全部通过的，仅保留模板缓冲值，当全部通过时，将存储的模板值设置为参考值
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);                            //开启深度测试
+    glDepthFunc(GL_LESS);                               //在片段深度值小于缓冲深度值时通过测试
+    //glEnable(GL_STENCIL_TEST);                         //开启模板测试
+    //glStencilFunc(GL_NOTEQUAL, 1, 0xFF);               //禁用模板缓冲写入，参考值为1，掩码为0xFF
+    //glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);         //当两项测试未全部通过的，仅保留模板缓冲值，当全部通过时，将存储的模板值设置为参考值
+    glEnable(GL_BLEND);                                 //开启混合
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  //使用源颜色向量的alpha作为源因子，使用1−alpha作为目标因子
+    
 
     //build and compile shaders
     //-------------------------
@@ -102,12 +103,18 @@ int main()
         //plane render
         plane.BuiltInObjRender(defaultShader, model, view, projection);
         //cube render
+        glEnable(GL_CULL_FACE);     //open Face culling
+        //两种剔除正面的方案
+        //glFrontFace(GL_CW);       //告诉OpenGL现在顺时针顺序代表的是正向面
+        //glCullFace(GL_FRONT);     //只剔除正向面
         //first
         model = glm::translate(model, glm::vec3(-1.0f, -1.001f, -1.0f));
         cubes.at(0).BuiltInObjRender(defaultShader, model, view, projection, true);
         //second
         model = glm::translate(model, glm::vec3(2.0f, -1.0001f, 0.0f));
         cubes.at(1).BuiltInObjRender(defaultShader, model, view, projection, true);
+        glDisable(GL_CULL_FACE);    //close Face culling
+
         //vegetation
         for(size_t i = 0; i < vegetations.size(); i++)
         {
