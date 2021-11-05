@@ -54,3 +54,9 @@ test2: Create a camera that can move freely
 **Example_21:** Create a scene who has a directional light, four point lights and a spotlight 
 
 **Example_22:** Load a model with Assimp, and refactor the codes to be Object-Oriented
+
+**Example_23:** Depth Testing, refactor codes
+
+**Example_24:** Stencil Testing, use ```#pragma comment``` to link library
+
+**Example_25:** Blending and Face culling
