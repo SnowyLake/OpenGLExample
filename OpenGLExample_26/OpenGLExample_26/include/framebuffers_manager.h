@@ -2,21 +2,39 @@
 #include <vector>
 #include <iostream>
 
-#include <gl_shader.h>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <gl_shader.h>
+
+struct Quad
+{
+	unsigned int VAO;
+	unsigned int VBO;
+	static std::vector<float> quadVertices;
+
+	Quad(unsigned int VAO, unsigned int VBO)
+	{
+		this->VAO = VAO;
+		this->VBO = VBO;
+	}
+
+};
 class FramebuffersManager
 {
 public:
-	FramebuffersManager(unsigned int width, unsigned int height);
+	FramebuffersManager(GLFWwindow* window);
 	~FramebuffersManager();
 
-	void CreateScreenQuad();
+	void CreateScreenQuad(unsigned int quadNum);
 
 	void Bind();
 	void UnBind();
-	void Render(GLShader shader);
+	void Render(GLShader shader, unsigned int Num, glm::mat4 transform);
 
 	void Delete();
 
@@ -27,8 +45,7 @@ private:
 	unsigned int texColorbuffer;
 	bool whetherCreateScreenQuad = false;
 
-	static std::vector<float> quadVertices;
-	unsigned int quadVAO, quadVBO;
+	std::vector<Quad> quad;
 
 	//create a color attachment texture
 	void SetTexColorBuffer(unsigned int width, unsigned int height);

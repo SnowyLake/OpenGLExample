@@ -12,8 +12,8 @@
 
 #include <gl_camera.h>
 #include <gl_shader.h>
-#include "../include/window_manager.h"
 #include "../include/builtin_obj.h"
+#include "../include/window_manager.h"
 #include "../include/framebuffers_manager.h"
 
 #pragma comment(lib, "glfw3.lib")
@@ -46,8 +46,9 @@ int main()
 
     //set framebuffers
     //----------------
-    FramebuffersManager FBMgr(SCR_WIDTH, SCR_HEIGHT);
-    FBMgr.CreateScreenQuad();
+    FramebuffersManager FBMgr(windowMgr.window);
+    FBMgr.CreateScreenQuad(1);
+    //FBMgr.CreateScreenQuad(16);
 
     //shader config
     //-------------
@@ -92,21 +93,36 @@ int main()
         //cube render
         glEnable(GL_CULL_FACE);     //open Face culling
         //first
-        model = glm::translate(model, glm::vec3(-1.0f, -1.001f, -1.0f));
+        model = glm::translate(model, glm::vec3(-1.0f, -1.0001f, -1.0f));
         cubes.at(0).BuiltInObjRender(defaultShader, model, view, projection, true);
         //second
-        model = glm::translate(model, glm::vec3(2.0f, -1.0001f, 0.0f));
+        model = glm::translate(model, glm::vec3( 2.0f, -1.0001f,  0.0f));
         cubes.at(1).BuiltInObjRender(defaultShader, model, view, projection, true);
         glDisable(GL_CULL_FACE);    //close Face culling
-
         //now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
         FBMgr.UnBind();
+
         glDisable(GL_DEPTH_TEST);   //disable depth test so screen-space quad isn't discarded due to depth test.
         //clear all relevant buffers
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
         glClear(GL_COLOR_BUFFER_BIT);
-        FBMgr.Render(screenShader);
 
+        //create transformations
+        auto transform = glm::mat4(1.0f); //make sure to initialize matrix to identity matrix first
+
+        //render 16 windows at once
+       /* for (size_t i = 0; i <= 3; i++)
+        {
+            for (size_t j = 0; j <= 3; j++)
+            {
+                transform = glm::scale(transform, glm::vec3(0.25f, 0.25f, 0.25f));
+                transform = glm::translate(transform, glm::vec3(-3.0f + 2.0f * j, -3.0f + 2.0f * i, 0.0f));
+                FBMgr.Render(screenShader, 1, transform);
+                transform = glm::mat4(1.0f);
+            }
+        }*/
+
+        FBMgr.Render(screenShader, 1, transform);
         glfwSwapBuffers(windowMgr.window);
         glfwPollEvents();
     }

@@ -1,7 +1,7 @@
 #include "../include/framebuffers_manager.h"
 
 //screen quad
-std::vector<float> FramebuffersManager::quadVertices = {  //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+std::vector<float> Quad::quadVertices = {  //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
        // positions   // texCoords
        -1.0f,  1.0f,  0.0f, 1.0f,
        -1.0f, -1.0f,  0.0f, 0.0f,
@@ -12,12 +12,15 @@ std::vector<float> FramebuffersManager::quadVertices = {  //vertex attributes fo
         1.0f,  1.0f,  1.0f, 1.0f
 };
 
-FramebuffersManager::FramebuffersManager(unsigned int width, unsigned int height)
+FramebuffersManager::FramebuffersManager(GLFWwindow* window)
 {
     glGenFramebuffers(1, &this->FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
-    SetTexColorBuffer(width, height);
-    SetRBO(width, height);
+
+    int _width, _height; 
+    glfwGetFramebufferSize(window, &_width, &_height);
+    SetTexColorBuffer(_width, _height);
+    SetRBO(_width, _height);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -26,20 +29,26 @@ FramebuffersManager::FramebuffersManager(unsigned int width, unsigned int height
 FramebuffersManager::~FramebuffersManager()
 {}
 
-void FramebuffersManager::CreateScreenQuad()
+void FramebuffersManager::CreateScreenQuad(unsigned int quadNum)
 {
-    glGenVertexArrays(1, &this->quadVAO);
-    glGenBuffers(1, &this->quadVBO);
+    unsigned int quadVAO;
+    unsigned int quadVBO;
+    for (size_t i = 0; i < quadNum; i++)
+    {
+        glGenVertexArrays(1, &quadVAO);
+        glGenBuffers(1, &quadVBO);
 
-    glBindVertexArray(this->quadVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-    glBufferData(GL_ARRAY_BUFFER, this->quadVertices.size() * sizeof(decltype(this->quadVertices)::value_type), &this->quadVertices.at(0), GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(decltype(this->quadVertices)::value_type), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(decltype(this->quadVertices)::value_type), (void*)(2 * sizeof(decltype(this->quadVertices)::value_type)));
-    
-    whetherCreateScreenQuad = true;;
+        glBindVertexArray(quadVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+        glBufferData(GL_ARRAY_BUFFER, Quad::quadVertices.size() * sizeof(decltype(Quad::quadVertices)::value_type), &Quad::quadVertices.at(0), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(decltype(Quad::quadVertices)::value_type), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(decltype(Quad::quadVertices)::value_type), (void*)(2 * sizeof(decltype(Quad::quadVertices)::value_type)));
+        this->quad.emplace_back(quadVAO, quadVBO);
+    }
+    if (quadNum != 0)
+        whetherCreateScreenQuad = true;
 }
 
 void FramebuffersManager::Bind()
@@ -52,10 +61,11 @@ void FramebuffersManager::UnBind()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FramebuffersManager::Render(GLShader shader)
+void FramebuffersManager::Render(GLShader shader, unsigned int Num, glm::mat4 transform = glm::mat4(1.0f))
 {
     shader.Use();
-    glBindVertexArray(this->quadVAO);
+    shader.SetMat4("transform", transform);
+    glBindVertexArray(this->quad.at(Num - 1).VAO);
     glBindTexture(GL_TEXTURE_2D, texColorbuffer);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
@@ -64,8 +74,12 @@ void FramebuffersManager::Delete()
 {
     if (whetherCreateScreenQuad)
     {
-        glDeleteVertexArrays(1, &this->quadVAO);
-        glDeleteBuffers(1, &this->quadVBO);
+        for (auto& i : quad)
+        {
+            glDeleteVertexArrays(1, &(i.VAO));
+            glDeleteBuffers(1, &(i.VBO));
+        }
+        
     }
     glDeleteFramebuffers(1, &this->FBO);
     glDeleteRenderbuffers(1, &this->RBO);
