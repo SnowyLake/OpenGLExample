@@ -38,7 +38,7 @@ int main()
     //shaders
     //-------
     GLShader defaultShader("shaders/framebuffers.vert", "shaders/framebuffers.frag");
-    GLShader screenShader("shaders/screen.vert", PostProcessShaders::Edge_Detection);
+    GLShader screenShader(PostProcessShaders::DefaultVert, PostProcessShaders::DefaultFrag);
 
     //scene objects
     //-------------
