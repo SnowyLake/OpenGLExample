@@ -15,6 +15,7 @@
 #include "../include/builtin_obj.h"
 #include "../include/window_manager.h"
 #include "../include/framebuffers_manager.h"
+#include "../shaders/post_process/post_process_shaders.hpp"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -37,7 +38,7 @@ int main()
     //shaders
     //-------
     GLShader defaultShader("shaders/framebuffers.vert", "shaders/framebuffers.frag");
-    GLShader screenShader("shaders/screen.vert", "shaders/screen.frag");
+    GLShader screenShader("shaders/screen.vert", PostProcessShaders::Edge_Detection);
 
     //scene objects
     //-------------

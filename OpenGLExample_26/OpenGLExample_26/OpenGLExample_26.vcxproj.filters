@@ -53,6 +53,9 @@
     <ClInclude Include="include\framebuffers_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="shaders\post_process\post_process_shaders.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\default_shader.frag">

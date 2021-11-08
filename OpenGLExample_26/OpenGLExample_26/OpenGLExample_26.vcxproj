@@ -31,6 +31,7 @@
     <ClInclude Include="include\builtin_obj_data.h" />
     <ClInclude Include="include\framebuffers_manager.h" />
     <ClInclude Include="include\window_manager.h" />
+    <ClInclude Include="shaders\post_process\post_process_shaders.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\default_shader.frag" />
