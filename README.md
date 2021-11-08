@@ -1,5 +1,5 @@
 # My OpenGLExample
-![](https://img.shields.io/badge/License-MIT-write.svg)  ![](https://img.shields.io/badge/Language-C++-darkblue.svg)  ![](https://img.shields.io/badge/Language-GLSL-darkblue.svg) ![](https://img.shields.io/badge/IDE-VS_2019-purple.svg) ![](https://img.shields.io/badge/Platform-Windows10-blue.svg)  ![](https://img.shields.io/badge/API-OpenGL_3.3-blue.svg)  
+![](https://img.shields.io/badge/License-MIT-write.svg)  ![](https://img.shields.io/badge/Language-C++-darkblue.svg)  ![](https://img.shields.io/badge/Language-GLSL-darkblue.svg) ![](https://img.shields.io/badge/IDE-Visual_Studio-purple.svg) ![](https://img.shields.io/badge/API-OpenGL_3.3-blue.svg)  
   [![](https://img.shields.io/badge/UI_Library-Dear_ImGui-orange.svg)](https://github.com/ocornut/imgui)  [![](https://img.shields.io/badge/API_Library-GLAD-yellow.svg)](https://github.com/Dav1dde/glad)  [![](https://img.shields.io/badge/API_Library-GLFW-yellow.svg)](https://www.glfw.org/download.html)  [![](https://img.shields.io/badge/Math_Library-GLM-yellow.svg)](https://glm.g-truc.net/0.9.8/index.html)  [![](https://img.shields.io/badge/Load_Library-stb__image-yellow.svg)](https://github.com/nothings/stb)  [![](https://img.shields.io/badge/Load_Library-Assimp-yellow.svg)](https://github.com/assimp/assimp)
 
 ***My OpenGL programs by [LearnOpenGL-CN](https://learnopengl-cn.github.io/).***
@@ -60,3 +60,5 @@ test2: Create a camera that can move freely
 **Example_24:** Stencil Testing, use ```#pragma comment``` to link library
 
 **Example_25:** Blending and Face culling
+
+**Example_26:** Use Framebuffers and add PostProcessShaders Library
