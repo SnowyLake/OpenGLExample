@@ -25,6 +25,8 @@
     <ClCompile Include="src\builtin_obj_data.cpp" />
     <ClCompile Include="src\framebuffers_manager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\skybox_manager.cpp" />
     <ClCompile Include="src\window_manager.cpp" />
   </ItemGroup>
@@ -32,6 +34,8 @@
     <ClInclude Include="include\builtin_obj.h" />
     <ClInclude Include="include\builtin_obj_data.h" />
     <ClInclude Include="include\framebuffers_manager.h" />
+    <ClInclude Include="include\mesh.h" />
+    <ClInclude Include="include\model.h" />
     <ClInclude Include="include\skybox_manager.h" />
     <ClInclude Include="include\window_manager.h" />
     <ClInclude Include="shaders\post_process\post_process_shaders.h" />

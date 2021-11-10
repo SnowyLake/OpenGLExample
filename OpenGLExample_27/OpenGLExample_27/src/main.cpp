@@ -12,6 +12,7 @@
 
 #include <gl_camera.h>
 #include <gl_shader.h>
+#include "../include/model.h"
 #include "../include/builtin_obj.h"
 #include "../include/window_manager.h"
 #include "../include/skybox_manager.h"
@@ -55,14 +56,19 @@ int main()
     //shaders
     //-------
     GLShader reflectionShader("shaders/reflection.vert", "shaders/reflection.frag");
+    GLShader refractionShader("shaders/refraction.vert", "shaders/refraction.frag");
     GLShader defaultShader("shaders/default.vert", "shaders/default.frag");
     GLShader skyboxShader("shaders/skybox.vert", "shaders/skybox.frag");
     GLShader screenShader(PostProcessShaders::DefaultVert, PostProcessShaders::DefaultFrag);
+
+    GLShader nanosuitReflShader("shaders/nanosuit_refl.vert", "shaders/nanosuit_refl.frag");
     
     //shader config
     //-------------
     reflectionShader.Use();
     reflectionShader.SetInt("skyboxTex", 0);
+    refractionShader.Use();
+    refractionShader.SetInt("skyboxTex", 0);
     defaultShader.Use();
     defaultShader.SetInt("texture1", 0);
     skyboxShader.Use();
@@ -70,12 +76,19 @@ int main()
     screenShader.Use();
     screenShader.SetInt("screenTexture", 0);
 
+    //nanosuitReflShader.Use();
+    
+
     //scene objects
     //-------------
-    BuiltInObject cubeWithReflection(BIOType::OBJ_CUBE_WITH_NORMAL);
+    BuiltInObject cubeWithNormal(BIOType::OBJ_CUBE_WITH_NORMAL);
     BuiltInObject cube(BIOType::OBJ_CUBE);
+    stbi_set_flip_vertically_on_load(false);
+    Model NanoSuit("res/nanosuit/nanosuit.obj");
+    Model NanoSuitRefl("res/nanosuit_reflection/nanosuit.obj");
 
     //create skybox
+    
     SkyboxManager skyboxMgr(faces);
 
     //draw as wireframe
@@ -106,12 +119,64 @@ int main()
         int _width, _height; glfwGetFramebufferSize(windowMgr.window, &_width, &_height);
         auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
 
-        //reflection cube render
+        //refraction
+        //cube
+        refractionShader.Use();
+        model = glm::translate(model, glm::vec3(-4.0f, -10.0f, 5.0f));
+        auto normalMatrix = glm::transpose(glm::inverse(model));
+        refractionShader.SetMat4("normal_matrix", normalMatrix);
+        refractionShader.SetVec3("cameraPos", camera.Position);
+        cubeWithNormal.BuiltInObjRender(refractionShader, model, view, projection, true, skyboxMgr.GetTexture(), GL_TEXTURE_CUBE_MAP);
+        model = glm::mat4(1.0f);
+        //nanosuit
+        refractionShader.Use();
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
+        normalMatrix = glm::transpose(glm::inverse(model));
+        refractionShader.SetMat4("normal_matrix", normalMatrix);
+        refractionShader.SetVec3("cameraPos", camera.Position);
+        refractionShader.SetMat4("model", model);
+        refractionShader.SetMat4("view", view);
+        refractionShader.SetMat4("projection", projection);
+        NanoSuit.Render(refractionShader);
+        model = glm::mat4(1.0f);
+        //
+
+        //reflection
+        //cube
         reflectionShader.Use();
-        glm::mat4 normalMatrix = glm::transpose(glm::inverse(model));
+        model = glm::translate(model, glm::vec3(4.0f, -10.0f, 5.0f));
+        normalMatrix = glm::transpose(glm::inverse(model));
         reflectionShader.SetMat4("normal_matrix", normalMatrix);
         reflectionShader.SetVec3("cameraPos", camera.Position);
-        cubeWithReflection.BuiltInObjRender(reflectionShader, model, view, projection, true, skyboxMgr.GetTexture(), GL_TEXTURE_CUBE_MAP);
+        cubeWithNormal.BuiltInObjRender(reflectionShader, model, view, projection, true, skyboxMgr.GetTexture(), GL_TEXTURE_CUBE_MAP);
+        model = glm::mat4(1.0f);
+        ////nanosuit
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(-4.0f, 0.0f, 0.0f));
+        normalMatrix = glm::transpose(glm::inverse(model));
+        reflectionShader.SetMat4("normal_matrix", normalMatrix);
+        reflectionShader.SetVec3("cameraPos", camera.Position);
+        reflectionShader.SetMat4("model", model);
+        reflectionShader.SetMat4("view", view);
+        reflectionShader.SetMat4("projection", projection);
+        NanoSuit.Render(reflectionShader);
+        model = glm::mat4(1.0f);
+        
+        //nanosuit_reflection
+        nanosuitReflShader.Use();
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -5.0f));
+        normalMatrix = glm::transpose(glm::inverse(model));
+        nanosuitReflShader.SetMat4("normal_matrix", normalMatrix);
+        nanosuitReflShader.SetVec3("cameraPos", camera.Position);
+        nanosuitReflShader.SetMat4("model", model);
+        nanosuitReflShader.SetMat4("view", view);
+        nanosuitReflShader.SetMat4("projection", projection);
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxMgr.GetTexture());
+        nanosuitReflShader.SetInt("skyboxTex", 4);
+        NanoSuitRefl.Render(nanosuitReflShader);
 
         //glEnable(GL_CULL_FACE);     //open Face culling
         //defaultShader.Use();

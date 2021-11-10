@@ -48,9 +48,9 @@ void BuiltInObject::BuiltInObjRender(GLShader& shader,
 	if (glTex == NULL)
 		glTex = GL_TEXTURE_2D;
 	glActiveTexture(GL_TEXTURE0);
-	glBindVertexArray(this->objVAO);
 	glBindTexture(glTex, tex);
-	//glBindTexture(GL_TEXTURE_2D, this->textureID);
+	glBindVertexArray(this->objVAO);
+
 	shader.SetMat4("model", model);
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
@@ -58,6 +58,7 @@ void BuiltInObject::BuiltInObjRender(GLShader& shader,
 		model = glm::mat4(1.0f);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+	glActiveTexture(GL_TEXTURE0);
 }
 
 

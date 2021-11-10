@@ -103,6 +103,7 @@ unsigned int SkyboxManager::LoadCubemap(std::vector<std::string> faces)
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
     for (size_t i = 0; i < faces.size(); i++)
     {
         unsigned char* data = stbi_load(faces.at(i).c_str(), &width, &height, &nrChannels, 0);

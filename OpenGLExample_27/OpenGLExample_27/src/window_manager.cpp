@@ -1,7 +1,7 @@
 #include "..\include\window_manager.h"
 
 //camera
-GLCamera camera(glm::vec3(0.0f, -3.0f, 10.0f));
+GLCamera camera(glm::vec3(0.0f, -8.0f, 20.0f));
 //static
 float WindowManager::lastX;
 float WindowManager::lastY;
