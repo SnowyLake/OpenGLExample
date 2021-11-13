@@ -5,7 +5,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
-#include<gl_camera.h>
+#include <gl_camera.h>
 
 //camera
 extern GLCamera camera;
@@ -15,7 +15,8 @@ class WindowManager
 public:
 	GLFWwindow* window;
 
-	WindowManager(const unsigned int& width, const unsigned int& height, const std::string& title, GLFWmonitor* monitor, GLFWwindow* share, const bool captureMouse);
+	WindowManager(const unsigned int& width, const unsigned int& height, 
+				  const std::string& title, GLFWmonitor* monitor, GLFWwindow* share, const bool captureMouse);
 	~WindowManager();
 
 	void SetCallback();
@@ -27,6 +28,7 @@ public:
 	std::string GetWindowTitle();
 
 private:
+	//GLCamera* cam;
 	unsigned int scrWidth;
 	unsigned int scrHeight;
 	std::string windowTitle;

@@ -1,20 +1,23 @@
 #include "..\include\window_manager.h"
 
-//camera
-GLCamera camera(glm::vec3(0.0f, -8.0f, 20.0f));
 //static
 float WindowManager::lastX;
 float WindowManager::lastY;
 bool WindowManager::firstMouse;
+
+//camera
+extern GLCamera camera;
 
 //---------------------------------------------------------------
 //public
 //---------------------------------------------------------------
 
 //init
-WindowManager::WindowManager(const unsigned int& width, const unsigned int& height, const std::string& title, GLFWmonitor* monitor, GLFWwindow* share, const bool captureMouse)
+WindowManager::WindowManager(const unsigned int& width, const unsigned int& height,
+							 const std::string& title, GLFWmonitor* monitor, GLFWwindow* share, const bool captureMouse)
 	:scrWidth(width), scrHeight(height), windowTitle(title)
 {
+	//cam = &camera;
 	//camera
 	this->lastX = static_cast<float>(width) / 2.0f;
 	this->lastY = static_cast<float>(height) / 2.0f;

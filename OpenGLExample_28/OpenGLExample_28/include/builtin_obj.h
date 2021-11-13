@@ -32,7 +32,9 @@ public:
 
 	void BuiltInObjRender(GLShader& shader, 
 						  glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, 
-						  bool whetherResetModelValue,  unsigned int tex = NULL, unsigned int glTex = NULL);
+						  bool whetherResetModelValue, unsigned int tex = NULL, unsigned int glTex = NULL);
+	void BuiltInObjRender(GLShader& shader, glm::mat4& model,
+						  bool whetherResetModelValue, unsigned int tex = NULL, unsigned int glTex = NULL);
 
 	void Delete();
 

@@ -56,7 +56,7 @@ public:
 		: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 	{
 		Position = glm::vec3(posX, posY, posZ);
-		Up = glm::vec3(upX, upY, upZ);
+		WorldUp = glm::vec3(upX, upY, upZ);
 		Yaw = yaw;
 		Pitch = pitch;
 		updateCameraVectors();
@@ -65,7 +65,7 @@ public:
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix()
 	{
-		return glm::lookAt(Position, Position + Front, Up);
+		return glm::lookAt(Position, Position + Front, WorldUp);
 	}
 
 	/* Processes input received from any keyboard-like input system. 
@@ -78,9 +78,9 @@ public:
 		if (direction == CM::BACKWARD)
 			Position -= Front * velocity;
 		if (direction == CM::RIGHT)
-			Position -= Right * velocity;
-		if (direction == CM::LEFT)
 			Position += Right * velocity;
+		if (direction == CM::LEFT)
+			Position -= Right * velocity;
 		if (direction == CM::RISE)
 			Position += Up * velocity;
 		if (direction == CM::FALL)
@@ -103,7 +103,7 @@ public:
 			if (Pitch > 89.0f)
 				Pitch = 89.0f;
 			if (Pitch < -89.0f)
-				Pitch = 89.0f;
+				Pitch = -89.0f;
 		}
 		//update Front, Right and Up Vectors using the updated Euler angles
 		updateCameraVectors();
@@ -131,7 +131,7 @@ private:
 		Front = glm::normalize(front);
 		//re-calculate the Right and Up vector
 		Right = glm::normalize(glm::cross(Front, WorldUp));
-		Up = glm::normalize(glm::cross(Front, Right));
+		Up = glm::normalize(glm::cross(Right, Front));
 	}
 };
 

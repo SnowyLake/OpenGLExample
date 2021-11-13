@@ -25,6 +25,8 @@
     <ClInclude Include="include\mesh.h" />
     <ClInclude Include="include\model.h" />
     <ClInclude Include="include\skybox_manager.h" />
+    <ClInclude Include="include\uniform_buffer_manager.h" />
+    <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\window_manager.h" />
     <ClInclude Include="shaders\post_process\post_process_shaders.h" />
   </ItemGroup>
@@ -38,7 +40,14 @@
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\skybox_manager.cpp" />
+    <ClCompile Include="src\uniform_buffer_manager.cpp" />
     <ClCompile Include="src\window_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\default.frag" />
+    <None Include="shaders\default.vert" />
+    <None Include="shaders\skybox.frag" />
+    <None Include="shaders\skybox.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

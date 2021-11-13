@@ -39,6 +39,12 @@
     <ClInclude Include="shaders\post_process\post_process_shaders.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\uniform_buffer_manager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\builtin_obj.cpp">
@@ -71,5 +77,22 @@
     <ClCompile Include="shaders\post_process\post_process_shaders.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\uniform_buffer_manager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\default.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shaders\default.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shaders\skybox.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shaders\skybox.vert">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

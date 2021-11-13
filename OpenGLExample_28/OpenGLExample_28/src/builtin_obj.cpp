@@ -47,18 +47,49 @@ void BuiltInObject::BuiltInObjRender(GLShader& shader,
 	}
 	if (glTex == NULL)
 		glTex = GL_TEXTURE_2D;
+
+	glBindVertexArray(this->objVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(glTex, tex);
-	glBindVertexArray(this->objVAO);
-
+	
 	shader.SetMat4("model", model);
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
 	if(whetherResetModelValue == true)
 		model = glm::mat4(1.0f);
+
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
+	
 	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(0);
+}
+
+void BuiltInObject::BuiltInObjRender(GLShader& shader, glm::mat4& model, bool whetherResetModelValue, unsigned int tex, unsigned int glTex)
+{
+	if (tex == NULL)
+	{
+		tex = this->textureID;
+		if (tex == NULL)
+		{
+			std::cout << "Texture does not exist." << std::endl;
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (glTex == NULL)
+		glTex = GL_TEXTURE_2D;
+
+	glBindVertexArray(this->objVAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(glTex, tex);
+
+	shader.SetMat4("model", model);
+	if (whetherResetModelValue == true)
+		model = glm::mat4(1.0f);
+
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(0);
 }
 
 
@@ -119,7 +150,7 @@ unsigned int BuiltInObject::LoadBuiltInObjectTexture(BIOType objType)
 	int width, height, nrComponents;
 	const char* path = BIOData::objTexturesPath.at(objType);
 
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 	if(data)
