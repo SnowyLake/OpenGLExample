@@ -2,10 +2,12 @@
 ![](https://img.shields.io/badge/License-MIT-write.svg)  ![](https://img.shields.io/badge/Language-C++-darkblue.svg)  ![](https://img.shields.io/badge/Language-GLSL-darkblue.svg) ![](https://img.shields.io/badge/IDE-Visual_Studio-purple.svg) ![](https://img.shields.io/badge/API-OpenGL_3.3-blue.svg)  
   [![](https://img.shields.io/badge/UI_Library-Dear_ImGui-orange.svg)](https://github.com/ocornut/imgui)  [![](https://img.shields.io/badge/API_Library-GLAD-yellow.svg)](https://github.com/Dav1dde/glad)  [![](https://img.shields.io/badge/API_Library-GLFW-yellow.svg)](https://www.glfw.org/download.html)  [![](https://img.shields.io/badge/Math_Library-GLM-yellow.svg)](https://glm.g-truc.net/0.9.8/index.html)  [![](https://img.shields.io/badge/Load_Library-stb__image-yellow.svg)](https://github.com/nothings/stb)  [![](https://img.shields.io/badge/Load_Library-Assimp-yellow.svg)](https://github.com/assimp/assimp)
 
-### *My OpenGL example programs, learn by [LearnOpenGL-CN](https://learnopengl-cn.github.io/).*
+#### *My OpenGL example programs, learn by [LearnOpenGL-CN](https://learnopengl-cn.github.io/).*
 
 ----
-#### Example_01 to Example_27 is developed using Visual Studio 2019.
+### Example Directory
+> **01 ~ 27** is developed using Visual Studio 2019
+> **28 ~ later** has been upgraded to Visual Studio 2022
 
 **Example_01:** Create  a window
 
@@ -68,7 +70,9 @@ test2: Create a camera that can move freely
 
 **Example_27:** Create reflection and refraction shaders, add reflection texture in nanosuit
 
-----
-#### The following example was upgraded to Visual Studio 2022.
-
 **Example_28:** Draw four cubes of different colors using UBO
+
+----
+## Notice or Warning
+- **warning:** Examples 15 to 26 have a serious bug in the GL_camera, which results in the wrong orientation, such as the y axis being down in the actual program.
+This bug was fixed in example 27 and the following examples, but it has not been fixed in 15 ~ 26. Although the screen is displayed normally through operations such as coordinate transformation and texture inversion, please carefully refer to the relevant code.
