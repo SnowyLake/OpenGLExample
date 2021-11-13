@@ -8,7 +8,7 @@
 
 
 ----
-## Example Directory
+## Examples Directory
 > **01 ~ 27** is developed using Visual Studio 2019   
 > **28 ~ later** has been upgraded to Visual Studio 2022
 
