@@ -9,32 +9,19 @@
 > **01 ~ 27** is developed using Visual Studio 2019   
 > **28 ~ later** has been upgraded to Visual Studio 2022
 
-**Example_01:** Create  a window
-
-**Example_02:** Draw a triangle 
-
-**Example_03:** Draw a rectangle
-
-**Example_04:** Draw two triangle
-
-**Example_05:** Draw two triangle,use different VAO and VBO for their data
-
-**Example_06:** Draw a yellow triangle and an orange triangle, use two shader programs, the second using a different fragment shader
-
-**Example_07:** Draw a red triangle that can change color
-
-**Example_08:** Draw a triangle has three colors
-
-**Example_09:** Draw a three colors triangle use shader class
-
-**Example_10:** Draw a wooden box with texture
-
-**Example_11:** Draw a wooden box with two textures
-
-**Example_12:** Draw a wooden box with two textures, and can use the up and down keys to change the textures visibility
-
-**Example_13:** Draw two wooden boxes with two textures, the first one rotates along X, Y and Z axes at the same time and can be moved by direction keys；The second one scales regularly in the upper right corner
-
+**Example_01:** Create  a window    
+**Example_02:** Draw a triangle     
+**Example_03:** Draw a rectangle    
+**Example_04:** Draw two triangle    
+**Example_05:** Draw two triangle,use different VAO and VBO for their data    
+**Example_06:** Draw a yellow triangle and an orange triangle, use two shader programs, the second using a different fragment shader    
+**Example_07:** Draw a red triangle that can change color    
+**Example_08:** Draw a triangle has three colors    
+**Example_09:** Draw a three colors triangle use shader class    
+**Example_10:** Draw a wooden box with texture    
+**Example_11:** Draw a wooden box with two textures    
+**Example_12:** Draw a wooden box with two textures, and can use the up and down keys to change the textures visibility    
+**Example_13:** Draw two wooden boxes with two textures, the first one rotates along X, Y and Z axes at the same time and can be moved by direction keys；The second one scales regularly in the upper right corner    
 **Example_14:** 
 >test1: Draw a 2D wooden box lying on the ground  
 test2: Draw a rotating 3D wooden box     
@@ -45,32 +32,19 @@ test4: Draw twenty 3D wooden boxes, and only the multiple of three wooden boxes 
 >test1: Create a camera that moves around the scene over time  
 test2: Create a camera that can move freely
 
-
-**Example_16:** Create a lighting scene
-
-**Example_17:** Phong Lighting Model
-
-**Example_18:** Phong Lighting Model, A moving point light source that can change color
-
-**Example_19:** Create a wooden box has diffuse map and specular map
-
-**Example_20:** Create a spotlight
-
-**Example_21:** Create a scene who has a directional light, four point lights and a spotlight 
-
-**Example_22:** Load a model with Assimp, and refactor the codes to be Object-Oriented
-
-**Example_23:** Depth Testing, refactor codes
-
-**Example_24:** Stencil Testing, use ```#pragma comment``` to link library
-
-**Example_25:** Blending and Face culling
-
-**Example_26:** Use Framebuffers and add PostProcessShaders Library
-
-**Example_27:** Create reflection and refraction shaders, add reflection texture in nanosuit
-
-**Example_28:** Draw four cubes of different colors using UBO
+**Example_16:** Create a lighting scene    
+**Example_17:** Phong Lighting Model    
+**Example_18:** Phong Lighting Model, A moving point light source that can change color    
+**Example_19:** Create a wooden box has diffuse map and specular map    
+**Example_20:** Create a spotlight    
+**Example_21:** Create a scene who has a directional light, four point lights and a spotlight     
+**Example_22:** Load a model with Assimp, and refactor the codes to be Object-Oriented    
+**Example_23:** Depth Testing, refactor codes    
+**Example_24:** Stencil Testing, use ```#pragma comment``` to link library    
+**Example_25:** Blending and Face culling    
+**Example_26:** Use Framebuffers and add PostProcessShaders Library    
+**Example_27:** Create reflection and refraction shaders, add reflection texture in nanosuit    
+**Example_28:** Draw four cubes of different colors using UBO    
 
 ----
 ## Notice or Warning
