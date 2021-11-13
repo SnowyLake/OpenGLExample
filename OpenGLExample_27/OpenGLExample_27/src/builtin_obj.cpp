@@ -119,7 +119,7 @@ unsigned int BuiltInObject::LoadBuiltInObjectTexture(BIOType objType)
 	int width, height, nrComponents;
 	const char* path = BIOData::objTexturesPath.at(objType);
 
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 	if(data)
