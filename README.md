@@ -6,8 +6,7 @@
 
 ----
 ### Example Directory
-> **01 ~ 27** is developed using Visual Studio 2019
-> 
+> **01 ~ 27** is developed using Visual Studio 2019   
 > **28 ~ later** has been upgraded to Visual Studio 2022
 
 **Example_01:** Create  a window
@@ -75,6 +74,5 @@ test2: Create a camera that can move freely
 
 ----
 ## Notice or Warning
-- **warning:** Examples 15 to 26 have a serious bug in the GL_camera, which results in the wrong orientation, such as the y axis being down in the actual program.
-
+- **warning:** Examples 15 to 26 have a serious bug in the GL_camera, which results in the wrong orientation, such as the y axis being down in the actual program.   
 This bug was fixed in example 27 and the following examples, but it has not been fixed in 15 ~ 26. Although the screen is displayed normally through operations such as coordinate transformation and texture inversion, please carefully refer to the relevant code.
