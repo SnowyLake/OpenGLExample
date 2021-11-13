@@ -3,7 +3,7 @@
   [![](https://img.shields.io/badge/UI_Library-Dear_ImGui-orange.svg)](https://github.com/ocornut/imgui)  [![](https://img.shields.io/badge/API_Library-GLAD-yellow.svg)](https://github.com/Dav1dde/glad)  [![](https://img.shields.io/badge/API_Library-GLFW-yellow.svg)](https://www.glfw.org/download.html)  [![](https://img.shields.io/badge/Math_Library-GLM-yellow.svg)](https://glm.g-truc.net/0.9.8/index.html)  [![](https://img.shields.io/badge/Load_Library-stb__image-yellow.svg)](https://github.com/nothings/stb)  [![](https://img.shields.io/badge/Load_Library-Assimp-yellow.svg)](https://github.com/assimp/assimp)
 
 #### 我在学习 [LearnOpenGL-CN](https://learnopengl-cn.github.io/) 的过程中编写的一些示例程序.      
- [中文](README-zh.md)      
+- [中文](README-zh.md)      
 - [English](README.md)
 
 ----
