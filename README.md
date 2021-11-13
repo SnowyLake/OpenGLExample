@@ -38,8 +38,8 @@ test2: Create a camera that can move freely
 **Example_19:** Create a wooden box has diffuse map and specular map    
 **Example_20:** Create a spotlight    
 **Example_21:** Create a scene who has a directional light, four point lights and a spotlight     
-**Example_22:** Load a model with Assimp, and refactor the codes to be Object-Oriented    
-**Example_23:** Depth Testing, refactor codes    
+**Example_22:** Load a nanosuit model with Assimp, and refactor the codes to be Object-Oriented    
+**Example_23:** Depth Testing, refactor some codes    
 **Example_24:** Stencil Testing, use ```#pragma comment``` to link library    
 **Example_25:** Blending and Face culling    
 **Example_26:** Use Framebuffers and add PostProcessShaders Library    
@@ -48,5 +48,5 @@ test2: Create a camera that can move freely
 
 ----
 ## Notice or Warning
-- **warning:** Examples 15 to 26 have a serious bug in the GL_camera, which results in the wrong orientation, such as the y axis being down in the actual program.   
+- **warning:** Examples 15 to 26 have a serious bug in the gl_camera.h, which results in the wrong orientation, such as the y axis being down in the actual program.   
 This bug was fixed in example 27 and the following examples, but it has not been fixed in 15 ~ 26. Although the screen is displayed normally through operations such as coordinate transformation and texture inversion, please carefully refer to the relevant code.
