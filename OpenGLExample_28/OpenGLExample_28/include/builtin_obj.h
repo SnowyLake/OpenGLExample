@@ -27,8 +27,8 @@ class BuiltInObject
 public:
 	BuiltInObject(BIOType objType);
 	~BuiltInObject();
-	unsigned int GetTexture();
-	unsigned int GetVAO();
+	unsigned int GetTexture() const;
+	unsigned int GetVAO() const;
 
 	void BuiltInObjRender(GLShader& shader, 
 						  glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, 

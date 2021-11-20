@@ -19,8 +19,8 @@ public:
 	SkyboxManager(std::vector<std::string> faces);
 	~SkyboxManager();
 
-	unsigned int GetTexture();
-	unsigned int GetVAO();
+	unsigned int GetTexture() const;
+	unsigned int GetVAO() const;
 
 	void Rneder(GLShader shader, const glm::mat4 view, const glm::mat4 projection);
 	void Delete();

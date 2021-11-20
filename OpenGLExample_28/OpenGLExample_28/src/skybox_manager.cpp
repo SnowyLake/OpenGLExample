@@ -55,12 +55,12 @@ SkyboxManager::SkyboxManager(std::vector<std::string> faces)
 SkyboxManager::~SkyboxManager()
 {}
 
-unsigned int SkyboxManager::GetTexture()
+unsigned int SkyboxManager::GetTexture() const
 {
     return this->cubemapTexID;
 }
 
-unsigned int SkyboxManager::GetVAO()
+unsigned int SkyboxManager::GetVAO() const
 {
     return this->skyboxVAO;
 }

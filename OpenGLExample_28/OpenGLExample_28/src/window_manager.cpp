@@ -64,9 +64,9 @@ void WindowManager::Show(unsigned int xPos, unsigned int yPos)
 	glfwShowWindow(this->window);
 }
 
-unsigned int WindowManager::GetScrWidth() { return scrWidth; }
-unsigned int WindowManager::GetScrHeight() { return scrHeight; }
-std::string WindowManager::GetWindowTitle() { return windowTitle; }
+unsigned int WindowManager::GetScrWidth() const { return scrWidth; }
+unsigned int WindowManager::GetScrHeight() const { return scrHeight; }
+std::string WindowManager::GetWindowTitle() const { return windowTitle; }
 
 //---------------------------------------------------------------
 //private

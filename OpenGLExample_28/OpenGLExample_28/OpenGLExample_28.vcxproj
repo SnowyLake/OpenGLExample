@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OpenGLEnvironment\include\gl_camera.h" />
+    <ClInclude Include="..\OpenGLEnvironment\include\gl_shader.h" />
     <ClInclude Include="include\builtin_obj.h" />
     <ClInclude Include="include\builtin_obj_data.h" />
     <ClInclude Include="include\framebuffers_manager.h" />

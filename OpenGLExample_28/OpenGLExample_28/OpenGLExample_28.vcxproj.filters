@@ -45,6 +45,12 @@
     <ClInclude Include="include\utility.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\OpenGLEnvironment\include\gl_camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGLEnvironment\include\gl_shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\builtin_obj.cpp">

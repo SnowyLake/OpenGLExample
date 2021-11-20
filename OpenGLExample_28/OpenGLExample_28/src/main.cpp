@@ -82,10 +82,10 @@ int main()
 		UniformBlockBind(i.second, "Matrices", BINDING_POINT_0);
 	}
 
-	skyboxShader.Use();
-	skyboxShader.SetInt("skyboxTex", 0);
-	screenShader.Use();
-	screenShader.SetInt("screenTex", 0);
+	skyboxShader.Use()
+		.SetInt("skyboxTex", 0);
+	screenShader.Use()
+		.SetInt("screenTex", 0);
 
 	//create UBO
 	UniformBufferManager UBO(2 * sizeof(glm::mat4));
@@ -100,6 +100,7 @@ int main()
 	BuiltInObject cube(BIOType::OBJ_CUBE);
 
 	//create skybox
+	//-------------
 	SkyboxManager skyboxMgr(faces);
 
 	//draw as wireframe
@@ -132,19 +133,19 @@ int main()
 		//draw four cubes
 		//red
 		shaders.at("red").Use();
-		model = glm::translate(model, glm::vec3(-0.75f, 0.75f, 0.0f)); // move top-left
+		model = glm::translate(model, glm::vec3(-0.75f, 0.75f, 0.0f));	//move top-left
 		cube.BuiltInObjRender(shaders.at("red"), model, true);
 		//green
 		shaders.at("green").Use();
-		model = glm::translate(model, glm::vec3(0.75f, 0.75f, 0.0f)); // move top-left
+		model = glm::translate(model, glm::vec3(0.75f, 0.75f, 0.0f));	//move top-left
 		cube.BuiltInObjRender(shaders.at("green"), model, true);
 		//blue
 		shaders.at("blue").Use();
-		model = glm::translate(model, glm::vec3(-0.75f, -0.75f, 0.0f)); // move top-left
+		model = glm::translate(model, glm::vec3(-0.75f, -0.75f, 0.0f));	//move top-left
 		cube.BuiltInObjRender(shaders.at("blue"), model, true);
 		//yellow
 		shaders.at("yellow").Use();
-		model = glm::translate(model, glm::vec3(0.75f, -0.75f, 0.0f)); // move top-left
+		model = glm::translate(model, glm::vec3(0.75f, -0.75f, 0.0f));	//move top-left
 		cube.BuiltInObjRender(shaders.at("yellow"), model, true);
 		
 		//glEnable(GL_CULL_FACE);     //open Face culling

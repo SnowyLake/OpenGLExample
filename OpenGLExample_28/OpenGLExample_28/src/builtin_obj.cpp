@@ -22,12 +22,12 @@ BuiltInObject::BuiltInObject(BIOType objType)
 BuiltInObject::~BuiltInObject() 
 {}
 
-unsigned int BuiltInObject::GetTexture()
+unsigned int BuiltInObject::GetTexture() const
 {
 	return this->textureID;
 }
 
-unsigned int BuiltInObject::GetVAO()
+unsigned int BuiltInObject::GetVAO() const
 {
 	return this->objVAO;
 }
@@ -52,9 +52,10 @@ void BuiltInObject::BuiltInObjRender(GLShader& shader,
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(glTex, tex);
 	
-	shader.SetMat4("model", model);
-	shader.SetMat4("view", view);
-	shader.SetMat4("projection", projection);
+	shader.SetMat4("model", model)
+		.SetMat4("view", view)
+		.SetMat4("projection", projection);
+
 	if(whetherResetModelValue == true)
 		model = glm::mat4(1.0f);
 
