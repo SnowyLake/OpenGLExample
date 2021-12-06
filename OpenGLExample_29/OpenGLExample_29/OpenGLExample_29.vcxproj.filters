@@ -51,7 +51,7 @@
     <ClInclude Include="src\geometry.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource_manager.h">
+    <ClInclude Include="src\resource_manager.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\texture.hpp">
@@ -86,13 +86,10 @@
     <ClCompile Include="3rd_party\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\geometry.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\resource_manager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

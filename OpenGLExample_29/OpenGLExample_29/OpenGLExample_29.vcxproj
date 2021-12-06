@@ -154,7 +154,7 @@
     <ClInclude Include="src\gl_shader.h" />
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
-    <ClInclude Include="src\resource_manager.h" />
+    <ClInclude Include="src\resource_manager.hpp" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\skybox_manager.h" />
     <ClInclude Include="src\texture.hpp" />
@@ -169,7 +169,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
-    <ClCompile Include="src\resource_manager.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\skybox_manager.cpp" />
     <ClCompile Include="src\uniform_buffer_manager.cpp" />

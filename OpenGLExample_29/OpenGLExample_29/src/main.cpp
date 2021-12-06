@@ -14,11 +14,14 @@
 #include "gl_camera.h"
 #include "utility.hpp"
 #include "model.h"
+#include "texture.hpp"
 #include "window_manager.h"
 #include "skybox_manager.h"
-#include "resource_manager.h"
+
+#include "resource_manager.hpp"
 #include "framebuffers_manager.h"
 #include "uniform_buffer_manager.h"
+#include "geometry.h"
 
 #include "../res/builtin/shaders/post_process/post_process_shaders.hpp"
 
@@ -36,7 +39,7 @@ const char* EXAMPLE_NAME = "Geometry Shader";
 GLCamera camera(glm::vec3(0.0f, 0.0f, 10.0f));
 
 //skybox
-std::vector<std::string> faces = {
+std::vector<const char*> skyboxTexs = {
 	"res/builtin/textures/skybox/right.jpg",
 	"res/builtin/textures/skybox/left.jpg",
 	"res/builtin/textures/skybox/top.jpg",
@@ -60,9 +63,12 @@ int main()
 	auto& resMgr = ResourceMananger::GetInstance();
 	auto& skyboxShader = resMgr.LoadShader("res/builtin/shaders/skybox.vert", "res/builtin/shaders/skybox.frag", nullptr, "skybox");
 	auto& screenDefaultShader = resMgr.LoadShader(PostProcessShaders::DefaultVert, PostProcessShaders::DefaultFrag, nullptr, "postproc");
-
+	auto& defaultShader = resMgr.LoadShader("res/builtin/shaders/default.vert", "res/builtin/shaders/default.frag", nullptr, "default");
 	//shader config
 	//-------------
+	UniformBlockBind(defaultShader, "Matrices", BINDING_POINT_0);
+	defaultShader.Use()
+		.SetInt("texture1", 0);
 	skyboxShader.Use()
 		.SetInt("skyboxTex", 0);
 	screenDefaultShader.Use()
@@ -71,15 +77,17 @@ int main()
 	//create UBO
 	//----------
 	UniformBufferManager UBO(2 * sizeof(glm::mat4));
-	
+	UBO.BindPoint(BINDING_POINT_0);
+	auto [_width, _height] = GetFramebufferSize(windowMgr.GetWindow());
+	auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
+	UBO.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
 	//create scene objects
 	//--------------------
-	//BuiltInObject cube(BIOType::OBJ_CUBE);
-
+	Geometry cube(BIGType::CUBE);
+	cube.SetTexture(BITType::CONTAINER);
 	//create skybox
 	//-------------
-	SkyboxManager skyboxMgr(faces);
-
+	Skybox skybox(resMgr.LoadTexture(skyboxTexs, "skybox"));
 	//draw as wireframe
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -118,10 +126,12 @@ int main()
 		auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 		UBO.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
 
+		defaultShader.Use().SetMat4("model", model);
+		cube.Render(defaultShader);
 		//skybox render
 		glDepthFunc(GL_LEQUAL);
 		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-		skyboxMgr.Render(skyboxShader, view, projection);
+		skybox.Render(skyboxShader, view, projection);
 		glDepthFunc(GL_LESS);
 
 		//bind back to default framebuffer
@@ -141,7 +151,7 @@ int main()
 	//cube.Delete();
 	DefaultSpace.Delete();
 	PostProcSpace.Delete();
-	skyboxMgr.Delete();
+	skybox.Delete();
 	windowMgr.Delete();
 
 	return 0;

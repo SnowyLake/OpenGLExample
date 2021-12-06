@@ -3,12 +3,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "gl_shader.h"
+#include "shader.h"
 
 //将shader的指定Uniform块绑定到某一绑定点上
-inline void UniformBlockBind(GLShader shader, const char* blockName, unsigned int bindingPoint)
+inline void UniformBlockBind(Shader shader, const char* blockName, unsigned int bindingPoint)
 {
-	glUniformBlockBinding(shader.ID, glGetUniformBlockIndex(shader.ID, blockName), bindingPoint);
+	glUniformBlockBinding(shader.GetID(), glGetUniformBlockIndex(shader.GetID(), blockName), bindingPoint);
 }
 
 //获取指定窗口的帧缓冲尺寸

@@ -13,8 +13,6 @@
 #pragma once
 #include <map>
 #include <vector>
-#include <string>
-
 using BIGType = enum class BuiltInGeometryType
 {
 	CUBE,
@@ -23,12 +21,17 @@ using BIGType = enum class BuiltInGeometryType
 	WINDOW,
 	CUBE_WITH_NORMAL
 };
-using BIGVecParm = struct BuiltInGeometryVertexParameter
+using BIGData = struct BuiltInGeometryData
 {
-	bool TexCoord;
-	bool Normal;
+	bool texCoord;
+	bool normal;
+	std::vector<float> vertices;
+
+	/*BuiltInGeometryData(bool t, bool n, const std::vector<float>& v)
+		:texCoord(t), normal(n), vertices(v)
+	{}*/
 };
-using BITList = enum class BuiltInTextureList
+using BITType = enum class BuiltInTextureType
 {
 	CONTAINER,
 	MARBLE,
@@ -36,51 +39,51 @@ using BITList = enum class BuiltInTextureList
 	GRASS,
 	WINDOW_TRANSPARENT
 };
-using BIGVecType		= std::map<BIGType, std::vector<float>>;
-//using BIGVecIdxType	= std::map<BIGType, std::vector<float>>;	//indices about builtin Geometries, use with EBO, unfinished
-using BIGVecParmType	= std::map<BIGType, BIGVecParm>;
-using BITPathType		= std::map<BITList, const char*>;
+#define BITPath const char*
+
+using BIGListType = std::map<BIGType, BIGData>;
+using BITListType = std::map<BITType, BITPath>;
 
 using BIData = struct BuiltInData
 {
 	BuiltInData() = delete;
 public:
-	static const BITPathType	s_texturesPath;
-	static const BIGVecType     s_vectices;
-	static const BIGVecParmType s_parameters;
+	static const BIGListType Geometries;
+	static BITListType Textures;
+
 private:
 	//tex path
-	static const std::string containerTexPath;
-	static const std::string marbleTexPath;
-	static const std::string metalTexPath;
-	static const std::string grassTexPath;
-	static const std::string transparentWindowTexPath;
+	static BITPath ContainerTexPath;
+	static BITPath MarbleTexPath;
+	static BITPath MetalTexPath;
+	static BITPath GrassTexPath;
+	static BITPath TransparentWindowTexPath;
 
-	//vertices
-	static const std::vector<float> cubeVertices;
-	static const std::vector<float> planeVertices;
-	static const std::vector<float> vegetationVertices;
-	static const std::vector<float> windowVertices;
-	static const std::vector<float> cubeWithNormalVertices;
+	static const std::vector<float> CubeVertices;
+	static const std::vector<float> PlaneVertices;
+	static const std::vector<float> VegetationVertices;
+	static const std::vector<float> WindowVertices;
+	static const std::vector<float> CubeWithNormalVertices;
 
-	//Parameter
-	static const BIGVecParm cubeParm;
-	static const BIGVecParm planeParm;
-	static const BIGVecParm vegetationParm;
-	static const BIGVecParm windowParm;
-	static const BIGVecParm cubeWithNormalParm;
+	static const BIGData Cube;
+	static const BIGData Plane;
+	static const BIGData Vegetation;
+	static const BIGData Window;
+	static const BIGData CubeWithNormal;
 };
 
 //---------------------------------------------------------------
 //private
 //---------------------------------------------------------------
-inline const std::string BIData::containerTexPath				= "res/builtin/textures/others/container.jpg";
-inline const std::string BIData::marbleTexPath					= "res/builtin/textures/others/marble.png";
-inline const std::string BIData::metalTexPath					= "res/builtin/textures/others/metal.png";
-inline const std::string BIData::grassTexPath					= "res/builtin/textures/others/grass.png";
-inline const std::string BIData::transparentWindowTexPath		= "res/builtin/textures/others/blending_transparent_window.png";
+inline BITPath BIData::ContainerTexPath				= "res/builtin/textures/others/container.jpg";
+inline BITPath BIData::MarbleTexPath				= "res/builtin/textures/others/marble.png";
+inline BITPath BIData::MetalTexPath					= "res/builtin/textures/others/metal.png";
+inline BITPath BIData::GrassTexPath					= "res/builtin/textures/others/grass.png";
+inline BITPath BIData::TransparentWindowTexPath		= "res/builtin/textures/others/blending_transparent_window.png";
 
-inline const std::vector<float> BIData::cubeVertices = {
+
+
+inline const std::vector<float> BIData::CubeVertices = {
 	//positions           //texture Coords
 	 // Back face
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom-left
@@ -125,7 +128,7 @@ inline const std::vector<float> BIData::cubeVertices = {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f  // bottom-left      
 };
-inline const std::vector<float> BIData::planeVertices = {
+inline const std::vector<float> BIData::PlaneVertices = {
 	//positions           //texture Coords
 	 5.0f, -0.5f,  5.0f,  1.0f, 0.0f,
 	-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
@@ -135,7 +138,7 @@ inline const std::vector<float> BIData::planeVertices = {
 	-5.0f, -0.5f, -5.0f,  0.0f, 1.0f,
 	 5.0f, -0.5f, -5.0f,  1.0f, 1.0f
 };
-inline const std::vector<float> BIData::vegetationVertices = {
+inline const std::vector<float> BIData::VegetationVertices = {
 	//positions         //texture Coords (swapped y coordinates because texture is flipped upside down)
 	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,
 	-0.5f, -0.5f,  0.5f,  0.0f,  1.0f,
@@ -145,7 +148,7 @@ inline const std::vector<float> BIData::vegetationVertices = {
 	 0.5f, -0.5f, -0.5f,  1.0f,  1.0f,
 	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f
 };
-inline const std::vector<float> BIData::windowVertices = {
+inline const std::vector<float> BIData::WindowVertices = {
 	//positions         //texture Coords (swapped y coordinates because texture is flipped upside down)
 	0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
 	0.0f, -0.5f,  0.0f,  0.0f,  1.0f,
@@ -155,7 +158,7 @@ inline const std::vector<float> BIData::windowVertices = {
 	1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
 	1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 };
-inline const std::vector<float> BIData::cubeWithNormalVertices = {
+inline const std::vector<float> BIData::CubeWithNormalVertices = {
 	//positions         //normal
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -200,38 +203,47 @@ inline const std::vector<float> BIData::cubeWithNormalVertices = {
 	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
-
-inline const BIGVecParm BIData::cubeParm				= {true	, false};
-inline const BIGVecParm BIData::planeParm				= {true	, false};
-inline const BIGVecParm BIData::vegetationParm			= {true	, false};
-inline const BIGVecParm BIData::windowParm				= {true	, false};
-inline const BIGVecParm BIData::cubeWithNormalParm		= {false, true };
-
+inline const BuiltInGeometryData BIData::Cube
+{
+	true, false,
+	BIData::CubeVertices
+};
+inline const BIGData BIData::Plane
+{
+	true, false,
+	BIData::PlaneVertices
+};
+inline const BIGData BIData::Vegetation
+{
+	true, false,
+	BIData::VegetationVertices
+};
+inline const BIGData BIData::Window
+{
+	true, false,
+	BIData::WindowVertices
+};
+inline const BIGData BIData::CubeWithNormal
+{
+	false, true,
+	BIData::CubeWithNormalVertices
+};
 //---------------------------------------------------------------
 //public
 //---------------------------------------------------------------
 
-inline const BIGVecType		BIData::s_vectices = {
-	{BIGType::CUBE,                 BIData::cubeVertices},
-	{BIGType::PLANE,                BIData::planeVertices},
-	{BIGType::VEGETATION,           BIData::vegetationVertices},
-	{BIGType::WINDOW,               BIData::windowVertices},
-	{BIGType::CUBE_WITH_NORMAL,     BIData::cubeWithNormalVertices}
+inline const BIGListType BIData::Geometries = {
+	{BIGType::CUBE,					BIData::Cube},
+	{BIGType::PLANE,				BIData::Plane},
+	{BIGType::VEGETATION,			BIData::Vegetation},
+	{BIGType::WINDOW,				BIData::Window},
+	{BIGType::CUBE_WITH_NORMAL,		BIData::CubeWithNormal}
 };
-
-inline const BIGVecParmType BIData::s_parameters = {
-	{BIGType::CUBE,					BIData::cubeParm},
-	{BIGType::PLANE,				BIData::planeParm},
-	{BIGType::VEGETATION,			BIData::vegetationParm},
-	{BIGType::WINDOW,				BIData::windowParm},
-	{BIGType::CUBE_WITH_NORMAL,		BIData::cubeWithNormalParm}
-};
-
-inline const BITPathType	BIData::s_texturesPath = {
-	{BITList::CONTAINER,			BIData::containerTexPath.c_str()},
-	{BITList::MARBLE,				BIData::marbleTexPath.c_str()},
-	{BITList::METAL,				BIData::metalTexPath.c_str()},
-	{BITList::GRASS,				BIData::grassTexPath.c_str()},
-	{BITList::WINDOW_TRANSPARENT,	BIData::transparentWindowTexPath.c_str()}
+inline BITListType BIData::Textures  = {
+	{BITType::CONTAINER,			BIData::ContainerTexPath},
+	{BITType::MARBLE,				BIData::MarbleTexPath},
+	{BITType::METAL,				BIData::MetalTexPath},
+	{BITType::GRASS,				BIData::GrassTexPath},
+	{BITType::WINDOW_TRANSPARENT,	BIData::TransparentWindowTexPath}
 };
 
