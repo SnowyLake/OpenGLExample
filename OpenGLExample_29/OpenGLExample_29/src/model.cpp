@@ -48,11 +48,11 @@ Model::Model(const std::string& path, bool gamma) :gammaCorrection(gamma)
     LoadModel(path);
 }
 
-void Model::Render(GLShader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue)
+void Model::Render(Shader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue)
 {
-    shader.SetMat4("model", model);
-    shader.SetMat4("view", view);
-    shader.SetMat4("projection", projection);
+    shader.SetMat4("model", model)
+        .SetMat4("view", view)
+        .SetMat4("projection", projection);
 
     for (size_t i = 0; i < meshes.size(); i++)
     {

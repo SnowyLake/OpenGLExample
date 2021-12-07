@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "gl_shader.h"
+#include "shader.h"
 
 struct Vertex
 {
@@ -37,7 +37,7 @@ public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<_Texture> textures);
 
 	//render the mesh
-	void Render(GLShader& shader);
+	void Render(Shader& shader);
 
 private:
 	//render data

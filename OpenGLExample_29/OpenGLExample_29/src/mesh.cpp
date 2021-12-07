@@ -12,7 +12,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 }
 
 //render the mesh
-void Mesh::Render(GLShader& shader)
+void Mesh::Render(Shader& shader)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
@@ -34,8 +34,8 @@ void Mesh::Render(GLShader& shader)
 			number = std::to_string(reflectionNr++);
 
 		//set and bind texture
-		shader.Use();
-		shader.SetInt(("material." + name + number).c_str(), i);
+		shader.Use()
+			.SetInt(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	

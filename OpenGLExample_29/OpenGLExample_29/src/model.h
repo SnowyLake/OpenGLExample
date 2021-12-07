@@ -14,7 +14,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "gl_shader.h"
+#include "shader.h"
 #include "Mesh.h"
 
 
@@ -38,7 +38,7 @@ public:
 	Model(const std::string& path, bool gamma = false);
 
 	//darws the model
-	void Render(GLShader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue);
+	void Render(Shader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue);
 
 private:
 	/*loads a model with supported Assimp extensions from file

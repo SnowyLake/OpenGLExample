@@ -103,8 +103,8 @@ int main()
 		//----------------------------------------------------------------
 		
 		//clear all relevant buffers
-		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+		//glClear(GL_COLOR_BUFFER_BIT);
 
 		defaultSpace.Render(screenDefaultShader);
 
