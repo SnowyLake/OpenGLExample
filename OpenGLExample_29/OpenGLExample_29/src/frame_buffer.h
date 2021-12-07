@@ -25,11 +25,11 @@ struct Quad
 	}
 
 };
-class FramebuffersManager
+class FrameBuffer
 {
 public:
-	FramebuffersManager(GLFWwindow* window);
-	~FramebuffersManager();
+	FrameBuffer(GLFWwindow* window);
+	~FrameBuffer();
 
 	void CreateScreenQuad(unsigned int quadNum);
 

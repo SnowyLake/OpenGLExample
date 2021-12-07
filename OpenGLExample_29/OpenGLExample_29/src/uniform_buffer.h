@@ -6,11 +6,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class UniformBufferManager
+class UniformBuffer
 {
 public:
-	UniformBufferManager(GLsizeiptr size, const GLvoid* data = nullptr);
-	~UniformBufferManager();
+	UniformBuffer(GLsizeiptr size, const GLvoid* data = nullptr);
+	~UniformBuffer();
 
 	void Bind();
 	void UnBind();

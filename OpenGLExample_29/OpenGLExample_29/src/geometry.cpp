@@ -23,11 +23,11 @@ Geometry::~Geometry()
 {}
 
 void Geometry::Render(Shader& shader,
-					  bool whetherUseTexture/* = true*/,
-					  int glDrawMode/* = GL_TRIANGLES*/,
+					  bool  whetherUseTexture/* = true*/,
+					  int   glDrawMode/* = GL_TRIANGLES*/,
 					  float pixelSize/* = 1.0f*/,
-					  std::optional<uint>tex/* =std::nullopt */,
-					  std::optional<uint>glTex/* =std::nullopt */)
+					  std::optional<uint> tex/* =std::nullopt */,
+					  std::optional<uint> glTex/* =std::nullopt */)
 {
 	if (whetherUseTexture)
 	{
@@ -60,16 +60,16 @@ void Geometry::Render(Shader& shader,
 	glBindVertexArray(0);
 }
 
-inline void Geometry::Delete()
+void Geometry::Delete()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 	glDeleteBuffers(1, &m_EBO);
 }
 
-inline unsigned int Geometry::GetVAO() const 
+unsigned int Geometry::GetVAO() const 
 { return m_VAO; }
-inline const Geometry::GeomTexType& Geometry::GetTexture() const
+const Geometry::GeomTexType& Geometry::GetTexture() const
 { return m_texture; }
 
 void Geometry::SetTexture(const Texture<TextureType::_2D>& tex)

@@ -1,4 +1,4 @@
-#include "framebuffers_manager.h"
+#include "frame_buffer.h"
 
 //screen quad
 std::vector<float> Quad::quadVertices = {  //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
@@ -12,7 +12,7 @@ std::vector<float> Quad::quadVertices = {  //vertex attributes for a quad that f
         1.0f,  1.0f,  1.0f, 1.0f
 };
 
-FramebuffersManager::FramebuffersManager(GLFWwindow* window)
+FrameBuffer::FrameBuffer(GLFWwindow* window)
 {
     glGenFramebuffers(1, &m_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
@@ -25,10 +25,10 @@ FramebuffersManager::FramebuffersManager(GLFWwindow* window)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-FramebuffersManager::~FramebuffersManager()
+FrameBuffer::~FrameBuffer()
 {}
 
-void FramebuffersManager::CreateScreenQuad(unsigned int quadNum)
+void FrameBuffer::CreateScreenQuad(unsigned int quadNum)
 {
     unsigned int quadVAO;
     unsigned int quadVBO;
@@ -55,17 +55,19 @@ void FramebuffersManager::CreateScreenQuad(unsigned int quadNum)
         m_whetherCreateScreenQuad = true;
 }
 
-void FramebuffersManager::Bind()
+void FrameBuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+    glEnable(GL_DEPTH_TEST);
 }
 
-void FramebuffersManager::UnBind()
+void FrameBuffer::UnBind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_DEPTH_TEST);
 }
 
-void FramebuffersManager::Render(Shader shader, unsigned int num, const glm::mat4 transform)
+void FrameBuffer::Render(Shader shader, unsigned int num, const glm::mat4 transform)
 {
     shader.Use();
     shader.SetMat4("transform", transform);
@@ -74,12 +76,12 @@ void FramebuffersManager::Render(Shader shader, unsigned int num, const glm::mat
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-unsigned int FramebuffersManager::GetTexColorBuffer()const
+unsigned int FrameBuffer::GetTexColorBuffer()const
 {
     return m_texColorbuffer;
 }
 
-void FramebuffersManager::Delete()
+void FrameBuffer::Delete()
 {
     if (m_whetherCreateScreenQuad)
     {
@@ -95,7 +97,7 @@ void FramebuffersManager::Delete()
 }
 
 //create a color attachment texture
-void FramebuffersManager::SetTexColorBuffer(unsigned int width, unsigned int height)
+void FrameBuffer::SetTexColorBuffer(unsigned int width, unsigned int height)
 {
     glGenTextures(1, &m_texColorbuffer);
     glBindTexture(GL_TEXTURE_2D, m_texColorbuffer);
@@ -106,7 +108,7 @@ void FramebuffersManager::SetTexColorBuffer(unsigned int width, unsigned int hei
 }
 
 //create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
-void FramebuffersManager::SetRBO(unsigned int width, unsigned int height)
+void FrameBuffer::SetRBO(unsigned int width, unsigned int height)
 {
     glGenRenderbuffers(1, &m_RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);

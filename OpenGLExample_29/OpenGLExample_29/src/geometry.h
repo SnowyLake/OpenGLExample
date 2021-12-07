@@ -38,11 +38,11 @@ public:
 	Geometry& operator=(const Geometry&) = delete;
 
 	void Render(Shader& shader,
-				bool whetherUseTexture = true,
-				int glDrawMode = GL_TRIANGLES, 
+				bool  whetherUseTexture = true,
+				int   glDrawMode = GL_TRIANGLES, 
 				float pixelSize = 1.0f,
-				std::optional<uint>tex = std::nullopt, 
-				std::optional<uint>gltex = std::nullopt);
+				std::optional<uint> tex = std::nullopt, 
+				std::optional<uint> gltex = std::nullopt);
 	void Delete();
 
 	unsigned int GetVAO() const;

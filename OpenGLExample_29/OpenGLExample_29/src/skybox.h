@@ -12,7 +12,6 @@
 
 #include "shader.h"
 #include "texture.hpp"
-
 class Skybox
 {
 public:
@@ -26,11 +25,12 @@ public:
 	void Delete();
 
 private:
-	Texture<TextureType::_CUBE_MAP> m_texture;
 	unsigned int m_VAO;
 	unsigned int m_VBO;
+
+	Texture<TextureType::_CUBE_MAP> m_texture;
+	
 	static std::vector<float> skyboxVertices;
 
 	void SetVAOandBuffers();
-	//unsigned int LoadCubemap(std::vector<std::string> faces);
 };

@@ -12,16 +12,18 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "gl_camera.h"
-#include "utility.hpp"
-#include "model.h"
-#include "texture.hpp"
+
 #include "window_manager.h"
-#include "skybox_manager.h"
+
+#include "geometry.h"
+#include "model.h"
+#include "skybox.h"
+
+#include "frame_buffer.h"
+#include "uniform_buffer.h"
 
 #include "resource_manager.hpp"
-#include "framebuffers_manager.h"
-#include "uniform_buffer_manager.h"
-#include "geometry.h"
+#include "utility.hpp"
 
 #include "../res/builtin/shaders/post_process/post_process_shaders.hpp"
 
@@ -76,7 +78,7 @@ int main()
 
 	//create UBO
 	//----------
-	UniformBufferManager UBO(2 * sizeof(glm::mat4));
+	UniformBuffer UBO(2 * sizeof(glm::mat4));
 	UBO.BindPoint(BINDING_POINT_0);
 	auto [_width, _height] = GetFramebufferSize(windowMgr.GetWindow());
 	auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
@@ -95,9 +97,9 @@ int main()
 
 	//create framebuffers
 	//----------------
-	FramebuffersManager DefaultSpace(windowMgr.GetWindow());
+	FrameBuffer DefaultSpace(windowMgr.GetWindow());
 	DefaultSpace.CreateScreenQuad(1);
-	FramebuffersManager PostProcSpace(windowMgr.GetWindow());
+	FrameBuffer PostProcSpace(windowMgr.GetWindow());
 	PostProcSpace.CreateScreenQuad(1);
 
 	//render loop
@@ -111,7 +113,7 @@ int main()
 		//bind to framebuffer
 		//-----------------------------------------------------------------------------------------------------------------
 		DefaultSpace.Bind();
-		glEnable(GL_DEPTH_TEST);
+		
 
 		//make sure we clear the framebuffer's content
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -127,6 +129,7 @@ int main()
 		UBO.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
 
 		defaultShader.Use().SetMat4("model", model);
+
 		cube.Render(defaultShader);
 		//skybox render
 		glDepthFunc(GL_LEQUAL);
@@ -137,7 +140,7 @@ int main()
 		//bind back to default framebuffer
 		//-----------------------------------------------------------------------------------------------------------------
 		DefaultSpace.UnBind();
-		glDisable(GL_DEPTH_TEST);
+		
 		//clear all relevant buffers
 		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -148,7 +151,7 @@ int main()
 		windowMgr.UpData();
 	}
 
-	//cube.Delete();
+	cube.Delete();
 	DefaultSpace.Delete();
 	PostProcSpace.Delete();
 	skybox.Delete();
