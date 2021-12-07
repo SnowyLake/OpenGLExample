@@ -60,7 +60,7 @@ void Geometry::Render(Shader& shader,
 	glBindVertexArray(0);
 }
 
-void Geometry::Delete()
+void Geometry::Destory()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
@@ -124,6 +124,8 @@ void Geometry::SetBuffers(const std::vector<uint>& vertOffset)
 	{
 		stride += i;
 	}
+	m_vertexCount = m_vertices.size() / stride;
+
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_VBO);
 	glBindVertexArray(m_VAO);

@@ -37,24 +37,19 @@ const unsigned int SCR_HEIGHT = 800;
 const unsigned int BINDING_POINT_0 = 0;
 const char* EXAMPLE_NAME = "Geometry Shader";
 
-//camera
-GLCamera camera(glm::vec3(0.0f, 0.0f, 10.0f));
-
-//skybox
-std::vector<const char*> skyboxTexs = {
-	"res/builtin/textures/skybox/right.jpg",
-	"res/builtin/textures/skybox/left.jpg",
-	"res/builtin/textures/skybox/top.jpg",
-	"res/builtin/textures/skybox/bottom.jpg",
-	"res/builtin/textures/skybox/front.jpg",
-	"res/builtin/textures/skybox/back.jpg"
+//points
+std::vector<float> pointsVertices = {
+	-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // top-left
+	 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // top-right
+	 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right
+	-0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left
 };
 
 int main()
 {
 	//create window
-	WindowManager windowMgr(&camera, SCR_WIDTH, SCR_HEIGHT, EXAMPLE_NAME);
-	windowMgr.SetCallback();
+	WindowManager window(SCR_WIDTH, SCR_HEIGHT, EXAMPLE_NAME);
+	window.SetCallback();
 
 	//configure global OpenGL state
 	//-----------------------------
@@ -63,99 +58,61 @@ int main()
 	//shaders
 	//-------
 	auto& resMgr = ResourceMananger::GetInstance();
-	auto& skyboxShader = resMgr.LoadShader("res/builtin/shaders/skybox.vert", "res/builtin/shaders/skybox.frag", nullptr, "skybox");
-	auto& screenDefaultShader = resMgr.LoadShader(PostProcessShaders::DefaultVert, PostProcessShaders::DefaultFrag, nullptr, "postproc");
-	auto& defaultShader = resMgr.LoadShader("res/builtin/shaders/default.vert", "res/builtin/shaders/default.frag", nullptr, "default");
-	//shader config
-	//-------------
-	UniformBlockBind(defaultShader, "Matrices", BINDING_POINT_0);
-	defaultShader.Use()
-		.SetInt("texture1", 0);
-	skyboxShader.Use()
-		.SetInt("skyboxTex", 0);
-	screenDefaultShader.Use()
-		.SetInt("screenTex", 0);
+	auto& screenDefaultShader = resMgr.LoadShader(PostProcessShaders::DefaultVert,
+												  PostProcessShaders::DefaultFrag,
+												  nullptr,
+												  "postproc");
+	auto& geomTestShader = resMgr.LoadShader("res/shaders/gs_test.vert",
+											 "res/shaders/gs_test.frag",
+											 "res/shaders/gs_test.geom",
+											 "geometry_test");
 
-	//create UBO
-	//----------
-	UniformBuffer UBO(2 * sizeof(glm::mat4));
-	UBO.BindPoint(BINDING_POINT_0);
-	auto [_width, _height] = GetFramebufferSize(windowMgr.GetWindow());
-	auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
-	UBO.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
+	//shader config
+	screenDefaultShader.Use().SetInt("screenTex", 0);
+
 	//create scene objects
-	//--------------------
-	Geometry cube(BIGType::CUBE);
-	cube.SetTexture(BITType::CONTAINER);
-	//create skybox
-	//-------------
-	Skybox skybox(resMgr.LoadTexture(skyboxTexs, "skybox"));
+	Geometry points(pointsVertices, std::vector<unsigned int>{2,3});
+
 	//draw as wireframe
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	windowMgr.Show();
+	window.Show(100, 100);
 
 	//create framebuffers
-	//----------------
-	FrameBuffer DefaultSpace(windowMgr.GetWindow());
-	DefaultSpace.CreateScreenQuad(1);
-	FrameBuffer PostProcSpace(windowMgr.GetWindow());
-	PostProcSpace.CreateScreenQuad(1);
+	FrameBuffer defaultSpace(window.Get());
+	defaultSpace.CreateScreenQuad(1);
 
 	//render loop
 	//-----------
-	while (!glfwWindowShouldClose(windowMgr.GetWindow()))
+	while (!glfwWindowShouldClose(window.Get()))
 	{
-		windowMgr.ProcessInput();
-
-		//render
-		//------
-		//bind to framebuffer
-		//-----------------------------------------------------------------------------------------------------------------
-		DefaultSpace.Bind();
+		window.ProcessInput();
 		
-
+		//defaultSpace
+		//----------------------------------------------------------------
+		/*bind  */ defaultSpace.Bind();
+		
 		//make sure we clear the framebuffer's content
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//set MVP Matrix
-		auto model = glm::mat4(1.0f);
-		auto view = camera.GetViewMatrix();
-		UBO.BindPoint(BINDING_POINT_0);
-		UBO.SetSubData(0, sizeof(glm::mat4), glm::value_ptr(view));
-		auto [width, height] = GetFramebufferSize(windowMgr.GetWindow());
-		auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
-		UBO.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
+		//render
+		points.Render(geomTestShader, false, GL_POINTS, 1.0f);
 
-		defaultShader.Use().SetMat4("model", model);
-
-		cube.Render(defaultShader);
-		//skybox render
-		glDepthFunc(GL_LEQUAL);
-		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-		skybox.Render(skyboxShader, view, projection);
-		glDepthFunc(GL_LESS);
-
-		//bind back to default framebuffer
-		//-----------------------------------------------------------------------------------------------------------------
-		DefaultSpace.UnBind();
+		/*unbind*/ defaultSpace.UnBind();
+		//----------------------------------------------------------------
 		
 		//clear all relevant buffers
 		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		auto transform = glm::mat4(1.0f);
-		DefaultSpace.Render(screenDefaultShader);
+		defaultSpace.Render(screenDefaultShader);
 
-		windowMgr.UpData();
+		window.UpData();
 	}
-
-	cube.Delete();
-	DefaultSpace.Delete();
-	PostProcSpace.Delete();
-	skybox.Delete();
-	windowMgr.Delete();
+	points.Destory();
+	defaultSpace.Destory();
+	window.Destory();
 
 	return 0;
 }

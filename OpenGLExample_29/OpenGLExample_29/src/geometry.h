@@ -43,7 +43,7 @@ public:
 				float pixelSize = 1.0f,
 				std::optional<uint> tex = std::nullopt, 
 				std::optional<uint> gltex = std::nullopt);
-	void Delete();
+	void Destory();
 
 	unsigned int GetVAO() const;
 	const GeomTexType& GetTexture() const;

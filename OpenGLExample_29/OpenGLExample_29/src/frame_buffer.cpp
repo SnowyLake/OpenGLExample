@@ -81,7 +81,7 @@ unsigned int FrameBuffer::GetTexColorBuffer()const
     return m_texColorbuffer;
 }
 
-void FrameBuffer::Delete()
+void FrameBuffer::Destory()
 {
     if (m_whetherCreateScreenQuad)
     {

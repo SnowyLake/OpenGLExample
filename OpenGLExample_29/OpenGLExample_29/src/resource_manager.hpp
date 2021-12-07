@@ -87,11 +87,11 @@ inline Shader& ResourceMananger::LoadShader(const char* vPath, const char* fPath
 											std::optional<std::string_view> name /*= std::nullopt*/)
 {
 	//TODO: 需要检测是否与已有对象重名
-	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name.value_or
-	(
-									   std::format("shader_{}", ++m_shaderNameCount)
-	));
+	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name.has_value() ? 
+									   name.value() : std::format("shader_{}", ++m_shaderNameCount));
+
 	m_shaders.emplace(shader.GetName(), shader);
+	m_shaderCount++;
 	return m_shaders.at(shader.GetName());
 }
 
@@ -171,10 +171,8 @@ ResourceMananger::LoadTexture(const char* path, MapType type,
 							  std::optional<std::string_view> name /*= std::nullopt*/)
 {
 	//TODO: 需要检测是否与已有对象重名
-	auto tex = LoadTextureFromFile(path, type, name.value_or
-	(
-								   std::format("texture_{}", ++m_tex2DNameCount)
-	));
+	auto tex = LoadTextureFromFile(path, type, name.has_value() ? 
+								   name.value() : std::format("texture_{}", ++m_shaderNameCount));
 	m_textures_2d.emplace(tex.GetName(), tex);
 	m_tex2DCount++;
 	return m_textures_2d.at(tex.GetName());

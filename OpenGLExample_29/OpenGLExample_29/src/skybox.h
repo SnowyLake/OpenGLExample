@@ -22,7 +22,7 @@ public:
 	unsigned int GetVAO() const;
 
 	void Render(Shader shader, const glm::mat4 view, const glm::mat4 projection);
-	void Delete();
+	void Destory();
 
 private:
 	unsigned int m_VAO;

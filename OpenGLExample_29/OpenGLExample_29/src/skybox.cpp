@@ -78,7 +78,7 @@ void Skybox::Render(Shader shader, const glm::mat4 view, const glm::mat4 project
     glBindVertexArray(0);
 }
 
-void Skybox::Delete()
+void Skybox::Destory()
 {
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);

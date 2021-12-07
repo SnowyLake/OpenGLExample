@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include <optional>
 #include <iostream>
 
 #include <glad/glad.h>
@@ -11,27 +12,27 @@
 class WindowManager
 {
 public:
-	WindowManager(GLCamera* camera, 
-				  const unsigned int& width, const unsigned int& height,
-				  const std::string& title, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+	WindowManager(const unsigned int& width, const unsigned int& height,const std::string& title, 
+				  GLCamera* camera = nullptr, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
 	~WindowManager();
 
 	void SetCallback();
 	void ProcessInput();
-	void Show();
+	void Show(std::optional<int> xPos = std::nullopt, 
+			  std::optional<int> yPos = std::nullopt);
 	void UpData();
-	void Delete();
+	void Destory();
 	//get
-	GLFWwindow*	 GetWindow()	  const;
-	unsigned int GetScrWidth()	  const;
-	unsigned int GetScrHeight()	  const;
-	std::string	 GetWindowTitle() const;
+	GLFWwindow*	 Get()		 const;
+	std::string	 GetTitle()  const;
+	unsigned int GetWidth()	 const;
+	unsigned int GetHeight() const;
 private:
 	GLFWwindow*	 m_window;
 	GLCamera*	 m_camera;
-	unsigned int m_scrWidth;
-	unsigned int m_scrHeight;
-	std::string	 m_windowTitle;
+	unsigned int m_width;
+	unsigned int m_height;
+	std::string	 m_title;
 
 	//camera
 	float m_lastX;
@@ -51,11 +52,11 @@ private:
 	//-------------
 	//当存在多个类实例对象时，管理cbPtr
 	unsigned int m_cbID;			//本对象ID
-	static unsigned int sm_cbID;	//静态ID，通过cbSID = cbID来访问指定对象非静态成员
-	static std::map<unsigned int, WindowManager*> sm_cbMap;	//静态对象映射表
+	static unsigned int CbID;	//静态ID，通过cbSID = cbID来访问指定对象非静态成员
+	static std::map<unsigned int, WindowManager*> CbMap;	//静态对象映射表
 
 	//call back pointer
-	static WindowManager* sm_cbPtr;
+	static WindowManager* CbPtr;
 	//framebuffer size callback function
 	static void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
 	//mouse callback function
