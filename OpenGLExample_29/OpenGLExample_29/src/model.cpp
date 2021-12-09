@@ -48,19 +48,12 @@ Model::Model(const std::string& path, bool gamma) :gammaCorrection(gamma)
     LoadModel(path);
 }
 
-void Model::Render(Shader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue)
+void Model::Render(Shader& shader)
 {
-    shader.SetMat4("model", model)
-        .SetMat4("view", view)
-        .SetMat4("projection", projection);
-
     for (size_t i = 0; i < meshes.size(); i++)
     {
         meshes[i].Render(shader);
     }
-
-    if (whetherResetModelValue == true)
-        model = glm::mat4(1.0f);
 }
 
 //-----------------------------------------------------private--------------------------------------------------
@@ -69,7 +62,11 @@ void Model::LoadModel(const std::string& path)
 {
     //read file via Assimp
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+    const aiScene* scene = importer.ReadFile(path, 
+                                               aiProcess_Triangulate 
+                                             | aiProcess_GenSmoothNormals 
+                                             | aiProcess_FlipUVs 
+                                             | aiProcess_CalcTangentSpace);
     //check for error
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {

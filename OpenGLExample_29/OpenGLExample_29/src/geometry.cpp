@@ -95,7 +95,7 @@ void Geometry::SetBuffers(BIGType geom)
 	glGenBuffers(1, &m_VBO);
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), &m_vertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), m_vertices.data(), GL_STATIC_DRAW);
 
 	int location = 0, offset = 3;
 	glEnableVertexAttribArray(location);
@@ -103,13 +103,15 @@ void Geometry::SetBuffers(BIGType geom)
 	if (parm.normal == true)
 	{
 		glEnableVertexAttribArray(++location);
-		glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
+		glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE,
+							  stride * sizeof(float), (void*)(offset * sizeof(float)));
 		offset += 3;
 	}
 	if (parm.texCoord == true)
 	{
 		glEnableVertexAttribArray(++location);
-		glVertexAttribPointer(location, 2, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
+		glVertexAttribPointer(location, 2, GL_FLOAT, GL_FALSE,
+							  stride * sizeof(float), (void*)(offset * sizeof(float)));
 		offset += 2;
 	}
 
@@ -130,12 +132,13 @@ void Geometry::SetBuffers(const std::vector<uint>& vertOffset)
 	glGenBuffers(1, &m_VBO);
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), &m_vertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(float), m_vertices.data(), GL_STATIC_DRAW);
 	uint offset = 0;
 	for (size_t locat = 0; locat < count; locat++)
 	{
 		glEnableVertexAttribArray(locat);
-		glVertexAttribPointer(locat, vertOffset.at(locat), GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
+		glVertexAttribPointer(locat, vertOffset.at(locat), GL_FLOAT, GL_FALSE,
+							  stride * sizeof(float), (void*)(offset * sizeof(float)));
 		offset += vertOffset.at(locat);
 	}
 }

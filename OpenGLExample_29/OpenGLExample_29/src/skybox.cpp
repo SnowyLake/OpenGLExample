@@ -65,17 +65,19 @@ unsigned int Skybox::GetVAO() const
     return m_VAO;
 }
 
-void Skybox::Render(Shader shader, const glm::mat4 view, const glm::mat4 projection)
+void Skybox::Render(Shader& shader)
 {
-    shader.Use()
-        .SetMat4("view", view)
-        .SetMat4("projection", projection);
+    glDepthFunc(GL_LEQUAL);
 
     glBindVertexArray(m_VAO);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture.Get());
+
+    shader.Use();
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
+
+    glDepthFunc(GL_LESS);
 }
 
 void Skybox::Destory()

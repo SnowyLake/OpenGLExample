@@ -21,7 +21,7 @@ public:
 	Texture<TextureType::_CUBE_MAP>& GetTexture();
 	unsigned int GetVAO() const;
 
-	void Render(Shader shader, const glm::mat4 view, const glm::mat4 projection);
+	void Render(Shader& shader);
 	void Destory();
 
 private:

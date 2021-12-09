@@ -35,7 +35,7 @@ public:
 
 	void Bind();
 	void UnBind();
-	void Render(Shader shader, unsigned int num = 1, const glm::mat4 transform = glm::mat4(1.0f));
+	void Render(Shader& shader, unsigned int num = 1, const glm::mat4 transform = glm::mat4(1.0f));
 
 	unsigned int GetTexColorBuffer() const;
 	void Destory();

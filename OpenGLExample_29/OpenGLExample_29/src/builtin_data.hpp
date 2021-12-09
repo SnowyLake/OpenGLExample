@@ -26,10 +26,6 @@ using BIGData = struct BuiltInGeometryData
 	bool texCoord;
 	bool normal;
 	std::vector<float> vertices;
-
-	/*BuiltInGeometryData(bool t, bool n, const std::vector<float>& v)
-		:texCoord(t), normal(n), vertices(v)
-	{}*/
 };
 using BITType = enum class BuiltInTextureType
 {
@@ -39,7 +35,7 @@ using BITType = enum class BuiltInTextureType
 	GRASS,
 	WINDOW_TRANSPARENT
 };
-#define BITPath const char*
+using BITPath = const char*;
 
 using BIGListType = std::map<BIGType, BIGData>;
 using BITListType = std::map<BITType, BITPath>;

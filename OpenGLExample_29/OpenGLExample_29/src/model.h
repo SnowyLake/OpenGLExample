@@ -38,7 +38,7 @@ public:
 	Model(const std::string& path, bool gamma = false);
 
 	//darws the model
-	void Render(Shader& shader, glm::mat4& model, const glm::mat4 view, const glm::mat4 projection, bool whetherResetModelValue);
+	void Render(Shader& shader);
 
 private:
 	/*loads a model with supported Assimp extensions from file

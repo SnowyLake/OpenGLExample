@@ -87,6 +87,7 @@ inline Shader& ResourceMananger::LoadShader(const char* vPath, const char* fPath
 											std::optional<std::string_view> name /*= std::nullopt*/)
 {
 	//TODO: 需要检测是否与已有对象重名
+
 	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name.has_value() ? 
 									   name.value() : std::format("shader_{}", ++m_shaderNameCount));
 
@@ -172,7 +173,7 @@ ResourceMananger::LoadTexture(const char* path, MapType type,
 {
 	//TODO: 需要检测是否与已有对象重名
 	auto tex = LoadTextureFromFile(path, type, name.has_value() ? 
-								   name.value() : std::format("texture_{}", ++m_shaderNameCount));
+								   name.value() : std::format("texture_2d_{}", ++m_shaderNameCount));
 	m_textures_2d.emplace(tex.GetName(), tex);
 	m_tex2DCount++;
 	return m_textures_2d.at(tex.GetName());
@@ -182,10 +183,8 @@ ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
 							  std::optional<std::string_view> name /*= std::nullopt*/)
 {
 	//TODO: 需要检测是否与已有对象重名
-	auto tex = LoadTextureFromFile(paths, name.value_or
-	(
-								   std::format("texture_{}", ++m_texCubeMapNameCount)
-	));
+	auto tex = LoadTextureFromFile(paths, name.has_value() ?
+								   name.value() : std::format("texture_cubemap_{}", ++m_shaderNameCount));
 	m_textures_cube_map.emplace(tex.GetName(), tex);
 	m_texCubeMapCount++;
 	return m_textures_cube_map.at(tex.GetName());
@@ -194,7 +193,7 @@ ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
 inline Texture<TextureType::_2D>
 ResourceMananger::LoadTextureFromFile(const char* path, MapType type, std::string_view name)
 {
-	Texture<TextureType::_2D> tex(name);
+	Texture<TextureType::_2D> tex(path, name);
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
 	if (data)
@@ -205,9 +204,9 @@ ResourceMananger::LoadTextureFromFile(const char* path, MapType type, std::strin
 	} else
 	{
 #if _MSVC_LANG >= 202002L	/*CXX20*/
-		std::cout << std::format("Texture failed to load at path: {}", path);
+		std::cout << std::format("Texture failed to load at path: {}\n", path);
 #else	
-		std::cout << "Texture failed to load at path: " << path << std::endl;
+		std::cout << "Texture failed to load at path: " << path << << '\n' std::endl;
 #endif
 		stbi_image_free(data);
 	}
@@ -217,7 +216,7 @@ ResourceMananger::LoadTextureFromFile(const char* path, MapType type, std::strin
 inline Texture<TextureType::_CUBE_MAP>
 ResourceMananger::LoadTextureFromFile(const std::vector<const char*>& paths, std::string_view name)
 {
-	Texture<TextureType::_CUBE_MAP> tex(name);
+	Texture<TextureType::_CUBE_MAP> tex(paths, name);
 	for (size_t i = 0; i < paths.size(); i++)
 	{
 		int width, height;
@@ -229,9 +228,9 @@ ResourceMananger::LoadTextureFromFile(const std::vector<const char*>& paths, std
 		} else
 		{
 #if _MSVC_LANG >= 202002L	/*CXX20*/
-			std::cout << std::format("Cubemap texture failed to load at path: {}", paths.at(i));
+			std::cout << std::format("Cubemap texture failed to load at path: {}\n", paths.at(i));
 #else	
-			std::cout << "Cubemap texture failed to load at path: " << paths.at(i) << std::endl;
+			std::cout << "Cubemap texture failed to load at path: " << paths.at(i) << '\n' << std::endl;
 #endif
 			stbi_image_free(data);
 		}

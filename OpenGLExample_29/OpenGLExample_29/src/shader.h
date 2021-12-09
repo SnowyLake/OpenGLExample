@@ -10,6 +10,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+
+
 using uint = unsigned int;
 class Shader
 {
@@ -38,9 +41,27 @@ public:
 	Shader& SetMat2  (const char* name, const glm::mat2& value);
 	Shader& SetMat3  (const char* name, const glm::mat3& value);
 	Shader& SetMat4  (const char* name, const glm::mat4& value);
+
 private:
 	uint m_ID;
 	std::string m_name;
 	void CheckCompileErrors(uint shader, std::string_view type);
 };
 
+//#include "geometry.h"
+//#include "model.h"
+//#include "skybox.h"
+//#include "frame_buffer.h"
+
+//template<typename T>
+//concept Renderable = 
+//std::is_same_v<T, Geometry> ||
+//std::is_same_v<T, Model>	||
+//std::is_same_v<T, Skybox>	||
+//std::is_same_v<T, FrameBuffer>;
+// 
+//template<Renderable T>
+//inline Shader& ToRender(T& obj)
+//{
+//	obj.Render(*this);
+//}

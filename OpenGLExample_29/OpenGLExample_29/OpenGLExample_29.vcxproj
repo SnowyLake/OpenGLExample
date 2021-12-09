@@ -153,6 +153,7 @@
     <ClInclude Include="src\gl_camera.h" />
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
+    <ClInclude Include="src\render_to.hpp" />
     <ClInclude Include="src\resource_manager.hpp" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\skybox.h" />

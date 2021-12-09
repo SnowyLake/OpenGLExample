@@ -67,7 +67,7 @@ void FrameBuffer::UnBind()
     glDisable(GL_DEPTH_TEST);
 }
 
-void FrameBuffer::Render(Shader shader, unsigned int num, const glm::mat4 transform)
+void FrameBuffer::Render(Shader& shader, unsigned int num, const glm::mat4 transform)
 {
     shader.Use();
     shader.SetMat4("transform", transform);
