@@ -1,7 +1,7 @@
 #include "frame_buffer.h"
 
 //screen quad
-std::vector<float> Quad::quadVertices = {  //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+std::vector<float> Quad::Vertices = {  //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
        //positions   //texCoords
        -1.0f,  1.0f,  0.0f, 1.0f,
        -1.0f, -1.0f,  0.0f, 0.0f,
@@ -18,8 +18,8 @@ FrameBuffer::FrameBuffer(const WindowManager& win)
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 
     std::tie(m_width, m_height) = win.GetSize();
-    SetTexBuffer(m_width, m_height);
-    SetRBO(m_width, m_height);
+    SetTexBuffer();
+    SetRBO();
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -39,15 +39,12 @@ void FrameBuffer::CreateScreenQuad(uint quadNum)
 
         glBindVertexArray(quadVAO);
         glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-        glBufferData(GL_ARRAY_BUFFER, 
-                     Quad::quadVertices.size() * sizeof(decltype(Quad::quadVertices)::value_type), &Quad::quadVertices.at(0), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, Quad::Vertices.size() * sizeof(float), Quad::Vertices.data(), GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 
-                              4 * sizeof(decltype(Quad::quadVertices)::value_type), (void*)0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 
-                              4 * sizeof(decltype(Quad::quadVertices)::value_type), (void*)(2 * sizeof(decltype(Quad::quadVertices)::value_type)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
         this->quad.emplace_back(quadVAO, quadVBO);
     }
@@ -87,17 +84,17 @@ void FrameBuffer::Update(const WindowManager& win)
         if (m_texBuffer)
         {
             glDeleteTextures(1, &m_texBuffer);
-            SetTexBuffer(width, height);
+            SetTexBuffer();
         }
         if (m_RBO)
         {
             glDeleteRenderbuffers(1, &m_RBO);
-            SetRBO(width, height);
+            SetRBO();
         }
     }
 }
 
-unsigned int FrameBuffer::GetTexBuffer()const
+unsigned int FrameBuffer::GetTexBuffer() const
 {
     return m_texBuffer;
 }
@@ -118,21 +115,21 @@ void FrameBuffer::Destory()
 }
 
 //create a color attachment texture
-void FrameBuffer::SetTexBuffer(unsigned int width, unsigned int height)
+void FrameBuffer::SetTexBuffer()
 {
     glGenTextures(1, &m_texBuffer);
     glBindTexture(GL_TEXTURE_2D, m_texBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texBuffer, 0);
 }
 
 //create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
-void FrameBuffer::SetRBO(unsigned int width, unsigned int height)
+void FrameBuffer::SetRBO()
 {
     glGenRenderbuffers(1, &m_RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 }

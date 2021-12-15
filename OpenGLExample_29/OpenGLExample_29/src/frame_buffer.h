@@ -18,7 +18,7 @@ struct Quad
 {
 	unsigned int VAO;
 	unsigned int VBO;
-	static std::vector<float> quadVertices;
+	static std::vector<float> Vertices;
 
 	Quad(unsigned int VAO, unsigned int VBO)
 	{
@@ -55,7 +55,7 @@ private:
 	std::vector<Quad> quad;
 
 	//create a color attachment texture
-	void SetTexBuffer(unsigned int width, unsigned int height);
+	void SetTexBuffer();
 	//create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
-	void SetRBO(unsigned int width, unsigned int height);
+	void SetRBO();
 };

@@ -158,6 +158,7 @@ int main()
 			.SetFloat("time", static_cast<float>(glfwGetTime()))
 			>> ToRender(nanosuit);*/
 		
+		//skybox
 		ResMgr.GetShader("skybox").Use()
 			.SetMat4("view", glm::mat4(glm::mat3(view)))
 			.SetMat4("projection", projection)
@@ -167,7 +168,7 @@ int main()
 		//----------------------------------------------------------------
 		//clear all relevant buffers
 		ClearBuffer();
-
+		//framebuffer render
 		ResMgr.GetShader("postproc").Use() >> ToRender(defaultSpace);
 		window.UpData();
 	}
