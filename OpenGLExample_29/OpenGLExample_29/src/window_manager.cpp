@@ -80,7 +80,6 @@ void WindowManager::UpData()
 	m_height = height;
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
-	
 }
 
 void WindowManager::Destory()
@@ -90,8 +89,10 @@ void WindowManager::Destory()
 
 GLFWwindow*	 WindowManager::Get()		const { return m_window; }
 std::string	 WindowManager::GetTitle()  const { return m_title;  }
-unsigned int WindowManager::GetWidth()	const { return m_width;  }
-unsigned int WindowManager::GetHeight()	const { return m_height; }
+std::tuple<uint, uint> WindowManager::GetSize() const
+{
+	return std::make_tuple(m_width, m_height);
+}
 
 
 //---------------------------------------------------------------

@@ -12,8 +12,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "window_manager.h"
-#include "gl_camera.h"
 
+#include "gl_camera.h"
 #include "geometry.h"
 #include "model.h"
 #include "skybox.h"
@@ -22,7 +22,7 @@
 #include "uniform_buffer.h"
 #include "resource_manager.hpp"
 #include "utility.hpp"
-#include "render_to.hpp"
+#include "to_render.hpp"
 
 #include "../res/builtin/shaders/post_process/post_process_shaders.hpp"
 
@@ -66,48 +66,56 @@ int main()
 	//-----------------------------
 	glEnable(GL_DEPTH_TEST);
 
+	//resource mananger init
+	auto& ResMgr = ResourceMananger::GetInstance();
+
 	//shaders
 	//-------
-	auto& resMgr = ResourceMananger::GetInstance();
-	auto& skyboxShader = resMgr.LoadShader("res/builtin/shaders/skybox.vert",
-										   "res/builtin/shaders/skybox.frag",
-										   nullptr,
-										   "skybox");
-
-	auto& screenDefaultShader = resMgr.LoadShader(PostProcessShaders::DefaultVert,
-												  PostProcessShaders::DefaultFrag,
-												  nullptr,
-												  "postproc");
-	
-	/*auto& geomTestShader = resMgr.LoadShader("res/shaders/gs_test.vert",
-											 "res/shaders/gs_test.frag",
-											 "res/shaders/gs_test.geom",
-											 "geometry_test");*/
-
-	auto& geomTestShader = resMgr.LoadShader("res/shaders/gs_test_model_explode.vert",
-											 "res/shaders/gs_test_model_explode.frag",
-											 "res/shaders/gs_test_model_explode.geom",
-											 "geometry_test_model_explode");
+	ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+					  "res/builtin/shaders/skybox.frag",
+					  nullptr,
+					  "skybox");
+	ResMgr.LoadShader(PostProcessShaders::DefaultVert,
+					  PostProcessShaders::DefaultFrag,
+					  nullptr,
+					  "postproc");
+	ResMgr.LoadShader("res/shaders/model_default.vert",
+					  "res/shaders/model_default.frag",
+					  nullptr,
+					  "model_default");
+	ResMgr.LoadShader("res/shaders/gs_test.vert",
+					  "res/shaders/gs_test.frag",
+					  "res/shaders/gs_test.geom",
+					  "geometry_test");
+	ResMgr.LoadShader("res/shaders/model_explode.vert",
+					  "res/shaders/model_explode.frag",
+					  "res/shaders/model_explode.geom",
+					  "model_explode");
+	ResMgr.LoadShader("res/shaders/normal_visualization.vert",
+					  "res/shaders/normal_visualization.frag",
+					  "res/shaders/normal_visualization.geom",
+					  "normal_visualization");
 
 	//shader config
-	skyboxShader.Use().SetInt("skyboxTex", 0);
-	screenDefaultShader.Use().SetInt("screenTex", 0);
+	ResMgr.GetShader("skybox").Use().SetInt("skyboxTex", 0);
+	ResMgr.GetShader("postproc").Use().SetInt("screenTex", 0);
+	UniformBlockBindPoint(ResMgr.GetShader("model_default"), "Matrices", BINDING_POINT_0);
 
 	//create scene objects
 	Geometry points(pointsVertices, {2u,3u});
 	Model nanosuit("res/builtin/model/nanosuit/nanosuit.obj");
-	Skybox skybox(resMgr.LoadTexture(paths, "skybox"));
-	/*Geometry cube(BIGType::CUBE);
-	resMgr.LoadTexture(BIData::Textures.at(BITType::CONTAINER), MapType::NONE);
-	cube.SetTexture(resMgr.GetTexture<TextureType::_2D>("texture_1"));*/
+	Skybox skybox(ResMgr.LoadTexture(paths, "skybox"));
 
-	//geomTestShader.
+	//uniform buffer
+	UniformBuffer UBO(2 * sizeof(glm::mat4));
+	UBO.BindPoint(BINDING_POINT_0);
+	
 	//draw as wireframe
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	window.Show(100, 100);
 
 	//create framebuffers
-	FrameBuffer defaultSpace(window.Get());
+	FrameBuffer defaultSpace(window);
 	defaultSpace.CreateScreenQuad(1);
 
 	//render loop
@@ -115,55 +123,57 @@ int main()
 	while (!glfwWindowShouldClose(window.Get()))
 	{
 		window.ProcessInput();
-		
+
 		//defaultSpace
 		//----------------------------------------------------------------
-		/*bind  */ defaultSpace.Bind();
-		
+		/*bind  */ defaultSpace.Bind().Update(window);
+
 		//make sure we clear the framebuffer's content
-		glClearColor(0.1f, 0.1f, 0.4f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		ClearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//MVP
 		auto model = glm::mat4(1.0f);
 		auto view = camera.GetViewMatrix();
-		auto [_width, _height] = GetFramebufferSize(window.Get());
-		auto projection = glm::perspective(glm::radians(camera.Zoom),
-										   static_cast<float>(_width) / static_cast<float>(_height),
-										   0.1f, 100.0f);
-
+		auto [_width, _height] = window.GetSize();
+		auto projection = glm::perspective(glm::radians(camera.Zoom), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
+		//uniform update
+		UBO.Bind()
+			.SetSubData(0, sizeof(glm::mat4), glm::value_ptr(view))
+			.SetSubData(sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
+		
 		//render
 		//points.Render(geomTestShader, false, GL_POINTS);
 
-		geomTestShader.Use()
+		ResMgr.GetShader("model_default").Use()
+			.SetMat4("model", model) >> ToRender(nanosuit);
+
+		ResMgr.GetShader("normal_visualization").Use()
 			.SetMat4("model", model)
-			.SetMat4("view", view)
-			.SetMat4("projection", projection)
+			.SetMat3("normalMatrix", glm::mat3(glm::transpose(glm::inverse(view * model))))
+			>> ToRender(nanosuit);
+
+		/*ResMgr.GetShader("model_explode").Use()
+			.SetMat4("model", model)
+			.SetMat3("normalMatrix", glm::mat3(glm::transpose(glm::inverse(view * model))))
 			.SetFloat("time", static_cast<float>(glfwGetTime()))
-			>> RenderTo(nanosuit);
-		//nanosuit.Render(geomTestShader);
-	
-		skyboxShader.Use()
+			>> ToRender(nanosuit);*/
+		
+		ResMgr.GetShader("skybox").Use()
 			.SetMat4("view", glm::mat4(glm::mat3(view)))
 			.SetMat4("projection", projection)
-			>> RenderTo(skybox);
-		//skybox.Render(skyboxShader);
+			>> ToRender(skybox);
 
 		/*unbind*/ defaultSpace.UnBind();
 		//----------------------------------------------------------------
-		
 		//clear all relevant buffers
-		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		ClearBuffer();
 
-		screenDefaultShader.Use() >> RenderTo(defaultSpace);
-		//defaultSpace.Render(screenDefaultShader);
-
+		ResMgr.GetShader("postproc").Use() >> ToRender(defaultSpace);
 		window.UpData();
 	}
 	points.Destory();
-	defaultSpace.Destory();
 	skybox.Destory();
+	defaultSpace.Destory();
 	window.Destory();
 
 	return 0;

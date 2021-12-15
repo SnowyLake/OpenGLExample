@@ -12,14 +12,14 @@ std::vector<float> Quad::quadVertices = {  //vertex attributes for a quad that f
         1.0f,  1.0f,  1.0f, 1.0f
 };
 
-FrameBuffer::FrameBuffer(GLFWwindow* window)
+FrameBuffer::FrameBuffer(const WindowManager& win)
 {
     glGenFramebuffers(1, &m_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 
-    auto [_width, _height] = GetFramebufferSize(window);
-    SetTexColorBuffer(_width, _height);
-    SetRBO(_width, _height);
+    std::tie(m_width, m_height) = win.GetSize();
+    SetTexBuffer(m_width, m_height);
+    SetRBO(m_width, m_height);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -28,7 +28,7 @@ FrameBuffer::FrameBuffer(GLFWwindow* window)
 FrameBuffer::~FrameBuffer()
 {}
 
-void FrameBuffer::CreateScreenQuad(unsigned int quadNum)
+void FrameBuffer::CreateScreenQuad(uint quadNum)
 {
     unsigned int quadVAO;
     unsigned int quadVBO;
@@ -55,10 +55,11 @@ void FrameBuffer::CreateScreenQuad(unsigned int quadNum)
         m_whetherCreateScreenQuad = true;
 }
 
-void FrameBuffer::Bind()
+FrameBuffer& FrameBuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
     glEnable(GL_DEPTH_TEST);
+    return *this;
 }
 
 void FrameBuffer::UnBind()
@@ -67,18 +68,38 @@ void FrameBuffer::UnBind()
     glDisable(GL_DEPTH_TEST);
 }
 
-void FrameBuffer::Render(Shader& shader, unsigned int num, const glm::mat4 transform)
+void FrameBuffer::Render(Shader& shader, uint num, const glm::mat4 transform)
 {
     shader.Use();
     shader.SetMat4("transform", transform);
     glBindVertexArray(this->quad.at(num - 1).VAO);
-    glBindTexture(GL_TEXTURE_2D, m_texColorbuffer);
+    glBindTexture(GL_TEXTURE_2D, m_texBuffer);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-unsigned int FrameBuffer::GetTexColorBuffer()const
+void FrameBuffer::Update(const WindowManager& win)
 {
-    return m_texColorbuffer;
+    auto [width, height] = win.GetSize();
+    if (width != m_width || height != m_height)
+    {
+        m_width = width;
+        m_height = height;
+        if (m_texBuffer)
+        {
+            glDeleteTextures(1, &m_texBuffer);
+            SetTexBuffer(width, height);
+        }
+        if (m_RBO)
+        {
+            glDeleteRenderbuffers(1, &m_RBO);
+            SetRBO(width, height);
+        }
+    }
+}
+
+unsigned int FrameBuffer::GetTexBuffer()const
+{
+    return m_texBuffer;
 }
 
 void FrameBuffer::Destory()
@@ -97,14 +118,14 @@ void FrameBuffer::Destory()
 }
 
 //create a color attachment texture
-void FrameBuffer::SetTexColorBuffer(unsigned int width, unsigned int height)
+void FrameBuffer::SetTexBuffer(unsigned int width, unsigned int height)
 {
-    glGenTextures(1, &m_texColorbuffer);
-    glBindTexture(GL_TEXTURE_2D, m_texColorbuffer);
+    glGenTextures(1, &m_texBuffer);
+    glBindTexture(GL_TEXTURE_2D, m_texBuffer);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texColorbuffer, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texBuffer, 0);
 }
 
 //create a renderbuffer object for depth and stencil attachment (we won't be sampling these)

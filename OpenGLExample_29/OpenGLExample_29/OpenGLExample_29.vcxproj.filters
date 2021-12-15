@@ -57,7 +57,7 @@
     <ClInclude Include="src\shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\render_to.hpp">
+    <ClInclude Include="src\to_render.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

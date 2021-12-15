@@ -25,8 +25,7 @@ public:
 	//get
 	GLFWwindow*	 Get()		 const;
 	std::string	 GetTitle()  const;
-	unsigned int GetWidth()	 const;
-	unsigned int GetHeight() const;
+	std::tuple<uint, uint> GetSize() const;
 private:
 	GLFWwindow*	 m_window;
 	GLCamera*	 m_camera;

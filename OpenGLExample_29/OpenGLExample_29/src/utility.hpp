@@ -14,15 +14,6 @@
 
 #include "shader.h"
 
-
-//将shader的指定Uniform块绑定到某一绑定点上
-inline void UniformBlockBind(Shader shader, const char* blockName, unsigned int bindingPoint)
-{
-	glUniformBlockBinding(shader.GetID(), 
-						  glGetUniformBlockIndex(shader.GetID(), blockName),
-						  bindingPoint);
-}
-
 //获取指定窗口的帧缓冲尺寸
 inline std::tuple<int, int> GetFramebufferSize(GLFWwindow* window)
 {
@@ -31,6 +22,12 @@ inline std::tuple<int, int> GetFramebufferSize(GLFWwindow* window)
 	return std::make_tuple(_width, _height);
 };
 
+inline void ClearBuffer(const uint bitField = GL_COLOR_BUFFER_BIT,
+						const glm::vec4& color = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
+{
+	glClear(bitField);
+	glClearColor(color.x, color.y, color.z, color.w);
+}
 // TODO: File Name Info Process
 class FileNameInfo
 {

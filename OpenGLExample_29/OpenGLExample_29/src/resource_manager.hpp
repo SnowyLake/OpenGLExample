@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <tuple>
 #include <optional>
@@ -17,14 +18,20 @@ public:
 	static ResourceMananger& GetInstance();
 
 	//shader
-	Shader& LoadShader(const char* vPath, const char* fPath, const char* gPath = nullptr,
-						 std::optional<std::string_view> name = std::nullopt);
+	Shader& LoadShader(const char* vPath,
+					   const char* fPath,
+					   const char* gPath = nullptr,
+					   std::optional<std::string_view> name = std::nullopt);
+
 	Shader& GetShader(const std::string& shaderName);
 	uint GetShaderCount() const;
+
 	//texture
 	Texture<TextureType::_2D>&
-	LoadTexture(const char* path, MapType type,
+	LoadTexture(const char* path,
+				MapType type,
 				std::optional<std::string_view> name = std::nullopt);
+
 	Texture<TextureType::_CUBE_MAP>&
 	LoadTexture(const std::vector<const char*>& paths,
 				std::optional<std::string_view> name = std::nullopt);
@@ -43,9 +50,9 @@ private:
 	ResourceMananger& operator=(ResourceMananger&&) = delete;
 
 	//对象保存
-	std::map<std::string, Shader> m_shaders;
-	std::map<std::string, Texture<TextureType::_2D>> m_textures_2d;
-	std::map<std::string, Texture<TextureType::_CUBE_MAP>> m_textures_cube_map;
+	std::unordered_map<std::string, Shader> m_shaders;
+	std::unordered_map<std::string, Texture<TextureType::_2D>> m_textures_2d;
+	std::unordered_map<std::string, Texture<TextureType::_CUBE_MAP>> m_textures_cube_map;
 	//实际总数
 	uint m_shaderCount;
 	uint m_tex2DCount;
@@ -55,7 +62,10 @@ private:
 	uint m_tex2DNameCount;
 	uint m_texCubeMapNameCount;
 
-	Shader LoadShaderFromFile(const char* vPath, const char* fPath, const char* gPath, std::string_view name);
+	Shader LoadShaderFromFile(const char* vPath,
+							  const char* fPath,
+							  const char* gPath,
+							  std::string_view name);
 
 	Texture<TextureType::_2D>
 	LoadTextureFromFile(const char* path, MapType type, std::string_view name);
@@ -70,7 +80,7 @@ inline ResourceMananger& ResourceMananger::GetInstance()
 }
 inline ResourceMananger::ResourceMananger()
 	:m_shaderCount(0), m_tex2DCount(0), m_texCubeMapCount(0),
-	m_shaderNameCount(0), m_tex2DNameCount(0), m_texCubeMapNameCount(0)
+	 m_shaderNameCount(0), m_tex2DNameCount(0), m_texCubeMapNameCount(0)
 {}
 
 //shader
@@ -83,11 +93,13 @@ inline uint ResourceMananger::GetShaderCount() const
 {
 	return m_shaderCount;
 }
-inline Shader& ResourceMananger::LoadShader(const char* vPath, const char* fPath, const char* gPath,
+inline Shader& ResourceMananger::LoadShader(const char* vPath,
+											const char* fPath,
+											const char* gPath /* = nullptr*/,
 											std::optional<std::string_view> name /*= std::nullopt*/)
 {
 	//TODO: 需要检测是否与已有对象重名
-
+	
 	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name.has_value() ? 
 									   name.value() : std::format("shader_{}", ++m_shaderNameCount));
 
@@ -96,7 +108,9 @@ inline Shader& ResourceMananger::LoadShader(const char* vPath, const char* fPath
 	return m_shaders.at(shader.GetName());
 }
 
-inline Shader ResourceMananger::LoadShaderFromFile(const char* vPath, const char* fPath, const char* gPath,
+inline Shader ResourceMananger::LoadShaderFromFile(const char* vPath,
+												   const char* fPath,
+												   const char* gPath,
 												   std::string_view name)
 {
 	//retrieve the vertex/fragment source code from filePath
