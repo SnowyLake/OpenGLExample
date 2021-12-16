@@ -34,16 +34,16 @@ class FileNameInfo
 public:
 	FileNameInfo(const std::string& file) :m_file(file)
 	{
+		for (auto& s : m_file)
+		{
+			s == '\\' ? s = '/' : s;
+		}
 		auto size = m_file.size();
-
-	}
-	FileNameInfo(std::string_view file)
-	{
-
-	}
-	FileNameInfo(const char* file)
-	{
-
+		auto lastSlash = m_file.find_last_of('/');
+		auto lastPoint = m_file.find_last_of('.');
+		m_fileName = m_file.substr(lastSlash + 1, lastPoint - lastSlash - 1);
+		m_filePath = m_file.substr(0, lastSlash);
+		m_fileExtension = m_file.substr(lastPoint + 1, size - lastPoint);
 	}
 	~FileNameInfo() = default;
 	FileNameInfo(const FileNameInfo&) = default;
@@ -51,7 +51,7 @@ public:
 	FileNameInfo& operator=(const FileNameInfo&) = default;
 	FileNameInfo& operator=(FileNameInfo&&) = default;
 
-	std::string GetFile() const { return m_file; }
+	std::string GetFile()	  const { return m_file; }
 	std::string GetFileName() const { return m_fileName; }
 	std::string GetFilePath() const { return m_filePath; }
 	std::string GetFileExtension() const { return m_fileExtension; }

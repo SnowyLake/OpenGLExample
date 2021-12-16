@@ -71,10 +71,30 @@ int main()
 
 	//shaders
 	//-------
-	ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+	auto& s0 = ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
 					  "res/builtin/shaders/skybox.frag",
 					  nullptr,
 					  "skybox");
+	/*----------------------------------------------------------------------
+	* 测试用例
+	auto& n1 = ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+								 "res/builtin/shaders/skybox.frag",
+								 nullptr);
+	auto& n2 = ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+								 "res/builtin/shaders/skybox.frag",
+								 nullptr);
+	auto& s1 = ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+					  "res/builtin/shaders/skybox.frag",
+					  nullptr,
+					  "skybox");
+	auto& s2 = ResMgr.LoadShader("res/builtin/shaders/skybox.vert",
+					  "res/builtin/shaders/skybox.frag",
+					  nullptr,
+					  "skybox");
+
+	std::cout << std::format("{}\n{}\n{}\n{}\n{}\n",
+	n1.GetName(), n2.GetName(), s0.GetName(), s1.GetName(), s2.GetName());
+	----------------------------------------------------------------------*/
 	ResMgr.LoadShader(PostProcessShaders::DefaultVert,
 					  PostProcessShaders::DefaultFrag,
 					  nullptr,
@@ -100,7 +120,6 @@ int main()
 	ResMgr.GetShader("skybox").Use().SetInt("skyboxTex", 0);
 	ResMgr.GetShader("postproc").Use().SetInt("screenTex", 0);
 	UniformBlockBindPoint(ResMgr.GetShader("model_default"), "Matrices", BINDING_POINT_0);
-
 	//create scene objects
 	Geometry points(pointsVertices, {2u,3u});
 	Model nanosuit("res/builtin/model/nanosuit/nanosuit.obj");

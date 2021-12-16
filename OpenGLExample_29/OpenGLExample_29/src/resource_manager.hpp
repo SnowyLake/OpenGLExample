@@ -53,12 +53,9 @@ private:
 	std::unordered_map<std::string, Shader> m_shaders;
 	std::unordered_map<std::string, Texture<TextureType::_2D>> m_textures_2d;
 	std::unordered_map<std::string, Texture<TextureType::_CUBE_MAP>> m_textures_cube_map;
-	//实际总数
-	uint m_shaderCount;
-	uint m_tex2DCount;
-	uint m_texCubeMapCount;
+
 	//默认命名编号
-	uint m_shaderNameCount;
+	uint m_shaderDefaultNameCount;
 	uint m_tex2DNameCount;
 	uint m_texCubeMapNameCount;
 
@@ -79,32 +76,40 @@ inline ResourceMananger& ResourceMananger::GetInstance()
 	return instance;
 }
 inline ResourceMananger::ResourceMananger()
-	:m_shaderCount(0), m_tex2DCount(0), m_texCubeMapCount(0),
-	 m_shaderNameCount(0), m_tex2DNameCount(0), m_texCubeMapNameCount(0)
+	: m_shaderDefaultNameCount(0), m_tex2DNameCount(0), m_texCubeMapNameCount(0)
 {}
 
 //shader
 //------------------------
 inline Shader& ResourceMananger::GetShader(const std::string& shaderName)
 {
+	assert(m_shaders.contains(shaderName));	//检测shaderName是否存在
 	return m_shaders.at(shaderName);
 }
 inline uint ResourceMananger::GetShaderCount() const
 {
-	return m_shaderCount;
+	return m_shaders.size();
 }
 inline Shader& ResourceMananger::LoadShader(const char* vPath,
 											const char* fPath,
 											const char* gPath /* = nullptr*/,
-											std::optional<std::string_view> name /*= std::nullopt*/)
+											std::optional<std::string_view> aName /*= std::nullopt*/)
 {
-	//TODO: 需要检测是否与已有对象重名
-	
-	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name.has_value() ? 
-									   name.value() : std::format("shader_{}", ++m_shaderNameCount));
-
+	std::string name;
+	aName.has_value() ? name = aName.value() : name = std::format("shader_{}", ++m_shaderDefaultNameCount);
+	//检测是否与已有对象重名
+	if (aName.has_value() && m_shaders.contains(name))
+	{
+		int count = 2;
+		std::string _name = name;
+		while (m_shaders.contains(_name))
+		{
+			_name = std::format("{}_{}", name, count++);
+		}
+		name = _name;
+	}
+	Shader shader = LoadShaderFromFile(vPath, fPath, gPath, name);
 	m_shaders.emplace(shader.GetName(), shader);
-	m_shaderCount++;
 	return m_shaders.at(shader.GetName());
 }
 
@@ -168,17 +173,25 @@ template<TextureType Ty>
 inline Texture<Ty>& ResourceMananger::GetTexture(const std::string& texName)
 {
 	if constexpr (Ty == TextureType::_2D)
+	{
+		//检测texName是否存在
+		assert(m_textures_2d.contains(texName));
 		return m_textures_2d.at(texName);
+	}
 	if constexpr (Ty == TextureType::_CUBE_MAP)
+	{
+		//检测texName是否存在
+		assert(m_textures_cube_map.contains(texName));
 		return m_textures_cube_map.at(texName);
+	}
 }
 template<TextureType Ty>
 inline uint ResourceMananger::GetTextureCount() const
 {
 	if constexpr (Ty == TextureType::_2D)
-		return m_tex2DCount;
+		return m_textures_2d.size();
 	if constexpr (Ty == TextureType::_CUBE_MAP)
-		return m_texCubeMapCount;
+		return m_textures_cube_map.size();
 }
 
 inline Texture<TextureType::_2D>&
@@ -187,9 +200,8 @@ ResourceMananger::LoadTexture(const char* path, MapType type,
 {
 	//TODO: 需要检测是否与已有对象重名
 	auto tex = LoadTextureFromFile(path, type, name.has_value() ? 
-								   name.value() : std::format("texture_2d_{}", ++m_shaderNameCount));
+								   name.value() : std::format("texture_2d_{}", ++m_shaderDefaultNameCount));
 	m_textures_2d.emplace(tex.GetName(), tex);
-	m_tex2DCount++;
 	return m_textures_2d.at(tex.GetName());
 }
 inline Texture<TextureType::_CUBE_MAP>&
@@ -198,9 +210,8 @@ ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
 {
 	//TODO: 需要检测是否与已有对象重名
 	auto tex = LoadTextureFromFile(paths, name.has_value() ?
-								   name.value() : std::format("texture_cubemap_{}", ++m_shaderNameCount));
+								   name.value() : std::format("texture_cubemap_{}", ++m_shaderDefaultNameCount));
 	m_textures_cube_map.emplace(tex.GetName(), tex);
-	m_texCubeMapCount++;
 	return m_textures_cube_map.at(tex.GetName());
 }
 

@@ -63,10 +63,10 @@ void Model::LoadModel(const std::string& path)
     //read file via Assimp
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path, 
-                                               aiProcess_Triangulate 
-                                             | aiProcess_GenSmoothNormals 
-                                             | aiProcess_FlipUVs 
-                                             | aiProcess_CalcTangentSpace);
+                                             aiProcess_Triangulate      | 
+                                             aiProcess_GenSmoothNormals | 
+                                             aiProcess_FlipUVs          | 
+                                             aiProcess_CalcTangentSpace);
     //check for error
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
