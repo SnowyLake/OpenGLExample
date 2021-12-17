@@ -1,7 +1,6 @@
 #pragma once
-#include <map>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
 #include <tuple>
 #include <optional>
 #include <string>
@@ -10,6 +9,7 @@
 #include <stb_image.h>
 
 #include "texture.hpp"
+#include "utility.hpp"
 #include "shader.h"
 
 class ResourceMananger
@@ -28,13 +28,14 @@ public:
 
 	//texture
 	Texture<TextureType::_2D>&
-	LoadTexture(const char* path,
-				MapType type,
-				std::optional<std::string_view> name = std::nullopt);
+	LoadTexture(const char* path, MapType type,
+				std::optional<std::string_view> name = std::nullopt,
+				bool whetherDetectRepeatLoading = true);
 
 	Texture<TextureType::_CUBE_MAP>&
 	LoadTexture(const std::vector<const char*>& paths,
-				std::optional<std::string_view> name = std::nullopt);
+				std::optional<std::string_view> name = std::nullopt,
+				bool whetherDetectRepeatLoading = true);
 
 	template<TextureType Ty>
 	Texture<Ty>& GetTexture(const std::string& texName);
@@ -51,8 +52,8 @@ private:
 
 	//对象保存
 	std::unordered_map<std::string, Shader> m_shaders;
-	std::unordered_map<std::string, Texture<TextureType::_2D>> m_textures_2d;
-	std::unordered_map<std::string, Texture<TextureType::_CUBE_MAP>> m_textures_cube_map;
+	std::unordered_map<std::string, Texture<TextureType::_2D>> m_textures2D;
+	std::unordered_map<std::string, Texture<TextureType::_CUBE_MAP>> m_texturesCubeMap;
 
 	//默认命名编号
 	uint m_shaderDefaultNameCount;
@@ -175,44 +176,63 @@ inline Texture<Ty>& ResourceMananger::GetTexture(const std::string& texName)
 	if constexpr (Ty == TextureType::_2D)
 	{
 		//检测texName是否存在
-		assert(m_textures_2d.contains(texName));
-		return m_textures_2d.at(texName);
+		assert(m_textures2D.contains(texName));
+		return m_textures2D.at(texName);
 	}
 	if constexpr (Ty == TextureType::_CUBE_MAP)
 	{
 		//检测texName是否存在
-		assert(m_textures_cube_map.contains(texName));
-		return m_textures_cube_map.at(texName);
+		assert(m_texturesCubeMap.contains(texName));
+		return m_texturesCubeMap.at(texName);
 	}
 }
 template<TextureType Ty>
 inline uint ResourceMananger::GetTextureCount() const
 {
 	if constexpr (Ty == TextureType::_2D)
-		return m_textures_2d.size();
+		return m_textures2D.size();
 	if constexpr (Ty == TextureType::_CUBE_MAP)
-		return m_textures_cube_map.size();
+		return m_texturesCubeMap.size();
 }
 
 inline Texture<TextureType::_2D>&
 ResourceMananger::LoadTexture(const char* path, MapType type,
-							  std::optional<std::string_view> name /*= std::nullopt*/)
+							  std::optional<std::string_view> name /*= std::nullopt*/,
+							  bool whetherDetectRepeatLoading /*= true*/)
 {
-	//TODO: 需要检测是否与已有对象重名
-	auto tex = LoadTextureFromFile(path, type, name.has_value() ? 
-								   name.value() : std::format("texture_2d_{}", ++m_shaderDefaultNameCount));
-	m_textures_2d.emplace(tex.GetName(), tex);
-	return m_textures_2d.at(tex.GetName());
+	bool skip = false;
+	//检测是否已加载
+	if (whetherDetectRepeatLoading)
+	{
+		
+		for (auto&& [_, t] : m_textures2D)
+		{
+			if (t.GetPath() == path)
+			{
+				skip = true;
+				return t;
+				break;
+			}
+		}
+	}
+	if (!skip)
+	{
+		auto tex = LoadTextureFromFile(path, type, name.has_value() ?
+									   name.value() : std::format("texture_2d_{}", ++m_shaderDefaultNameCount));
+		m_textures2D.emplace(tex.GetName(), tex);
+		return m_textures2D.at(tex.GetName());
+	}
 }
 inline Texture<TextureType::_CUBE_MAP>&
 ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
-							  std::optional<std::string_view> name /*= std::nullopt*/)
+							  std::optional<std::string_view> name /*= std::nullopt*/,
+							  bool whetherDetectRepeatLoading /*= true*/)
 {
 	//TODO: 需要检测是否与已有对象重名
 	auto tex = LoadTextureFromFile(paths, name.has_value() ?
 								   name.value() : std::format("texture_cubemap_{}", ++m_shaderDefaultNameCount));
-	m_textures_cube_map.emplace(tex.GetName(), tex);
-	return m_textures_cube_map.at(tex.GetName());
+	m_texturesCubeMap.emplace(tex.GetName(), tex);
+	return m_texturesCubeMap.at(tex.GetName());
 }
 
 inline Texture<TextureType::_2D>

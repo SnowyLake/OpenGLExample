@@ -95,6 +95,7 @@ int main()
 	std::cout << std::format("{}\n{}\n{}\n{}\n{}\n",
 	n1.GetName(), n2.GetName(), s0.GetName(), s1.GetName(), s2.GetName());
 	----------------------------------------------------------------------*/
+
 	ResMgr.LoadShader(PostProcessShaders::DefaultVert,
 					  PostProcessShaders::DefaultFrag,
 					  nullptr,

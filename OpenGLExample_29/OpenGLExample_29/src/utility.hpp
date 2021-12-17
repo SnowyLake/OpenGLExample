@@ -51,9 +51,9 @@ public:
 	FileNameInfo& operator=(const FileNameInfo&) = default;
 	FileNameInfo& operator=(FileNameInfo&&) = default;
 
-	std::string GetFile()	  const { return m_file; }
-	std::string GetFileName() const { return m_fileName; }
-	std::string GetFilePath() const { return m_filePath; }
+	std::string GetFile()	 	   const { return m_file; }
+	std::string GetFileName()	   const { return m_fileName; }
+	std::string GetFilePath()	   const { return m_filePath; }
 	std::string GetFileExtension() const { return m_fileExtension; }
 private:
 	std::string m_file;

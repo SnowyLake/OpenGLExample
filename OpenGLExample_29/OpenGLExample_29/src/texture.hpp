@@ -8,6 +8,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include "utility.hpp"
+
 using uint = unsigned int;
 using uchar = unsigned char;
 enum class TextureType
