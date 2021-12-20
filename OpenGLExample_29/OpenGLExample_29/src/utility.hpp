@@ -32,7 +32,7 @@ inline void ClearBuffer(const uint bitField = GL_COLOR_BUFFER_BIT,
 class FileNameInfo
 {
 public:
-	FileNameInfo(const std::string& file) :m_file(file)
+	explicit FileNameInfo(const std::string& file) :m_file(file)
 	{
 		for (auto& s : m_file)
 		{

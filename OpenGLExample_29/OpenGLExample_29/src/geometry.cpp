@@ -2,12 +2,12 @@
 
 Geometry::Geometry(const std::vector<float>& vertices, const std::vector<uint>& vertOffset,
 				   std::optional<std::reference_wrapper<const std::vector<float>>> indices)
-	:m_vertices(vertices), m_indices(indices)
+	:m_vertices(vertices), m_indices(indices), m_map(std::nullopt)
 {
 	SetBuffers(vertOffset);
 }
 Geometry::Geometry(BIGType geom, bool haveIdx)
-	:m_vertices(BIData::Geometries.at(geom).vertices)
+	:m_vertices(BIData::Geometries.at(geom).vertices), m_map(std::nullopt)
 {
 	if (haveIdx)
 	{
@@ -23,28 +23,28 @@ Geometry::~Geometry()
 {}
 
 void Geometry::Render(Shader& shader,
-					  bool  whetherUseTexture/* = true*/,
+					  bool  whetherUseMap/* = true*/,
 					  int   glDrawMode/* = GL_TRIANGLES*/,
 					  float pixelSize/* = 1.0f*/,
-					  std::optional<uint> tex/* =std::nullopt */,
-					  std::optional<uint> glTex/* =std::nullopt */)
+					  std::optional<uint> map/* =std::nullopt */,
+					  std::optional<uint> glTexType/* =std::nullopt */)
 {
-	if (whetherUseTexture)
+	if (whetherUseMap)
 	{
-		if (tex == std::nullopt)
+		if (map == std::nullopt)
 		{
-			if (!m_texture.has_value())
+			if (!m_map.has_value())
 			{
-				std::cout << "Texture does not exist." << std::endl;
-				tex = 0;
+				std::cout << "Map does not exist." << std::endl;
+				map = 0;
 			}
-			tex = m_texture->Get();
+			map = m_map->GetID();
 		}
-		if (glTex == std::nullopt)
-			glTex = GL_TEXTURE_2D;
+		if (glTexType == std::nullopt)
+			glTexType = GL_TEXTURE_2D;
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(*glTex, *tex);
+		glBindTexture(*glTexType, *map);
 	}
 	glBindVertexArray(m_VAO);
 
@@ -69,16 +69,20 @@ void Geometry::Destory()
 
 unsigned int Geometry::GetVAO() const 
 { return m_VAO; }
-const Geometry::GeomTexType& Geometry::GetTexture() const
-{ return m_texture; }
+const std::optional<Dev_Map>& Geometry::GetMap() const
+{ return m_map; }
 
-void Geometry::SetTexture(const Texture<TextureType::_2D>& tex)
+void Geometry::SetMap(const Dev_Map& map)
 {
-	m_texture = tex;
+	*m_map = map;
 }
-void Geometry::SetTexture(BITType tex)
+void Geometry::SetMap(Dev_Map&& map)
 {
-	m_texture = ResourceMananger::GetInstance().LoadTexture(BIData::Textures.at(tex), MapType::DIFFUSE);
+	*m_map = std::move(map);
+}
+void Geometry::SetMap(BITType tex, MapType type)
+{
+	m_map = Dev_Map(ResourceMananger::GetInstance().LoadTexture(BIData::Textures.at(tex)), type);
 }
 
 void Geometry::SetBuffers(BIGType geom)

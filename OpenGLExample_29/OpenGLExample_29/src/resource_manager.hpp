@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include <tuple>
@@ -9,9 +10,10 @@
 #include <stb_image.h>
 
 #include "texture.hpp"
+#include "Dev_Texture.h"
 #include "utility.hpp"
 #include "shader.h"
-
+using TexSPtr_t = std::shared_ptr<Dev_Texture>;
 class ResourceMananger
 {
 public:
@@ -27,19 +29,8 @@ public:
 	uint GetShaderCount() const;
 
 	//texture
-	Texture<TextureType::_2D>&
-	LoadTexture(const char* path, MapType type,
-				std::optional<std::string_view> name = std::nullopt,
-				bool whetherDetectRepeatLoading = true);
-
-	Texture<TextureType::_CUBE_MAP>&
-	LoadTexture(const std::vector<const char*>& paths,
-				std::optional<std::string_view> name = std::nullopt,
-				bool whetherDetectRepeatLoading = true);
-
-	template<TextureType Ty>
-	Texture<Ty>& GetTexture(const std::string& texName);
-	template<TextureType Ty>
+	TexSPtr_t LoadTexture(const char* path);
+	TexSPtr_t GetTexture(const std::string& path);
 	uint GetTextureCount() const;
 	
 private:
@@ -52,23 +43,17 @@ private:
 
 	//对象保存
 	std::unordered_map<std::string, Shader> m_shaders;
-	std::unordered_map<std::string, Texture<TextureType::_2D>> m_textures2D;
-	std::unordered_map<std::string, Texture<TextureType::_CUBE_MAP>> m_texturesCubeMap;
+	std::unordered_map<std::string, TexSPtr_t> m_textures;
 
 	//默认命名编号
 	uint m_shaderDefaultNameCount;
-	uint m_tex2DNameCount;
-	uint m_texCubeMapNameCount;
 
 	Shader LoadShaderFromFile(const char* vPath,
 							  const char* fPath,
 							  const char* gPath,
 							  std::string_view name);
 
-	Texture<TextureType::_2D>
-	LoadTextureFromFile(const char* path, MapType type, std::string_view name);
-	Texture<TextureType::_CUBE_MAP>
-	LoadTextureFromFile(const std::vector<const char*>& paths, std::string_view name);
+	TexSPtr_t LoadTextureFromFile(const FileNameInfo& info);
 };
 
 inline ResourceMananger& ResourceMananger::GetInstance()
@@ -76,8 +61,7 @@ inline ResourceMananger& ResourceMananger::GetInstance()
 	static ResourceMananger instance;
 	return instance;
 }
-inline ResourceMananger::ResourceMananger()
-	: m_shaderDefaultNameCount(0), m_tex2DNameCount(0), m_texCubeMapNameCount(0)
+inline ResourceMananger::ResourceMananger(): m_shaderDefaultNameCount(0)
 {}
 
 //shader
@@ -170,119 +154,97 @@ inline Shader ResourceMananger::LoadShaderFromFile(const char* vPath,
 
 //texture
 //-------------------------
-template<TextureType Ty>
-inline Texture<Ty>& ResourceMananger::GetTexture(const std::string& texName)
+TexSPtr_t ResourceMananger::GetTexture(const std::string& path)
 {
-	if constexpr (Ty == TextureType::_2D)
-	{
-		//检测texName是否存在
-		assert(m_textures2D.contains(texName));
-		return m_textures2D.at(texName);
-	}
-	if constexpr (Ty == TextureType::_CUBE_MAP)
-	{
-		//检测texName是否存在
-		assert(m_texturesCubeMap.contains(texName));
-		return m_texturesCubeMap.at(texName);
-	}
+	assert(m_textures.contains(path));
+	return m_textures.at(path);
 }
-template<TextureType Ty>
-inline uint ResourceMananger::GetTextureCount() const
+uint ResourceMananger::GetTextureCount() const
 {
-	if constexpr (Ty == TextureType::_2D)
-		return m_textures2D.size();
-	if constexpr (Ty == TextureType::_CUBE_MAP)
-		return m_texturesCubeMap.size();
+	return m_textures.size();
 }
 
-inline Texture<TextureType::_2D>&
-ResourceMananger::LoadTexture(const char* path, MapType type,
-							  std::optional<std::string_view> name /*= std::nullopt*/,
-							  bool whetherDetectRepeatLoading /*= true*/)
+TexSPtr_t ResourceMananger::LoadTexture(const char* path)
 {
-	bool skip = false;
+	FileNameInfo info(path);
 	//检测是否已加载
-	if (whetherDetectRepeatLoading)
+	bool skip = false;
+	for (auto&& [keyFile, valTex] : m_textures)
 	{
-		
-		for (auto&& [_, t] : m_textures2D)
+		if (keyFile == info.GetFile())
 		{
-			if (t.GetPath() == path)
-			{
-				skip = true;
-				return t;
-				break;
-			}
+			skip = true;
+			return valTex;
+			break;
 		}
 	}
 	if (!skip)
 	{
-		auto tex = LoadTextureFromFile(path, type, name.has_value() ?
-									   name.value() : std::format("texture_2d_{}", ++m_shaderDefaultNameCount));
-		m_textures2D.emplace(tex.GetName(), tex);
-		return m_textures2D.at(tex.GetName());
+		auto tex = LoadTextureFromFile(info);
+		m_textures.emplace(path, tex);
+		std::cout << tex.use_count();
+		return m_textures.at(path);
 	}
 }
-inline Texture<TextureType::_CUBE_MAP>&
-ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
-							  std::optional<std::string_view> name /*= std::nullopt*/,
-							  bool whetherDetectRepeatLoading /*= true*/)
-{
-	//TODO: 需要检测是否与已有对象重名
-	auto tex = LoadTextureFromFile(paths, name.has_value() ?
-								   name.value() : std::format("texture_cubemap_{}", ++m_shaderDefaultNameCount));
-	m_texturesCubeMap.emplace(tex.GetName(), tex);
-	return m_texturesCubeMap.at(tex.GetName());
-}
+//inline Texture<TextureType::_CUBE_MAP>&
+//ResourceMananger::LoadTexture(const std::vector<const char*>& paths,
+//							  std::optional<std::string_view> name /*= std::nullopt*/,
+//							  bool whetherDetectRepeatLoading /*= true*/)
+//{
+//	//TODO: 需要检测是否与已有对象重名
+//	auto tex = LoadTextureFromFile(paths, name.has_value() ?
+//								   name.value() : std::format("texture_cubemap_{}", ++m_shaderDefaultNameCount));
+//	m_texturesCubeMap.emplace(tex.GetName(), tex);
+//	return m_texturesCubeMap.at(tex.GetName());
+//}
 
-inline Texture<TextureType::_2D>
-ResourceMananger::LoadTextureFromFile(const char* path, MapType type, std::string_view name)
+TexSPtr_t ResourceMananger::LoadTextureFromFile(const FileNameInfo& info)
 {
-	Texture<TextureType::_2D> tex(path, name);
+	TexSPtr_t textureSPtr = std::make_shared<Dev_Texture>(info);
+	//Dev_Texture texture(info);
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load(info.GetFile().c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		tex.Generate(data, width, height, nrChannels, type);
-		tex.SetTexParameter();
+		textureSPtr->SetParameter(width, height, nrChannels, data);
+		data = nullptr;	//data已由 std::unique_ptr<uchar> Texture::m_data 管理
 		stbi_image_free(data);
 	} else
 	{
 #if _MSVC_LANG >= 202002L	/*CXX20*/
-		std::cout << std::format("Texture failed to load at path: {}\n", path);
+		std::cout << std::format("Texture failed to load at path: {}\n", info.GetFile());
 #else	
-		std::cout << "Texture failed to load at path: " << path << << '\n' std::endl;
+		std::cout << "Texture failed to load at path: " << info.GetFile() << << '\n' std::endl;
 #endif
 		stbi_image_free(data);
 	}
-	return tex;
-
+	return textureSPtr;
 }
-inline Texture<TextureType::_CUBE_MAP>
-ResourceMananger::LoadTextureFromFile(const std::vector<const char*>& paths, std::string_view name)
-{
-	Texture<TextureType::_CUBE_MAP> tex(paths, name);
-	for (size_t i = 0; i < paths.size(); i++)
-	{
-		int width, height;
-		unsigned char* data = stbi_load(paths.at(i), &width, &height, 0, 0);
-		if (data)
-		{
-			tex.Generate(data, width, height, i);
-			stbi_image_free(data);
-		} else
-		{
-#if _MSVC_LANG >= 202002L	/*CXX20*/
-			std::cout << std::format("Cubemap texture failed to load at path: {}\n", paths.at(i));
-#else	
-			std::cout << "Cubemap texture failed to load at path: " << paths.at(i) << '\n' << std::endl;
-#endif
-			stbi_image_free(data);
-		}
-	}
-	tex.SetTexParameter();
-	return tex;
-}
+//inline Texture<TextureType::_CUBE_MAP>
+//ResourceMananger::LoadTextureFromFile(const std::vector<const char*>& paths, std::string_view name)
+//{
+//	Texture<TextureType::_CUBE_MAP> tex(paths, name);
+//	for (size_t i = 0; i < paths.size(); i++)
+//	{
+//		int width, height;
+//		unsigned char* data = stbi_load(paths.at(i), &width, &height, 0, 0);
+//		if (data)
+//		{
+//			tex.Generate(data, width, height, i);
+//			stbi_image_free(data);
+//		} else
+//		{
+//#if _MSVC_LANG >= 202002L	/*CXX20*/
+//			std::cout << std::format("Cubemap texture failed to load at path: {}\n", paths.at(i));
+//#else	
+//			std::cout << "Cubemap texture failed to load at path: " << paths.at(i) << '\n' << std::endl;
+//#endif
+//			stbi_image_free(data);
+//		}
+//	}
+//	tex.SetTexParameter();
+//	return tex;
+//}
 
 
 

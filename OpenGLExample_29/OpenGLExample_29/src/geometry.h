@@ -19,43 +19,43 @@
 #include <GLFW/glfw3.h>
 
 #include "shader.h"
-#include "texture.hpp"
+#include "Dev_Map.h"
 #include "builtin_data.hpp"
 #include "resource_manager.hpp"
 using uint = unsigned int;
 class Geometry
 {
-private:
-	using GeomTexType = std::optional<Texture<TextureType::_2D>>;
 public:
 	Geometry(const std::vector<float>& vertices, const std::vector<uint>& vertOffset,
 			 std::optional<std::reference_wrapper<const std::vector<float>>> indices = std::nullopt);
 	Geometry(BIGType geom, bool haveIdx = false);	//indices about builtin Geometries, use with EBO, unfinished
 	~Geometry();
 
-	//disable copy cotr and copy op=
-	Geometry(const Geometry&) = delete;
-	Geometry& operator=(const Geometry&) = delete;
+	Geometry(const Geometry&) = default;
+	Geometry(Geometry&&) = default;
+	Geometry& operator=(const Geometry&) = default;
+	Geometry& operator=(Geometry&&) = default;
 
 	void Render(Shader& shader,
-				bool  whetherUseTexture = true,
+				bool  whetherUseMap = true,
 				int   glDrawMode = GL_TRIANGLES, 
 				float pixelSize = 1.0f,
-				std::optional<uint> tex = std::nullopt, 
-				std::optional<uint> gltex = std::nullopt);
+				std::optional<uint> map = std::nullopt,
+				std::optional<uint> glTexType = std::nullopt);
 	void Destory();
 
 	unsigned int GetVAO() const;
-	const GeomTexType& GetTexture() const;
+	const std::optional<Dev_Map>& GetMap() const;
 	
-	void SetTexture(const Texture<TextureType::_2D>& tex);
-	void SetTexture(BITType tex);
+	void SetMap(const Dev_Map& map);
+	void SetMap(Dev_Map&& map);
+	void SetMap(BITType tex, MapType type);
 private:
 	unsigned int m_VAO;
 	unsigned int m_VBO;
 	unsigned int m_EBO;
 	
-	GeomTexType m_texture;
+	std::optional<Dev_Map> m_map;
 	unsigned int m_vertexCount;
 	std::vector<float> m_vertices;
 	std::optional<std::vector<float>> m_indices;

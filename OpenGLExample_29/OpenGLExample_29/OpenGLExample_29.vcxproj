@@ -148,9 +148,11 @@
   <ItemGroup>
     <ClInclude Include="res\builtin\shaders\post_process\post_process_shaders.hpp" />
     <ClInclude Include="src\builtin_data.hpp" />
+    <ClInclude Include="src\Dev_Texture.h" />
     <ClInclude Include="src\frame_buffer.h" />
     <ClInclude Include="src\geometry.h" />
     <ClInclude Include="src\gl_camera.h" />
+    <ClInclude Include="src\Dev_Map.h" />
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\to_render.hpp" />
@@ -164,9 +166,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rd_party\glad.c" />
+    <ClCompile Include="src\Dev_Texture.cpp" />
     <ClCompile Include="src\frame_buffer.cpp" />
     <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Dev_Map.cpp" />
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\shader.cpp" />
