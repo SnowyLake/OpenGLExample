@@ -56,8 +56,8 @@ private:
 	unsigned int m_EBO;
 	
 	std::optional<Dev_Map> m_map;
-	unsigned int m_vertexCount;
 	std::vector<float> m_vertices;
+	unsigned int m_vertexCount;
 	std::optional<std::vector<float>> m_indices;
 
 	void SetBuffers(BIGType type);

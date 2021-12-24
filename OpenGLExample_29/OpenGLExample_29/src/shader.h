@@ -48,20 +48,27 @@ private:
 	void CheckCompileErrors(uint shader, std::string_view type);
 };
 
-//#include "geometry.h"
-//#include "model.h"
-//#include "skybox.h"
-//#include "frame_buffer.h"
+template<typename T, typename S = Shader>
+concept Renderable = requires(T t, S s)
+{
+	t.Render(s);
+};
 
-//template<typename T>
-//concept Renderable = 
-//std::is_same_v<T, Geometry> ||
-//std::is_same_v<T, Model>	||
-//std::is_same_v<T, Skybox>	||
-//std::is_same_v<T, FrameBuffer>;
-// 
-//template<Renderable T>
-//inline Shader& ToRender(T& obj)
-//{
-//	obj.Render(*this);
-//}
+#include <concepts>
+template<Renderable T>
+struct ToRender
+{
+	ToRender(T& t) :object(t) {}
+	friend void operator>>(Shader& shader, ToRender tr)
+	{
+		tr.object.Render(shader);
+	}
+
+	~ToRender() = default;
+	ToRender(const ToRender&) = delete;
+	ToRender(ToRender&&) = delete;
+	ToRender& operator=(const ToRender&) = delete;
+	ToRender& operator=(ToRender&&) = delete;
+private:
+	T& object;
+};

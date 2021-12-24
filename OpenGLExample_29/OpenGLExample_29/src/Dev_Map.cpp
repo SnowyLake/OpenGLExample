@@ -39,7 +39,7 @@ Dev_Map::Dev_Map(const Dev_Map& map)
 	Generate();
 }
 
-Dev_Map::Dev_Map(Dev_Map&& map)
+Dev_Map::Dev_Map(Dev_Map&& map) noexcept
 {
 	m_ID = map.m_ID;
 	m_type = map.m_type;
