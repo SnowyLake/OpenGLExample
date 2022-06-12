@@ -77,7 +77,7 @@ int main()
 	MainWindow.SetCallback();
 
 	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	stbi_set_flip_vertically_on_load(false);
 
@@ -114,7 +114,7 @@ int main()
 		MainWindow.SetPerFrameTimeLogic();
 		MainWindow.ProcessInput();
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		modelShader.use();

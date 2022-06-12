@@ -93,7 +93,7 @@ vec3 CalcDirLight(DirLight dirLight, vec3 normal, vec3 viewDir)
     vec3 diffuse = dirLight.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoords));
     vec3 specular = dirLight.specular * spec * vec3(texture(material.texture_specular1, TexCoords));
 
-    return (ambient + diffuse + specular);
+    return (ambient/* + diffuse + specular*/);
 }
 
 vec3 CalcPointLight(PointLight pointLight, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -117,7 +117,7 @@ vec3 CalcPointLight(PointLight pointLight, vec3 normal, vec3 fragPos, vec3 viewD
     diffuse *= attenuation;
     specular *= attenuation;
 
-    return (ambient + diffuse + specular);
+    return (ambient/* + diffuse + specular*/);
 }
 
 vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -145,5 +145,5 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-    return (ambient + diffuse + specular);
+    return (ambient/* + diffuse + specular*/);
 }
